@@ -1,0 +1,11 @@
+body {
+  /* Remove margins */
+  margin: 0px;
+  position: relative;
+  background-color: #9fc7e1;
+}
+#canvas {
+  /* Center the canvas */
+  margin: auto;
+  width: 100%;
+}
