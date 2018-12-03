@@ -5,3 +5,6 @@
 - Open up another window and play!
 
 Controls are W or UP to move towards mouse and click to shoot.
+
+Screenshot
+![alt text](misc/screen-snapshot.png 'screenshot')
