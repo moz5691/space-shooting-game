@@ -17,6 +17,8 @@ var socket; //Declare it in this scope, initialize in the `create` function
 var other_players = {};
 
 var bangSound;
+var playerWon = 0; // 1: player won, 2: opponent won
+var isGameOver = false;
 
 var player = {
   sprite: null, //Will hold the sprite when it's created
@@ -25,7 +27,7 @@ var player = {
   speed: 0.5, // This is the parameter for how fast it should move
   friction: 0.95,
   shot: false,
-  score: 1000,
+  score: 100,
   update: function() {
     // Lerp rotation towards mouse
     var dx = game.input.mousePointer.x + game.camera.x - this.sprite.x;
@@ -53,8 +55,8 @@ var player = {
 
     // Shoot bullet
     if (game.input.activePointer.leftButton.isDown && !this.shot) {
-      var speed_x = Math.cos(this.sprite.rotation + Math.PI / 2) * 20;
-      var speed_y = Math.sin(this.sprite.rotation + Math.PI / 2) * 20;
+      var speed_x = Math.cos(this.sprite.rotation + Math.PI / 2) * 15;
+      var speed_y = Math.sin(this.sprite.rotation + Math.PI / 2) * 15;
       //make shooting sound
       bangSound.play();
       this.shot = true;
@@ -161,6 +163,13 @@ function create() {
     align: 'center'
   });
 
+  whoWonBanner = game.add.text(WORLD_SIZE.w / 2, WORLD_SIZE.h / 2, '', {
+    font: '60px Arial',
+    fill: '#ADFF2F',
+    align: 'center'
+  });
+  whoWonBanner.anchor.setTo(0.5, 0.5);
+
   // create sound for shooting
   bangSound = game.add.audio('bangSound');
 
@@ -205,13 +214,19 @@ function create() {
       }
       players_found[id] = true;
 
-      // Update positions of other players
+      // Update positions of other players, this is the place check other players' scores.
       if (id != socket.id) {
         other_players[id].target_x = players_data[id].x; // Update target, not actual position, so we can interpolate
         other_players[id].target_y = players_data[id].y;
         other_players[id].target_rotation = players_data[id].angle;
 
         scoreText2.setText('Opp: ' + players_data[id].score);
+        if (players_data[id].score < 0) {
+          playerWon = 1; // player won.
+          game.paused = isGameOver;
+          GameOver(playerWon);
+          // GameOver(playerWon);
+        }
       }
     }
     // Check if a player is missing and delete them
@@ -253,12 +268,18 @@ function create() {
       //If this is you
       player.sprite.alpha = 0;
       player.score--;
+      game.paused = isGameOver;
     } else {
       // Find the right player
       other_players[id].alpha = 0;
     }
     // console.log('score', id, player.score);
     scoreText1.setText('Me: ' + player.score);
+    if (player.score < 0) {
+      playerWon = 2; // opponent won.
+      GameOver(playerWon);
+      // GameOver(playerWon);
+    }
   });
 }
 
@@ -294,5 +315,23 @@ function GameLoop() {
       dir = dir * Math.PI * 2;
       p.rotation += dir * 0.16;
     }
+  }
+}
+
+function GameOver(playerWon) {
+  if (playerWon === 1) {
+    // stop game and display banner with player won.
+    isGameOver = true;
+    whoWonBanner.setText('You won!');
+    // game.camera.shake(0.05, 500);
+    // game.state.restart(true);
+  } else if (playerWon === 2) {
+    // stop game and display banner with opponent won.
+    isGameOver = true;
+    whoWonBanner.setText('You lost!');
+    // game.camera.shake(0.05, 500);
+    // game.state.restart(true);
+  } else {
+    // do nothing.
   }
 }

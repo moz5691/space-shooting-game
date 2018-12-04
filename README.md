@@ -7,6 +7,7 @@
 Controls are W or UP to move towards mouse and click to shoot.
 Score is like Health, start from 1000 and reduced after each hit.
 Sound is added for shooting.
+Game over condition added. It pauses game after one of the players won.
 
 Screenshot
 ![alt text](misc/screen-snapshot.png 'screenshot')
