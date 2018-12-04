@@ -19,6 +19,7 @@ var other_players = {};
 var bangSound;
 var playerWon = 0; // 1: player won, 2: opponent won
 var isGameOver = false;
+const LIFE = 100; // set Max Life here.. bigger is stronger.
 
 var player = {
   sprite: null, //Will hold the sprite when it's created
@@ -27,7 +28,7 @@ var player = {
   speed: 0.5, // This is the parameter for how fast it should move
   friction: 0.95,
   shot: false,
-  score: 100,
+  score: LIFE,
   update: function() {
     // Lerp rotation towards mouse
     var dx = game.input.mousePointer.x + game.camera.x - this.sprite.x;
@@ -168,6 +169,37 @@ function create() {
     fill: '#ADFF2F',
     align: 'center'
   });
+
+  var barConfig1 = {
+    x: 120,
+    y: 70,
+    width: 200,
+    bg: {
+      color: '#651828'
+    },
+    bar: {
+      color: '#FEFF03'
+    },
+    animationDuration: 200,
+    flipped: false
+  };
+
+  var barConfig2 = {
+    x: 670,
+    y: 70,
+    width: 200,
+    bg: {
+      color: '#651828'
+    },
+    bar: {
+      color: '#FEFF03'
+    },
+    animationDuration: 200,
+    flipped: false
+  };
+  myHealthBar = new HealthBar(this.game, barConfig1);
+  oppHealthBar = new HealthBar(this.game, barConfig2);
+
   whoWonBanner.anchor.setTo(0.5, 0.5);
 
   // create sound for shooting
@@ -221,6 +253,9 @@ function create() {
         other_players[id].target_rotation = players_data[id].angle;
 
         scoreText2.setText('Opp: ' + players_data[id].score);
+        let barPercent = parseInt((players_data[id].score / LIFE) * 100);
+        // console.log(barPercent);
+        oppHealthBar.setPercent(barPercent);
         if (players_data[id].score < 0) {
           playerWon = 1; // player won.
           game.paused = isGameOver;
@@ -275,10 +310,13 @@ function create() {
     }
     // console.log('score', id, player.score);
     scoreText1.setText('Me: ' + player.score);
+    let barPercent = parseInt((player.score / LIFE) * 100);
+    console.log(barPercent);
+    myHealthBar.setPercent(barPercent);
+    // myHealthBar.setPercent((player.score / score) * 100);
     if (player.score < 0) {
       playerWon = 2; // opponent won.
       GameOver(playerWon);
-      // GameOver(playerWon);
     }
   });
 }
