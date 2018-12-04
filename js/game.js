@@ -17,8 +17,10 @@ var socket; //Declare it in this scope, initialize in the `create` function
 var other_players = {};
 
 var bangSound;
-var playerWon = 0; // 1: player won, 2: opponent won
-var isGameOver = false;
+let playerWon = 0; // 1: player won, 2: opponent won
+let isGameOver = false;
+let playerGameOver = false;
+let oppGameOver = false;
 const LIFE = 100; // set Max Life here.. bigger is stronger.
 
 var player = {
@@ -254,13 +256,14 @@ function create() {
 
         scoreText2.setText('Opp: ' + players_data[id].score);
         let barPercent = parseInt((players_data[id].score / LIFE) * 100);
-        // console.log(barPercent);
+        console.log('oppscore', players_data[id].score);
         oppHealthBar.setPercent(barPercent);
-        if (players_data[id].score < 0) {
-          playerWon = 1; // player won.
-          game.paused = isGameOver;
+        if (players_data[id].score <= 0) {
+          oppGameOver = true;
+          playerWon = 1; // player own.
+        }
+        if (playerGameOver || oppGameOver) {
           GameOver(playerWon);
-          // GameOver(playerWon);
         }
       }
     }
@@ -299,11 +302,11 @@ function create() {
 
   // Listen for any player hit events and make that player flash
   socket.on('player-hit', function(id) {
+    // game.paused = isGameOver;
     if (id == socket.id) {
       //If this is you
       player.sprite.alpha = 0;
       player.score--;
-      game.paused = isGameOver;
     } else {
       // Find the right player
       other_players[id].alpha = 0;
@@ -311,11 +314,14 @@ function create() {
     // console.log('score', id, player.score);
     scoreText1.setText('Me: ' + player.score);
     let barPercent = parseInt((player.score / LIFE) * 100);
-    console.log(barPercent);
+    console.log('myscore', player.score);
     myHealthBar.setPercent(barPercent);
     // myHealthBar.setPercent((player.score / score) * 100);
-    if (player.score < 0) {
-      playerWon = 2; // opponent won.
+    if (player.score <= 0) {
+      playerGameOver = true;
+      playerWon = 2;
+    }
+    if (playerGameOver || oppGameOver) {
       GameOver(playerWon);
     }
   });
@@ -356,14 +362,15 @@ function GameLoop() {
   }
 }
 
-function GameOver(playerWon) {
-  if (playerWon === 1) {
+function GameOver(player) {
+  console.log('whowon', player);
+  if (player === 1) {
     // stop game and display banner with player won.
     isGameOver = true;
     whoWonBanner.setText('You won!');
     // game.camera.shake(0.05, 500);
     // game.state.restart(true);
-  } else if (playerWon === 2) {
+  } else if (player === 2) {
     // stop game and display banner with opponent won.
     isGameOver = true;
     whoWonBanner.setText('You lost!');
@@ -372,4 +379,5 @@ function GameOver(playerWon) {
   } else {
     // do nothing.
   }
+  // game.paused = isGameOver;
 }
