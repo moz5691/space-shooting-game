@@ -110,30 +110,6 @@ function preload() {
       'ship' + String(i) + '_1',
       ASSET_URL + 'ship' + String(i) + '_1.png'
     );
-    game.load.image(
-      'ship' + String(i) + '_2',
-      ASSET_URL + 'ship' + String(i) + '_2.png'
-    );
-    game.load.image(
-      'ship' + String(i) + '_3',
-      ASSET_URL + 'ship' + String(i) + '_3.png'
-    );
-    game.load.image(
-      'ship' + String(i) + '_4',
-      ASSET_URL + 'ship' + String(i) + '_4.png'
-    );
-    game.load.image(
-      'ship' + String(i) + '_5',
-      ASSET_URL + 'ship' + String(i) + '_4.png'
-    );
-    game.load.image(
-      'ship' + String(i) + '_6',
-      ASSET_URL + 'ship' + String(i) + '_4.png'
-    );
-    game.load.image(
-      'ship' + String(i) + '_7',
-      ASSET_URL + 'ship' + String(i) + '_4.png'
-    );
   }
   // load bullet and background tile
   game.load.image('bullet', ASSET_URL + 'bullet1.png');
