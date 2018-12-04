@@ -22,6 +22,7 @@ let isGameOver = false;
 let playerGameOver = false;
 let oppGameOver = false;
 const LIFE = 100; // set Max Life here.. bigger is stronger.
+let shipType = 4; // ship type can be chosen here... 4 means "ship4_1" here.
 
 var player = {
   sprite: null, //Will hold the sprite when it's created
@@ -94,7 +95,7 @@ var player = {
 function CreateShip(type, x, y, angle) {
   // type is an int that can be between 1 and 6 inclusive
   // returns the sprite just created
-  var sprite = game.add.sprite(x, y, 'ship' + String(type) + '_1');
+  var sprite = game.add.sprite(x, y, 'ship_' + String(type));
   sprite.rotation = angle;
   sprite.anchor.setTo(0.5, 0.5);
   return sprite;
@@ -107,8 +108,8 @@ function preload() {
   // Load all the ships
   for (var i = 1; i <= 7; i++) {
     game.load.image(
-      'ship' + String(i) + '_1',
-      ASSET_URL + 'ship' + String(i) + '_1.png'
+      'ship_' + String(i),
+      ASSET_URL + 'ship_' + String(i) + '.png'
     );
   }
   // load bullet and background tile
@@ -186,11 +187,11 @@ function create() {
   game.stage.disableVisibilityChange = true;
   // game.sound.setDecodedCallback([bangSound], start, this);
   // Create player
-  var player_ship_type = String(4);
+  var player_ship_type = String(shipType); // player ship can be chosen here.
   player.sprite = game.add.sprite(
     (Math.random() * WORLD_SIZE.w) / 2 + WORLD_SIZE.w / 2,
     (Math.random() * WORLD_SIZE.h) / 2 + WORLD_SIZE.h / 2,
-    'ship' + player_ship_type + '_1'
+    'ship_' + player_ship_type
   );
   player.sprite.anchor.setTo(0.5, 0.5);
 
@@ -232,7 +233,7 @@ function create() {
 
         scoreText2.setText('Opp: ' + players_data[id].score);
         let barPercent = parseInt((players_data[id].score / LIFE) * 100);
-        console.log('oppscore', players_data[id].score);
+        // console.log('oppscore', players_data[id].score);
         oppHealthBar.setPercent(barPercent);
         if (players_data[id].score <= 0) {
           oppGameOver = true;
@@ -290,7 +291,7 @@ function create() {
     // console.log('score', id, player.score);
     scoreText1.setText('Me: ' + player.score);
     let barPercent = parseInt((player.score / LIFE) * 100);
-    console.log('myscore', player.score);
+    // console.log('myscore', player.score);
     myHealthBar.setPercent(barPercent);
     // myHealthBar.setPercent((player.score / score) * 100);
     if (player.score <= 0) {
