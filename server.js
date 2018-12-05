@@ -1,10 +1,11 @@
 const express = require('express'); // Express contains some boilerplate to for routing and such
 const bodyParser = require('body-parser');
-const path = require('path');
 const mongoose = require('mongoose');
+
 const app = express();
 
 const http = require('http');
+
 const server = http.createServer(app);
 
 const io = require('socket.io').listen(server);
@@ -16,19 +17,19 @@ app.use(express.static('public'));
 
 // Routes
 
-//Socket io Routing
+// Socket io Routing
 require('./sockets/game-sockets')(io);
 // API Routes (require from routes file and pass in Express app)
 require('./routes/api-routes')(app);
 // HTML Routes (require from routes file and pass in Express app)
 require('./routes/html-routes')(app);
 
-//Mongoose Connection
+// Mongoose Connection
 mongoose.connect('mongodb://yelpuser:yelp123@ds121753.mlab.com:21753/heroku_n8mmhx1p', { useNewUrlParser: true });
 
 // Listen on port 5000
 const PORT = process.env.PORT || 5000;
 // Start the server
-server.listen(PORT, function() {
+server.listen(PORT, () => {
   console.log(`App running on port ${PORT}`);
 });

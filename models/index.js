@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 module.exports = {
-    Insurance: require("./insurance.js"),
-}
+  Insurance: require('./insurance.js'),
+};

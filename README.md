@@ -10,5 +10,10 @@ Sound is added for shooting.
 Game over condition added.
 Healthbars are added.
 
+ESLint has been enforced following Air BnB guidlines. To initialize go to the project root folder and type:
+`./node_modules/.bin/eslint --init`
+
+**EsLint Visual Studio Code extension is recommended**
+
 Screenshot
 ![alt text](misc/screen-snapshot-multi.png 'screenshot')

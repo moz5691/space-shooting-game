@@ -4,8 +4,7 @@ const db = require('../models/');
 const RestfulAPI = require('./RestClass');
 
 module.exports = function (app) {
-
-    // const background = new RestfulAPI('background', app, db.Background);
-    // background.find();
-    // background.create();
-}
+  const background = new RestfulAPI('background', app, db.Background);
+  background.find();
+  background.create();
+};
