@@ -18,6 +18,7 @@ const bullet_array = [];
 let socket; // Declare it in this scope, initialize in the `create` function
 const other_players = {};
 
+let music;
 let bangSound;
 let playerWon = 0; // 1: player won, 2: opponent won
 let isGameOver = false;
@@ -120,6 +121,7 @@ function preload() {
 
   // load sound
   game.load.audio('bangSound', `${ASSET_URL}dark-shoot.wav`);
+  game.load.audio('boden', `${ASSET_URL}bodenstaendig_2000_in_rock_4bit.mp3`);
 }
 
 function create() {
@@ -186,6 +188,10 @@ function create() {
   // create sound for shooting
   bangSound = game.add.audio('bangSound');
 
+  // Background Track
+  music = game.add.audio('boden');
+  music.play();
+
   game.stage.disableVisibilityChange = true;
   // game.sound.setDecodedCallback([bangSound], start, this);
   // Create player
@@ -198,7 +204,6 @@ function create() {
   player.sprite.anchor.setTo(0.5, 0.5);
 
   game.world.setBounds(0, 0, WORLD_SIZE.w, WORLD_SIZE.h);
-
   game.camera.x = player.sprite.x - WINDOW_WIDTH / 2;
   game.camera.y = player.sprite.y - WINDOW_HEIGHT / 2;
 
