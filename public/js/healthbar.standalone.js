@@ -232,8 +232,6 @@ HealthBar.prototype.kill = function() {
   this.borderSprite.kill();
 };
 
-module.exports = HealthBar;
-
 /**
 Utils
 */

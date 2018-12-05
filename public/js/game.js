@@ -1,4 +1,4 @@
-var ASSET_URL = '../assets/';
+var ASSET_URL = '/assets/';
 //We first initialize the phaser game object
 var WINDOW_WIDTH = 792;
 var WINDOW_HEIGHT = 504;
