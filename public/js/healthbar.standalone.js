@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 /**
  Copyright (c) 2015 Belahcen Marwane (b.marwane@gmail.com)
 
@@ -20,7 +22,7 @@
  SOFTWARE.
  */
 
-var HealthBar = function(game, providedConfig) {
+const HealthBar = function (game, providedConfig) {
   this.game = game;
   this.group = null;
 
@@ -33,42 +35,41 @@ var HealthBar = function(game, providedConfig) {
 };
 HealthBar.prototype.constructor = HealthBar;
 
-HealthBar.prototype.setupConfiguration = function(providedConfig) {
+HealthBar.prototype.setupConfiguration = function (providedConfig) {
   this.config = this.mergeWithDefaultConfiguration(providedConfig);
   this.flipped = this.config.flipped;
 };
 
-HealthBar.prototype.mergeWithDefaultConfiguration = function(newConfig) {
-  var defaultConfig = {
+HealthBar.prototype.mergeWithDefaultConfiguration = function (newConfig) {
+  const defaultConfig = {
     width: 250,
     height: 40,
     x: 0,
     y: 0,
     bg: {
-      color: '#651828'
+      color: '#651828',
     },
     bar: {
-      color: '#FEFF03'
+      color: '#FEFF03',
     },
     border: {
       color: '#000000',
-      width: 1
+      width: 1,
     },
     animationDuration: 200,
     flipped: false,
-    isFixedToCamera: false
+    isFixedToCamera: false,
   };
 
   return mergeObjetcs(defaultConfig, newConfig);
 };
 
 function mergeObjetcs(targetObj, newObj) {
-  for (var p in newObj) {
+  for (const p in newObj) {
     try {
-      targetObj[p] =
-        newObj[p].constructor == Object
-          ? mergeObjetcs(targetObj[p], newObj[p])
-          : newObj[p];
+      targetObj[p] = newObj[p].constructor == Object
+        ? mergeObjetcs(targetObj[p], newObj[p])
+        : newObj[p];
     } catch (e) {
       targetObj[p] = newObj[p];
     }
@@ -76,12 +77,12 @@ function mergeObjetcs(targetObj, newObj) {
   return targetObj;
 }
 
-HealthBar.prototype.drawBorder = function() {
-  var border = this.config.border.width * 2;
+HealthBar.prototype.drawBorder = function () {
+  const border = this.config.border.width * 2;
 
-  var bmd = this.game.add.bitmapData(
+  const bmd = this.game.add.bitmapData(
     this.config.width + border,
-    this.config.height + border
+    this.config.height + border,
   );
   bmd.ctx.fillStyle = this.config.border.color;
   bmd.ctx.beginPath();
@@ -93,8 +94,8 @@ HealthBar.prototype.drawBorder = function() {
   this.borderSprite.anchor.set(0.5);
 };
 
-HealthBar.prototype.drawBackground = function() {
-  var bmd = this.game.add.bitmapData(this.config.width, this.config.height);
+HealthBar.prototype.drawBackground = function () {
+  const bmd = this.game.add.bitmapData(this.config.width, this.config.height);
   bmd.ctx.fillStyle = this.config.bg.color;
   bmd.ctx.beginPath();
   bmd.ctx.rect(0, 0, this.config.width, this.config.height);
@@ -109,8 +110,8 @@ HealthBar.prototype.drawBackground = function() {
   }
 };
 
-HealthBar.prototype.drawHealthBar = function() {
-  var bmd = this.game.add.bitmapData(this.config.width, this.config.height);
+HealthBar.prototype.drawHealthBar = function () {
+  const bmd = this.game.add.bitmapData(this.config.width, this.config.height);
   bmd.ctx.fillStyle = this.config.bar.color;
   bmd.ctx.beginPath();
   bmd.ctx.rect(0, 0, this.config.width, this.config.height);
@@ -120,7 +121,7 @@ HealthBar.prototype.drawHealthBar = function() {
   this.barSprite = this.game.add.sprite(
     this.x - this.bgSprite.width / 2,
     this.y,
-    bmd
+    bmd,
   );
   this.barSprite.anchor.y = 0.5;
 
@@ -129,14 +130,14 @@ HealthBar.prototype.drawHealthBar = function() {
   }
 };
 
-HealthBar.prototype.setPosition = function(x, y) {
+HealthBar.prototype.setPosition = function (x, y) {
   this.x = x;
   this.y = y;
 
   if (
-    this.bgSprite !== undefined &&
-    this.barSprite !== undefined &&
-    this.borderSprite !== undefined
+    this.bgSprite !== undefined
+    && this.barSprite !== undefined
+    && this.borderSprite !== undefined
   ) {
     this.bgSprite.position.x = x;
     this.bgSprite.position.y = y;
@@ -149,11 +150,11 @@ HealthBar.prototype.setPosition = function(x, y) {
   }
 };
 
-HealthBar.prototype.setPercent = function(newValue) {
+HealthBar.prototype.setPercent = function (newValue) {
   if (newValue < 0) newValue = 0;
   if (newValue > 100) newValue = 100;
 
-  var newWidth = (newValue * this.config.width) / 100;
+  const newWidth = (newValue * this.config.width) / 100;
 
   this.setWidth(newWidth);
 };
@@ -161,12 +162,12 @@ HealthBar.prototype.setPercent = function(newValue) {
 /*
 Hex format, example #ad3aa3
 */
-HealthBar.prototype.setBarColor = function(newColor) {
-  var bmd = this.barSprite.key;
+HealthBar.prototype.setBarColor = function (newColor) {
+  const bmd = this.barSprite.key;
   bmd.update();
 
-  var currentRGBColor = bmd.getPixelRGB(0, 0);
-  var newRGBColor = hexToRgb(newColor);
+  const currentRGBColor = bmd.getPixelRGB(0, 0);
+  const newRGBColor = hexToRgb(newColor);
   bmd.replaceRGB(
     currentRGBColor.r,
     currentRGBColor.g,
@@ -176,11 +177,11 @@ HealthBar.prototype.setBarColor = function(newColor) {
     newRGBColor.r,
     newRGBColor.g,
     newRGBColor.b,
-    255
+    255,
   );
 };
 
-HealthBar.prototype.setWidth = function(newWidth) {
+HealthBar.prototype.setWidth = function (newWidth) {
   if (this.flipped) {
     newWidth = -1 * newWidth;
   }
@@ -190,20 +191,19 @@ HealthBar.prototype.setWidth = function(newWidth) {
       { width: newWidth },
       this.config.animationDuration,
       Phaser.Easing.Linear.None,
-      true
+      true,
     );
 };
 
-HealthBar.prototype.setFixedToCamera = function(fixedToCamera) {
+HealthBar.prototype.setFixedToCamera = function (fixedToCamera) {
   this.bgSprite.fixedToCamera = fixedToCamera;
   this.barSprite.fixedToCamera = fixedToCamera;
   this.borderSprite.fixedToCamera = fixedToCamera;
 };
 
-HealthBar.prototype.setAnchor = function(xAnchor, yAnchor) {
+HealthBar.prototype.setAnchor = function (xAnchor, yAnchor) {
   this.bgSprite.anchor.set(xAnchor, yAnchor);
-  this.barSprite.position.x =
-    this.bgSprite.position.x - this.config.width * this.bgSprite.anchor.x;
+  this.barSprite.position.x = this.bgSprite.position.x - this.config.width * this.bgSprite.anchor.x;
   this.borderSprite.anchor.set(xAnchor, yAnchor);
   this.barSprite.anchor.y = yAnchor;
   if (this.flipped) {
@@ -212,21 +212,21 @@ HealthBar.prototype.setAnchor = function(xAnchor, yAnchor) {
   }
 };
 
-HealthBar.prototype.setToGroup = function(group) {
+HealthBar.prototype.setToGroup = function (group) {
   group.add(this.bgSprite);
   group.add(this.barSprite);
 
   this.group = group;
 };
 
-HealthBar.prototype.removeFromGroup = function() {
+HealthBar.prototype.removeFromGroup = function () {
   this.game.world.add(this.bgSprite);
   this.game.world.add(this.barSprite);
 
   this.group = null;
 };
 
-HealthBar.prototype.kill = function() {
+HealthBar.prototype.kill = function () {
   this.bgSprite.kill();
   this.barSprite.kill();
   this.borderSprite.kill();
@@ -238,17 +238,15 @@ Utils
 
 function hexToRgb(hex) {
   // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
-  var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-  hex = hex.replace(shorthandRegex, function(m, r, g, b) {
-    return r + r + g + g + b + b;
-  });
+  const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+  hex = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b);
 
-  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return result
     ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-      }
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16),
+    }
     : null;
 }

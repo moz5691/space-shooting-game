@@ -1,17 +1,19 @@
-var mongoose = require("mongoose");
+/* eslint-disable */
 
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
 
-var InsuranceSchema = new Schema(
-    {
-        name: {
-            type: String,
-            trim: true,
-            unique: true
-        },
-    }
-)
+const Schema = mongoose.Schema;
 
-var Insurance = mongoose.model("Insurance", InsuranceSchema);
+const InsuranceSchema = new Schema(
+  {
+    name: {
+      type: String,
+      trim: true,
+      unique: true,
+    },
+  },
+);
+
+const Insurance = mongoose.model('Insurance', InsuranceSchema);
 
 module.exports = Insurance;

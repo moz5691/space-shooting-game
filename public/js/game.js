@@ -1,51 +1,53 @@
-var ASSET_URL = '/assets/';
-//We first initialize the phaser game object
-var WINDOW_WIDTH = 792;
-var WINDOW_HEIGHT = 504;
-var game = new Phaser.Game(WINDOW_WIDTH, WINDOW_HEIGHT, Phaser.AUTO, 'canvas', {
-  preload: preload,
-  create: create,
-  update: GameLoop
+/* eslint-disable */
+
+const ASSET_URL = '/assets/';
+// We first initialize the phaser game object
+const WINDOW_WIDTH = 792;
+const WINDOW_HEIGHT = 504;
+const game = new Phaser.Game(WINDOW_WIDTH, WINDOW_HEIGHT, Phaser.AUTO, 'canvas', {
+  preload,
+  create,
+  update: GameLoop,
 });
 
-var WORLD_SIZE = { w: 792, h: 504 };
+const WORLD_SIZE = { w: 792, h: 504 };
 
-var water_tiles = [];
-var bullet_array = [];
+const water_tiles = [];
+const bullet_array = [];
 
-var socket; //Declare it in this scope, initialize in the `create` function
-var other_players = {};
+let socket; // Declare it in this scope, initialize in the `create` function
+const other_players = {};
 
-var bangSound;
+let bangSound;
 let playerWon = 0; // 1: player won, 2: opponent won
 let isGameOver = false;
 let playerGameOver = false;
 let oppGameOver = false;
 const LIFE = 100; // set Max Life here.. bigger is stronger.
-let shipType = 4; // ship type can be chosen here... 4 means "ship4_1" here.
+const shipType = 4; // ship type can be chosen here... 4 means "ship4_1" here.
 
 var player = {
-  sprite: null, //Will hold the sprite when it's created
+  sprite: null, // Will hold the sprite when it's created
   speed_x: 0, // This is the speed it's currently moving at
   speed_y: 0,
   speed: 0.5, // This is the parameter for how fast it should move
   friction: 0.95,
   shot: false,
   score: LIFE,
-  update: function() {
+  update() {
     // Lerp rotation towards mouse
-    var dx = game.input.mousePointer.x + game.camera.x - this.sprite.x;
-    var dy = game.input.mousePointer.y + game.camera.y - this.sprite.y;
-    var angle = Math.atan2(dy, dx) - Math.PI / 2;
-    var dir = (angle - this.sprite.rotation) / (Math.PI * 2);
+    const dx = game.input.mousePointer.x + game.camera.x - this.sprite.x;
+    const dy = game.input.mousePointer.y + game.camera.y - this.sprite.y;
+    const angle = Math.atan2(dy, dx) - Math.PI / 2;
+    let dir = (angle - this.sprite.rotation) / (Math.PI * 2);
     dir -= Math.round(dir);
     dir = dir * Math.PI * 2;
     this.sprite.rotation += dir * 0.1;
 
-    //Move forward
+    // Move forward
     if (
-      game.input.keyboard.isDown(Phaser.Keyboard.W) ||
-      game.input.keyboard.isDown(Phaser.Keyboard.UP)
+      game.input.keyboard.isDown(Phaser.Keyboard.W)
+      || game.input.keyboard.isDown(Phaser.Keyboard.UP)
     ) {
       this.speed_x += Math.cos(this.sprite.rotation + Math.PI / 2) * this.speed;
       this.speed_y += Math.sin(this.sprite.rotation + Math.PI / 2) * this.speed;
@@ -59,9 +61,9 @@ var player = {
 
     // Shoot bullet
     if (game.input.activePointer.leftButton.isDown && !this.shot) {
-      var speed_x = Math.cos(this.sprite.rotation + Math.PI / 2) * 15;
-      var speed_y = Math.sin(this.sprite.rotation + Math.PI / 2) * 15;
-      //make shooting sound
+      const speed_x = Math.cos(this.sprite.rotation + Math.PI / 2) * 15;
+      const speed_y = Math.sin(this.sprite.rotation + Math.PI / 2) * 15;
+      // make shooting sound
       bangSound.play();
       this.shot = true;
       // Tell the server we shot a bullet
@@ -69,8 +71,8 @@ var player = {
         x: this.sprite.x,
         y: this.sprite.y,
         angle: this.sprite.rotation,
-        speed_x: speed_x,
-        speed_y: speed_y
+        speed_x,
+        speed_y,
       });
     }
     if (!game.input.activePointer.leftButton.isDown) this.shot = false;
@@ -87,15 +89,15 @@ var player = {
       x: this.sprite.x,
       y: this.sprite.y,
       angle: this.sprite.rotation,
-      score: player.score
+      score: player.score,
     });
-  }
+  },
 };
 
 function CreateShip(type, x, y, angle) {
   // type is an int that can be between 1 and 6 inclusive
   // returns the sprite just created
-  var sprite = game.add.sprite(x, y, 'ship_' + String(type));
+  const sprite = game.add.sprite(x, y, `ship_${String(type)}`);
   sprite.rotation = angle;
   sprite.anchor.setTo(0.5, 0.5);
   return sprite;
@@ -106,25 +108,25 @@ function preload() {
   game.stage.backgroundColor = '#3399DA';
 
   // Load all the ships
-  for (var i = 1; i <= 7; i++) {
+  for (let i = 1; i <= 7; i++) {
     game.load.image(
-      'ship_' + String(i),
-      ASSET_URL + 'ship_' + String(i) + '.png'
+      `ship_${String(i)}`,
+      `${ASSET_URL}ship_${String(i)}.png`,
     );
   }
   // load bullet and background tile
-  game.load.image('bullet', ASSET_URL + 'bullet1.png');
-  game.load.image('space', ASSET_URL + 'space_tile.png');
+  game.load.image('bullet', `${ASSET_URL}bullet1.png`);
+  game.load.image('space', `${ASSET_URL}space_tile.png`);
 
   // load sound
-  game.load.audio('bangSound', ASSET_URL + 'dark-shoot.wav');
+  game.load.audio('bangSound', `${ASSET_URL}dark-shoot.wav`);
 }
 
 function create() {
   // Create water tiles
-  for (var i = 0; i <= WORLD_SIZE.w / 72 + 1; i++) {
-    for (var j = 0; j <= WORLD_SIZE.h / 72 + 1; j++) {
-      var tile_sprite = game.add.sprite(i * 72, j * 72, 'space');
+  for (let i = 0; i <= WORLD_SIZE.w / 72 + 1; i++) {
+    for (let j = 0; j <= WORLD_SIZE.h / 72 + 1; j++) {
+      const tile_sprite = game.add.sprite(i * 72, j * 72, 'space');
       tile_sprite.anchor.setTo(0.5, 0.5);
       tile_sprite.alpha = 0.5;
       water_tiles.push(tile_sprite);
@@ -134,47 +136,47 @@ function create() {
   scoreText1 = game.add.text(16, 16, 'Good', {
     font: '30px Arial',
     fill: '#7FFF00',
-    align: 'center'
+    align: 'center',
   });
 
   scoreText2 = game.add.text(564, 16, 'Evil', {
     font: '30px Arial',
     fill: '#DC143C',
-    align: 'center'
+    align: 'center',
   });
 
   whoWonBanner = game.add.text(WORLD_SIZE.w / 2, WORLD_SIZE.h / 2, '', {
     font: '60px Arial',
     fill: '#ADFF2F',
-    align: 'center'
+    align: 'center',
   });
 
-  var barConfig1 = {
+  const barConfig1 = {
     x: 120,
     y: 70,
     width: 200,
     bg: {
-      color: '#651828'
+      color: '#651828',
     },
     bar: {
-      color: '#FEFF03'
+      color: '#FEFF03',
     },
     animationDuration: 200,
-    flipped: false
+    flipped: false,
   };
 
-  var barConfig2 = {
+  const barConfig2 = {
     x: 670,
     y: 70,
     width: 200,
     bg: {
-      color: '#651828'
+      color: '#651828',
     },
     bar: {
-      color: '#FEFF03'
+      color: '#FEFF03',
     },
     animationDuration: 200,
-    flipped: false
+    flipped: false,
   };
   myHealthBar = new HealthBar(this.game, barConfig1);
   oppHealthBar = new HealthBar(this.game, barConfig2);
@@ -187,11 +189,11 @@ function create() {
   game.stage.disableVisibilityChange = true;
   // game.sound.setDecodedCallback([bangSound], start, this);
   // Create player
-  var player_ship_type = String(shipType); // player ship can be chosen here.
+  const player_ship_type = String(shipType); // player ship can be chosen here.
   player.sprite = game.add.sprite(
     (Math.random() * WORLD_SIZE.w) / 2 + WORLD_SIZE.w / 2,
     (Math.random() * WORLD_SIZE.h) / 2 + WORLD_SIZE.h / 2,
-    'ship_' + player_ship_type
+    `ship_${player_ship_type}`,
   );
   player.sprite.anchor.setTo(0.5, 0.5);
 
@@ -201,27 +203,27 @@ function create() {
   game.camera.y = player.sprite.y - WINDOW_HEIGHT / 2;
 
   socket = socket = io({
-    transports: ['websocket']
+    transports: ['websocket'],
   });
   // This triggers the 'connection' event on the server
   socket.emit('new-player', {
     x: player.sprite.x,
     y: player.sprite.y,
     angle: player.sprite.rotation,
-    type: 3
+    type: 3,
   });
   // Listen for other players connecting
-  socket.on('update-players', function(players_data) {
-    var players_found = {};
+  socket.on('update-players', (players_data) => {
+    const players_found = {};
     // Loop over all the player data received
     for (var id in players_data) {
       // If the player hasn't been created yet
       if (other_players[id] == undefined && id != socket.id) {
         // Make sure you don't create yourself
-        var data = players_data[id];
-        var p = CreateShip(data.type, data.x, data.y, data.angle);
+        const data = players_data[id];
+        const p = CreateShip(data.type, data.x, data.y, data.angle);
         other_players[id] = p;
-        console.log('Created new player at (' + data.x + ', ' + data.y + ')');
+        console.log(`Created new player at (${data.x}, ${data.y})`);
       }
       players_found[id] = true;
 
@@ -231,8 +233,8 @@ function create() {
         other_players[id].target_y = players_data[id].y;
         other_players[id].target_rotation = players_data[id].angle;
 
-        scoreText2.setText('Opp: ' + players_data[id].score);
-        let barPercent = parseInt((players_data[id].score / LIFE) * 100);
+        scoreText2.setText(`Opp: ${players_data[id].score}`);
+        const barPercent = parseInt((players_data[id].score / LIFE) * 100);
         // console.log('oppscore', players_data[id].score);
         oppHealthBar.setPercent(barPercent);
         if (players_data[id].score <= 0) {
@@ -254,17 +256,17 @@ function create() {
   });
 
   // Listen for bullet update events
-  socket.on('bullets-update', function(server_bullet_array) {
+  socket.on('bullets-update', (server_bullet_array) => {
     // If there's not enough bullets on the client, create them
     for (var i = 0; i < server_bullet_array.length; i++) {
       if (bullet_array[i] == undefined) {
         bullet_array[i] = game.add.sprite(
           server_bullet_array[i].x,
           server_bullet_array[i].y,
-          'bullet'
+          'bullet',
         );
       } else {
-        //Otherwise, just update it!
+        // Otherwise, just update it!
         bullet_array[i].x = server_bullet_array[i].x;
         bullet_array[i].y = server_bullet_array[i].y;
       }
@@ -278,10 +280,10 @@ function create() {
   });
 
   // Listen for any player hit events and make that player flash
-  socket.on('player-hit', function(id) {
+  socket.on('player-hit', (id) => {
     // game.paused = isGameOver;
     if (id == socket.id) {
-      //If this is you
+      // If this is you
       player.sprite.alpha = 0;
       player.score--;
     } else {
@@ -289,8 +291,8 @@ function create() {
       other_players[id].alpha = 0;
     }
     // console.log('score', id, player.score);
-    scoreText1.setText('Me: ' + player.score);
-    let barPercent = parseInt((player.score / LIFE) * 100);
+    scoreText1.setText(`Me: ${player.score}`);
+    const barPercent = parseInt((player.score / LIFE) * 100);
     // console.log('myscore', player.score);
     myHealthBar.setPercent(barPercent);
     // myHealthBar.setPercent((player.score / score) * 100);
@@ -308,8 +310,8 @@ function GameLoop() {
   player.update();
 
   // Move camera with player
-  var camera_x = player.sprite.x - WINDOW_WIDTH / 2;
-  var camera_y = player.sprite.y - WINDOW_HEIGHT / 2;
+  const camera_x = player.sprite.x - WINDOW_WIDTH / 2;
+  const camera_y = player.sprite.y - WINDOW_HEIGHT / 2;
   game.camera.x += (camera_x - game.camera.x) * 0.08;
   game.camera.y += (camera_y - game.camera.y) * 0.08;
 
@@ -325,13 +327,13 @@ function GameLoop() {
 
   // Interpolate all players to where they should be
   for (var id in other_players) {
-    var p = other_players[id];
+    const p = other_players[id];
     if (p.target_x != undefined) {
       p.x += (p.target_x - p.x) * 0.16;
       p.y += (p.target_y - p.y) * 0.16;
       // Intepolate angle while avoiding the positive/negative issue
-      var angle = p.target_rotation;
-      var dir = (angle - p.rotation) / (Math.PI * 2);
+      const angle = p.target_rotation;
+      let dir = (angle - p.rotation) / (Math.PI * 2);
       dir -= Math.round(dir);
       dir = dir * Math.PI * 2;
       p.rotation += dir * 0.16;
