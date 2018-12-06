@@ -148,8 +148,8 @@ function preload() {
   game.load.image('bullet', `${ASSET_URL}bullet1.png`);
   game.load.image('space', `${ASSET_URL}space_tile.png`);
   // load sound
-  game.load.audio('bangSound', `${ASSET_URL}dark-shoot.wav`);
-  game.load.audio('boden', `${ASSET_URL}sd-ingame1.wav`);
+  game.load.audio('bangSound', `${ASSET_URL}laser.mp3`);
+  game.load.audio('boden', `${ASSET_URL}battle.mp3`);
 }
 
 function create() {
