@@ -11,33 +11,35 @@ Game over condition added.
 Healthbars are added.
 
 How to setup ES Lint
-ESLint has been enforced following Air BnB guidlines. 
+ESLint has been enforced following Air BnB guidlines.
 
 To initialize go to the project root folder in terminal and type:
 
-```npm install```
+`npm install`
 
 Then:
 
-```./node_modules/.bin/eslint --init```
+`./node_modules/.bin/eslint --init`
 
 **How to automatially fix typo, spacing, indents, and semicolons in terminal**
 
 Go to project root folder:
 
-```npx eslint --fix {Route of file}```
+`npx eslint --fix {Route of file}`
 
 For example:
 
-```npx eslint --fix public/js/game.js```
+`npx eslint --fix public/js/game.js`
 
 **To Disable ES Lint on a specific file**
 
 Add below comment to the top of your file:
 
-```/* eslint-disable */```
+`/* eslint-disable */`
 
 **EsLint Visual Studio Code extension is recommended**
 
 Screenshot
 ![alt text](misc/screen-snapshot-multi.png 'screenshot')
+
+Test log:
