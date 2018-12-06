@@ -2,7 +2,7 @@
 
 const nextStep = function (event) {
   event.preventDefault();
-  $('#login-page').hide();
+  location.replace('/intro');
 };
 
 $('#submit-btn').on('click', nextStep);
