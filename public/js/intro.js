@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 // Sets the number of stars we wish to display
 const numStars = 100;
 
