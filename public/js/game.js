@@ -228,7 +228,7 @@ function create() {
   function restartGame() {
     // Only act if paused
     if (game.paused) {
-      location.replace('/test');
+      location.replace('/intro');
     }
   }
 
