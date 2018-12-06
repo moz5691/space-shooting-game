@@ -10,7 +10,8 @@ Sound is added for shooting.
 Game over condition added.
 Healthbars are added.
 
-How to setup ES Lint
+**How to setup ES Lint**
+
 ESLint has been enforced following Air BnB guidlines.
 
 To initialize go to the project root folder in terminal and type:
