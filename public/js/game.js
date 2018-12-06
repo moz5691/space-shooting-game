@@ -2,15 +2,15 @@
 
 const ASSET_URL = '/assets/';
 // We first initialize the phaser game object
-const WINDOW_WIDTH = 792;
-const WINDOW_HEIGHT = 504;
+const WINDOW_WIDTH = 800;
+const WINDOW_HEIGHT = 600;
 const game = new Phaser.Game(WINDOW_WIDTH, WINDOW_HEIGHT, Phaser.AUTO, 'canvas', {
   preload,
   create,
   update: GameLoop,
 });
 
-const WORLD_SIZE = { w: 792, h: 504 };
+const WORLD_SIZE = { w: 1920, h: 1920 };
 
 const water_tiles = [];
 const bullet_array = [];
@@ -20,6 +20,9 @@ const other_players = {};
 
 let music;
 let bangSound;
+let whoWonBanner;
+let scoreText1;
+let scoreText2;
 let playerWon = 0; // 1: player won, 2: opponent won
 let isGameOver = false;
 let playerGameOver = false;
@@ -98,8 +101,12 @@ const player = {
 function CreateShip(type, x, y, angle) {
   // type is an int that can be between 1 and 6 inclusive
   // returns the sprite just created
+  game.physics.startSystem(Phaser.Physics.ARCADE);
   const sprite = game.add.sprite(x, y, `ship_${String(type)}`);
   sprite.rotation = angle;
+  game.physics.arcade.enable(sprite);
+  sprite.body.collideWorldBounds = true;
+  sprite.body.bounce.setTo(1, 1);
   sprite.anchor.setTo(0.5, 0.5);
   return sprite;
 }
@@ -118,28 +125,9 @@ function preload() {
   // load bullet and background tile
   game.load.image('bullet', `${ASSET_URL}bullet1.png`);
   game.load.image('space', `${ASSET_URL}space_tile.png`);
-
   // load sound
   game.load.audio('bangSound', `${ASSET_URL}dark-shoot.wav`);
-  game.load.audio('boden', `${ASSET_URL}bodenstaendig_2000_in_rock_4bit.mp3`);
-}
-function GameOver(player) {
-  if (player === 1) {
-    // stop game and display banner with player won.
-    isGameOver = true;
-    whoWonBanner.setText('You won!');
-    // game.camera.shake(0.05, 500);
-    // game.state.restart(true);
-  } else if (player === 2) {
-    // stop game and display banner with opponent won.
-    isGameOver = true;
-    whoWonBanner.setText('You lost!');
-    // game.camera.shake(0.05, 500);
-    // game.state.restart(true);
-  } else {
-    // do nothing.
-  }
-  // game.paused = isGameOver;
+  game.load.audio('boden', `${ASSET_URL}sd-ingame1.wav`);
 }
 
 function create() {
@@ -158,18 +146,25 @@ function create() {
     fill: '#7FFF00',
     align: 'center',
   });
+  scoreText1.fixedToCamera = true;
 
   scoreText2 = game.add.text(564, 16, 'Evil', {
     font: '30px Arial',
     fill: '#DC143C',
     align: 'center',
   });
+  scoreText2.fixedToCamera = true;
 
-  whoWonBanner = game.add.text(WORLD_SIZE.w / 2, WORLD_SIZE.h / 2, '', {
+  choiseLabel = game.add.text(400, 450, '', { font: '30px Arial', fill: '#fff' });
+  choiseLabel.anchor.setTo(0.5, 0.5);
+  choiseLabel.fixedToCamera = true;
+
+  whoWonBanner = game.add.text(game.world.centerX, game.world.centerY, '', {
     font: '60px Arial',
     fill: '#ADFF2F',
     align: 'center',
   });
+  whoWonBanner.fixedToCamera = true;
 
   const barConfig1 = {
     x: 120,
@@ -198,11 +193,17 @@ function create() {
     animationDuration: 200,
     flipped: false,
   };
-  myHealthBar = new HealthBar(this.game, barConfig1);
-  oppHealthBar = new HealthBar(this.game, barConfig2);
+  const myHealthBar = new HealthBar(this.game, barConfig1);
+  myHealthBar.barSprite.fixedToCamera = true;
+  myHealthBar.bgSprite.fixedToCamera = true;
+  myHealthBar.borderSprite.fixedToCamera = true;
 
-  whoWonBanner.anchor.setTo(0.5, 0.5);
+  const oppHealthBar = new HealthBar(this.game, barConfig2);
+  oppHealthBar.barSprite.fixedToCamera = true;
+  oppHealthBar.bgSprite.fixedToCamera = true;
+  oppHealthBar.borderSprite.fixedToCamera = true;
 
+  whoWonBanner.anchor.setTo(0.5, 1.8);
   // create sound for shooting
   bangSound = game.add.audio('bangSound');
 
@@ -210,6 +211,7 @@ function create() {
   music = game.add.audio('boden');
   music.play();
 
+  game.world.setBounds(0, 0, 1920, 1920);
   game.stage.disableVisibilityChange = true;
   // game.sound.setDecodedCallback([bangSound], start, this);
   // Create player
@@ -220,10 +222,21 @@ function create() {
     `ship_${player_ship_type}`,
   );
   player.sprite.anchor.setTo(0.5, 0.5);
+  game.physics.startSystem(Phaser.Physics.ARCADE);
+  game.camera.follow(player.sprite, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
+  game.physics.enable(player.sprite);
+  player.sprite.body.collideWorldBounds = true;
+  player.sprite.body.bounce.setTo(1, 1);
 
-  game.world.setBounds(0, 0, WORLD_SIZE.w, WORLD_SIZE.h);
-  game.camera.x = player.sprite.x - WINDOW_WIDTH / 2;
-  game.camera.y = player.sprite.y - WINDOW_HEIGHT / 2;
+  function restartGame(){
+    // Only act if paused
+    if(game.paused){
+      location.replace("/test")
+    }
+  }
+
+  // Inside game click unpause game
+  game.input.onDown.add(restartGame, self);
 
   socket = socket = io({
     transports: ['websocket'],
@@ -241,24 +254,22 @@ function create() {
     // Loop over all the player data received
     for (const id in players_data) {
       // If the player hasn't been created yet
-      if (other_players[id] === undefined && id != socket.id) {
+      if (other_players[id] === undefined && id !== socket.id) {
         // Make sure you don't create yourself
         const data = players_data[id];
         const p = CreateShip(data.type, data.x, data.y, data.angle);
         other_players[id] = p;
-        // console.log(`Created new player at (${data.x}, ${data.y})`);
       }
       players_found[id] = true;
 
       // Update positions of other players, this is the place check other players' scores.
       if (id !== socket.id) {
-        other_players[id].target_x = players_data[id].x; // Update target, not actual position, so we can interpolate
+        // Update target, not actual position, so we can interpolate
+        other_players[id].target_x = players_data[id].x;
         other_players[id].target_y = players_data[id].y;
         other_players[id].target_rotation = players_data[id].angle;
-
         scoreText2.setText(`Opp: ${players_data[id].score}`);
         const barPercent = parseInt((players_data[id].score / LIFE) * 100);
-        // console.log('oppscore', players_data[id].score);
         oppHealthBar.setPercent(barPercent);
         if (players_data[id].score <= 0) {
           oppGameOver = true;
@@ -304,7 +315,6 @@ function create() {
 
   // Listen for any player hit events and make that player flash
   socket.on('player-hit', (id) => {
-    // game.paused = isGameOver;
     if (id === socket.id) {
       // If this is you
       player.sprite.alpha = 0;
@@ -313,12 +323,9 @@ function create() {
       // Find the right player
       other_players[id].alpha = 0;
     }
-    // console.log('score', id, player.score);
     scoreText1.setText(`Me: ${player.score}`);
     const barPercent = parseInt((player.score / LIFE) * 100);
-    // console.log('myscore', player.score);
     myHealthBar.setPercent(barPercent);
-    // myHealthBar.setPercent((player.score / score) * 100);
     if (player.score <= 0) {
       playerGameOver = true;
       playerWon = 2;
@@ -329,9 +336,27 @@ function create() {
   });
 }
 
+function GameOver(donePlayer) {
+  if (donePlayer === 1) {
+    // stop game and display banner with player won.
+    isGameOver = true;
+    whoWonBanner.setText('You won!');
+    choiseLabel.setText('Click to Select a New Room');
+    music.stop();
+    
+    game.paused = true;
+    } else if (donePlayer === 2) {
+    // stop game and display banner with opponent won.
+    isGameOver = true;
+    whoWonBanner.setText('You lost!');
+    choiseLabel.setText('Click to Select a New Room');
+    music.stop();
+    game.paused = true;
+    }
+}
+
 function GameLoop() {
   player.update();
-
   // Move camera with player
   const camera_x = player.sprite.x - WINDOW_WIDTH / 2;
   const camera_y = player.sprite.y - WINDOW_HEIGHT / 2;
