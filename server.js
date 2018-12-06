@@ -25,7 +25,7 @@ require('./routes/api-routes')(app);
 require('./routes/html-routes')(app);
 
 // Mongoose Connection
-mongoose.connect('mongodb://yelpuser:yelp123@ds121753.mlab.com:21753/heroku_n8mmhx1p', { useNewUrlParser: true });
+mongoose.connect('mongodb://admin:password1@ds117111.mlab.com:17111/heroku_qkzxjhrm', { useNewUrlParser: true });
 
 // Listen on port 5000
 const PORT = process.env.PORT || 5000;
