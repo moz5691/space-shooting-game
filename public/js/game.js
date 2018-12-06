@@ -51,13 +51,38 @@ const player = {
     dir = dir * Math.PI * 2;
     this.sprite.rotation += dir * 0.1;
 
-    // Move forward
+    //Move forward
     if (
       game.input.keyboard.isDown(Phaser.Keyboard.W) ||
       game.input.keyboard.isDown(Phaser.Keyboard.UP)
     ) {
-      this.speed_x += Math.cos(this.sprite.rotation + Math.PI / 2) * this.speed;
-      this.speed_y += Math.sin(this.sprite.rotation + Math.PI / 2) * this.speed;
+      // this.speed_x -=/* Math.cos(this.sprite.rotation + Math.PI / 2) **/ this.speed;
+      this.speed_y -= /*Math.sin(this.sprite.rotation + Math.PI / 2) **/ this.speed;
+    }
+
+    //Move backward
+    if (
+      game.input.keyboard.isDown(Phaser.Keyboard.S) ||
+      game.input.keyboard.isDown(Phaser.Keyboard.DOWN)
+    ) {
+      // this.speed_x +=/* Math.cos(this.sprite.rotation + Math.PI / 2) **/ this.speed;
+      this.speed_y += /*Math.sin(this.sprite.rotation + Math.PI / 2) **/ this.speed;
+    }
+    //Move left
+    if (
+      game.input.keyboard.isDown(Phaser.Keyboard.A) ||
+      game.input.keyboard.isDown(Phaser.Keyboard.LEFT)
+    ) {
+      this.speed_x -=/* Math.cos(this.sprite.rotation + Math.PI / 2) **/ this.speed;
+      // this.speed_y -= /*Math.sin(this.sprite.rotation + Math.PI / 2) **/ this.speed;
+    }
+    //Move right
+    if (
+      game.input.keyboard.isDown(Phaser.Keyboard.D) ||
+      game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)
+    ) {
+      this.speed_x +=/* Math.cos(this.sprite.rotation + Math.PI / 2) **/ this.speed;
+      // this.speed_y -= /*Math.sin(this.sprite.rotation + Math.PI / 2) **/ this.speed;
     }
 
     this.sprite.x += this.speed_x;
