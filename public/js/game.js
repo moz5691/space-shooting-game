@@ -1,4 +1,3 @@
-/* eslint-disable */
 
 const ASSET_URL = '/assets/';
 // We first initialize the phaser game object
@@ -27,7 +26,7 @@ let oppGameOver = false;
 const LIFE = 100; // set Max Life here.. bigger is stronger.
 const shipType = 4; // ship type can be chosen here... 4 means "ship4_1" here.
 
-var player = {
+const player = {
   sprite: null, // Will hold the sprite when it's created
   speed_x: 0, // This is the speed it's currently moving at
   speed_y: 0,
@@ -122,6 +121,24 @@ function preload() {
   // load sound
   game.load.audio('bangSound', `${ASSET_URL}dark-shoot.wav`);
   game.load.audio('boden', `${ASSET_URL}bodenstaendig_2000_in_rock_4bit.mp3`);
+}
+function GameOver(player) {
+  if (player === 1) {
+    // stop game and display banner with player won.
+    isGameOver = true;
+    whoWonBanner.setText('You won!');
+    // game.camera.shake(0.05, 500);
+    // game.state.restart(true);
+  } else if (player === 2) {
+    // stop game and display banner with opponent won.
+    isGameOver = true;
+    whoWonBanner.setText('You lost!');
+    // game.camera.shake(0.05, 500);
+    // game.state.restart(true);
+  } else {
+    // do nothing.
+  }
+  // game.paused = isGameOver;
 }
 
 function create() {
@@ -221,9 +238,9 @@ function create() {
   socket.on('update-players', (players_data) => {
     const players_found = {};
     // Loop over all the player data received
-    for (var id in players_data) {
+    for (const id in players_data) {
       // If the player hasn't been created yet
-      if (other_players[id] == undefined && id != socket.id) {
+      if (other_players[id] === undefined && id != socket.id) {
         // Make sure you don't create yourself
         const data = players_data[id];
         const p = CreateShip(data.type, data.x, data.y, data.angle);
@@ -233,7 +250,7 @@ function create() {
       players_found[id] = true;
 
       // Update positions of other players, this is the place check other players' scores.
-      if (id != socket.id) {
+      if (id !== socket.id) {
         other_players[id].target_x = players_data[id].x; // Update target, not actual position, so we can interpolate
         other_players[id].target_y = players_data[id].y;
         other_players[id].target_rotation = players_data[id].angle;
@@ -252,7 +269,7 @@ function create() {
       }
     }
     // Check if a player is missing and delete them
-    for (var id in other_players) {
+    for (const id in other_players) {
       if (!players_found[id]) {
         other_players[id].destroy();
         delete other_players[id];
@@ -263,8 +280,8 @@ function create() {
   // Listen for bullet update events
   socket.on('bullets-update', (server_bullet_array) => {
     // If there's not enough bullets on the client, create them
-    for (var i = 0; i < server_bullet_array.length; i++) {
-      if (bullet_array[i] == undefined) {
+    for (let i = 0; i < server_bullet_array.length; i++) {
+      if (bullet_array[i] === undefined) {
         bullet_array[i] = game.add.sprite(
           server_bullet_array[i].x,
           server_bullet_array[i].y,
@@ -277,7 +294,7 @@ function create() {
       }
     }
     // Otherwise if there's too many, delete the extra
-    for (var i = server_bullet_array.length; i < bullet_array.length; i++) {
+    for (let i = server_bullet_array.length; i < bullet_array.length; i++) {
       bullet_array[i].destroy();
       bullet_array.splice(i, 1);
       i--;
@@ -287,7 +304,7 @@ function create() {
   // Listen for any player hit events and make that player flash
   socket.on('player-hit', (id) => {
     // game.paused = isGameOver;
-    if (id == socket.id) {
+    if (id === socket.id) {
       // If this is you
       player.sprite.alpha = 0;
       player.score--;
@@ -322,7 +339,7 @@ function GameLoop() {
 
   // Each player is responsible for bringing their alpha back up on their own client
   // Make sure other players flash back to alpha = 1 when they're hit
-  for (var id in other_players) {
+  for (const id in other_players) {
     if (other_players[id].alpha < 1) {
       other_players[id].alpha += (1 - other_players[id].alpha) * 0.16;
     } else {
@@ -331,9 +348,9 @@ function GameLoop() {
   }
 
   // Interpolate all players to where they should be
-  for (var id in other_players) {
+  for (const id in other_players) {
     const p = other_players[id];
-    if (p.target_x != undefined) {
+    if (p.target_x !== undefined) {
       p.x += (p.target_x - p.x) * 0.16;
       p.y += (p.target_y - p.y) * 0.16;
       // Intepolate angle while avoiding the positive/negative issue
@@ -344,24 +361,4 @@ function GameLoop() {
       p.rotation += dir * 0.16;
     }
   }
-}
-
-function GameOver(player) {
-  console.log('whowon', player);
-  if (player === 1) {
-    // stop game and display banner with player won.
-    isGameOver = true;
-    whoWonBanner.setText('You won!');
-    // game.camera.shake(0.05, 500);
-    // game.state.restart(true);
-  } else if (player === 2) {
-    // stop game and display banner with opponent won.
-    isGameOver = true;
-    whoWonBanner.setText('You lost!');
-    // game.camera.shake(0.05, 500);
-    // game.state.restart(true);
-  } else {
-    // do nothing.
-  }
-  // game.paused = isGameOver;
 }
