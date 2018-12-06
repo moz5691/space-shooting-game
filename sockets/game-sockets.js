@@ -25,13 +25,11 @@ module.exports = function (io) {
     // Listen for move events and tell all other clients that something has moved
     socket.on('move-player', (position_data) => {
       if (players[socket.id] == undefined) return; // Happens if the server restarts and a client is still connected
-      // console.log('move data', position_data);
       players[socket.id].x = position_data.x;
       players[socket.id].y = position_data.y;
       players[socket.id].angle = position_data.angle;
       players[socket.id].score = position_data.score;
       io.emit('update-players', players);
-      console.log('players', players);
     });
 
     // Listen for shoot-bullet events and add it to our bullet array
@@ -62,8 +60,7 @@ module.exports = function (io) {
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < 70) {
             io.emit('player-hit', id); // Tell everyone this player got hit
-          // players[id].score--;
-          // console.log(players[id]);
+            players[id].score--;
           }
         }
       }
@@ -71,9 +68,9 @@ module.exports = function (io) {
       // Remove if it goes too far off screen
       if (
         bullet.x < -10
-      || bullet.x > 1000
+      || bullet.x > 1920
       || bullet.y < -10
-      || bullet.y > 1000
+      || bullet.y > 1920
       ) {
         bullet_array.splice(i, 1);
         i--;

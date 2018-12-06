@@ -2,7 +2,7 @@
 
 const nextStep = function (event) {
   event.preventDefault();
-  $('#login-page').hide();
+  location.replace('/game');
 };
 
 $('#submit-btn').on('click', nextStep);
