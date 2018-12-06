@@ -50,8 +50,8 @@ const player = {
 
     // Move forward
     if (
-      game.input.keyboard.isDown(Phaser.Keyboard.W)
-      || game.input.keyboard.isDown(Phaser.Keyboard.UP)
+      game.input.keyboard.isDown(Phaser.Keyboard.W) ||
+      game.input.keyboard.isDown(Phaser.Keyboard.UP)
     ) {
       this.speed_x += Math.cos(this.sprite.rotation + Math.PI / 2) * this.speed;
       this.speed_y += Math.sin(this.sprite.rotation + Math.PI / 2) * this.speed;
@@ -76,7 +76,7 @@ const player = {
         y: this.sprite.y,
         angle: this.sprite.rotation,
         speed_x,
-        speed_y,
+        speed_y
       });
     }
     if (!game.input.activePointer.leftButton.isDown) this.shot = false;
@@ -93,9 +93,9 @@ const player = {
       x: this.sprite.x,
       y: this.sprite.y,
       angle: this.sprite.rotation,
-      score: player.score,
+      score: player.score
     });
-  },
+  }
 };
 
 function CreateShip(type, x, y, angle) {
@@ -117,10 +117,7 @@ function preload() {
 
   // Load all the ships
   for (let i = 1; i <= 7; i++) {
-    game.load.image(
-      `ship_${String(i)}`,
-      `${ASSET_URL}ship_${String(i)}.png`,
-    );
+    game.load.image(`ship_${String(i)}`, `${ASSET_URL}ship_${String(i)}.png`);
   }
   // load bullet and background tile
   game.load.image('bullet', `${ASSET_URL}bullet1.png`);
@@ -144,14 +141,14 @@ function create() {
   scoreText1 = game.add.text(16, 16, 'Good', {
     font: '30px Arial',
     fill: '#7FFF00',
-    align: 'center',
+    align: 'center'
   });
   scoreText1.fixedToCamera = true;
 
   scoreText2 = game.add.text(564, 16, 'Evil', {
     font: '30px Arial',
     fill: '#DC143C',
-    align: 'center',
+    align: 'center'
   });
   scoreText2.fixedToCamera = true;
 
@@ -162,7 +159,7 @@ function create() {
   whoWonBanner = game.add.text(game.world.centerX, game.world.centerY, '', {
     font: '60px Arial',
     fill: '#ADFF2F',
-    align: 'center',
+    align: 'center'
   });
   whoWonBanner.fixedToCamera = true;
 
@@ -171,13 +168,13 @@ function create() {
     y: 70,
     width: 200,
     bg: {
-      color: '#651828',
+      color: '#651828'
     },
     bar: {
-      color: '#FEFF03',
+      color: '#FEFF03'
     },
     animationDuration: 200,
-    flipped: false,
+    flipped: false
   };
 
   const barConfig2 = {
@@ -185,13 +182,13 @@ function create() {
     y: 70,
     width: 200,
     bg: {
-      color: '#651828',
+      color: '#651828'
     },
     bar: {
-      color: '#FEFF03',
+      color: '#FEFF03'
     },
     animationDuration: 200,
-    flipped: false,
+    flipped: false
   };
   const myHealthBar = new HealthBar(this.game, barConfig1);
   myHealthBar.barSprite.fixedToCamera = true;
@@ -219,7 +216,7 @@ function create() {
   player.sprite = game.add.sprite(
     (Math.random() * WORLD_SIZE.w) / 2 + WORLD_SIZE.w / 2,
     (Math.random() * WORLD_SIZE.h) / 2 + WORLD_SIZE.h / 2,
-    `ship_${player_ship_type}`,
+    `ship_${player_ship_type}`
   );
   player.sprite.anchor.setTo(0.5, 0.5);
   game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -239,17 +236,17 @@ function create() {
   game.input.onDown.add(restartGame, self);
 
   socket = socket = io({
-    transports: ['websocket'],
+    transports: ['websocket']
   });
   // This triggers the 'connection' event on the server
   socket.emit('new-player', {
     x: player.sprite.x,
     y: player.sprite.y,
     angle: player.sprite.rotation,
-    type: 3,
+    type: 3
   });
   // Listen for other players connecting
-  socket.on('update-players', (players_data) => {
+  socket.on('update-players', players_data => {
     const players_found = {};
     // Loop over all the player data received
     for (const id in players_data) {
@@ -290,14 +287,14 @@ function create() {
   });
 
   // Listen for bullet update events
-  socket.on('bullets-update', (server_bullet_array) => {
+  socket.on('bullets-update', server_bullet_array => {
     // If there's not enough bullets on the client, create them
     for (let i = 0; i < server_bullet_array.length; i++) {
       if (bullet_array[i] === undefined) {
         bullet_array[i] = game.add.sprite(
           server_bullet_array[i].x,
           server_bullet_array[i].y,
-          'bullet',
+          'bullet'
         );
       } else {
         // Otherwise, just update it!
