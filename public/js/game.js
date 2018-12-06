@@ -246,7 +246,7 @@ function create() {
         const data = players_data[id];
         const p = CreateShip(data.type, data.x, data.y, data.angle);
         other_players[id] = p;
-        console.log(`Created new player at (${data.x}, ${data.y})`);
+        // console.log(`Created new player at (${data.x}, ${data.y})`);
       }
       players_found[id] = true;
 
