@@ -1,3 +1,4 @@
+/* eslint-disable */
 
 const ASSET_URL = '/assets/';
 // We first initialize the phaser game object
