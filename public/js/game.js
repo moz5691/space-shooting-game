@@ -145,15 +145,16 @@ function create() {
   game.world.setBounds(0, 0, 1920, 1920);
 
   coinSound = game.add.audio('sfx:coin'),
-
-  scoreText1 = game.add.text(16, 16, "Good", {
+  sessionStorage.setItem('user', 'Justin');
+  userName = sessionStorage.getItem('user');
+  scoreText1 = game.add.text(16, 16, `${userName}`, {
     font: "30px Arial",
     fill: "#7FFF00",
     align: "center"
   });
   scoreText1.fixedToCamera = true;
 
-  scoreText2 = game.add.text(564, 16, "Evil", {
+  scoreText2 = game.add.text(524, 16, "Waiting for Players", {
     font: "30px Arial",
     fill: "#DC143C",
     align: "center"
@@ -179,37 +180,38 @@ function create() {
     y: 70,
     width: 200,
     bg: {
-      color: "#651828"
+      color: "#ffffff"
     },
     bar: {
-      color: "#FEFF03"
+      color: "#ff3b30"
     },
     animationDuration: 200,
     flipped: false
   };
 
-  const barConfig2 = {
-    x: 670,
-    y: 70,
-    width: 200,
-    bg: {
-      color: "#651828"
-    },
-    bar: {
-      color: "#FEFF03"
-    },
-    animationDuration: 200,
-    flipped: false
-  };
+  // const barConfig2 = {
+  //   x: 670,
+  //   y: 70,
+  //   width: 200,
+  //   bg: {
+  //     color: "#651828"
+  //   },
+  //   bar: {
+  //     color: "#FEFF03"
+  //   },
+  //   animationDuration: 200,
+  //   flipped: false
+  // };
+
   const myHealthBar = new HealthBar(this.game, barConfig1);
   myHealthBar.barSprite.fixedToCamera = true;
   myHealthBar.bgSprite.fixedToCamera = true;
   myHealthBar.borderSprite.fixedToCamera = true;
 
-  const oppHealthBar = new HealthBar(this.game, barConfig2);
-  oppHealthBar.barSprite.fixedToCamera = true;
-  oppHealthBar.bgSprite.fixedToCamera = true;
-  oppHealthBar.borderSprite.fixedToCamera = true;
+  // const oppHealthBar = new HealthBar(this.game, barConfig2);
+  // oppHealthBar.barSprite.fixedToCamera = true;
+  // oppHealthBar.bgSprite.fixedToCamera = true;
+  // oppHealthBar.borderSprite.fixedToCamera = true;
 
   whoWonBanner.anchor.setTo(0.5, 1.8);
   // create sound for shooting
@@ -224,10 +226,9 @@ function create() {
   // Create player
   const player_ship_type = String(shipType); // player ship can be chosen here.
   player.sprite = game.add.sprite(
-    (Math.random() * WORLD_SIZE.w) / 2 + WORLD_SIZE.w / 2,
-    (Math.random() * WORLD_SIZE.h) / 2 + WORLD_SIZE.h / 2,
-    `ship_${player_ship_type}`
-  );
+    Math.floor(Math.random() * 1900) + 50,
+    Math.floor(Math.random() * 1900) + 50,
+    `ship_${player_ship_type}`);
   player.sprite.anchor.setTo(0.5, 0.5);
   game.physics.startSystem(Phaser.Physics.ARCADE);
   game.camera.follow(player.sprite, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
@@ -275,9 +276,10 @@ function create() {
         other_players[id].target_x = players_data[id].x;
         other_players[id].target_y = players_data[id].y;
         other_players[id].target_rotation = players_data[id].angle;
-        scoreText2.setText(`Opp: ${players_data[id].score}`);
-        const barPercent = parseInt((players_data[id].score / LIFE) * 100);
-        oppHealthBar.setPercent(barPercent);
+        const playerCount = Object.keys(players_data).length - 1;
+        scoreText2.setText(`Enemies Left: ${playerCount}`);
+        // const barPercent = parseInt((players_data[id].score / LIFE) * 100);
+        // oppHealthBar.setPercent(barPercent);
         if (players_data[id].score <= 0) {
           oppGameOver = true;
           playerWon = 1; // player own.
@@ -364,26 +366,25 @@ function GameOver(donePlayer) {
   if (donePlayer === 1) {
     // stop game and display banner with player won.
     isGameOver = true;
-    whoWonBanner.setText("You won!");
-    choiseLabel.setText("Click to Start a New Game");
-    music.stop();
-    game.paused = true;
-    camera.flash('#000000');
+    // whoWonBanner.setText("You won!");
+    // choiseLabel.setText("Click to Start a New Game");
+    // music.stop();
+    // game.paused = true;
   } else if (donePlayer === 2) {
     // stop game and display banner with opponent won.
     isGameOver = true;
+    player.sprite.destroy();
     whoWonBanner.setText("You lost!");
     choiseLabel.setText("Click to Start a New Game");
     music.stop();
     game.paused = true;
-    camera.flash('#000000');
   }
 };
 
 const onCoinCollect = () => {
   coinSound.play();
   coins.destroy();
-  player.speed = Math.random();
+  player.speed += 0.1;
   socket.emit('starCollected');
 };
 
