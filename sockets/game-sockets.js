@@ -4,6 +4,10 @@ module.exports = function (io) {
   const players = {}; // Keeps a table of all players, the key is the socket id
   const bullet_array = []; // Keeps track of all the bullets to update them on the server
   // Tell Socket.io to start accepting connections
+  const star = {
+    x: Math.floor(Math.random() * 700) + 50,
+    y: Math.floor(Math.random() * 500) + 50
+  }
 
   io.set('transports', ['websocket']);
   io.on('connection', (socket) => {
@@ -14,6 +18,7 @@ module.exports = function (io) {
       players[socket.id] = state;
       // Broadcast a signal to everyone containing the updated players list
       io.emit('update-players', players);
+      socket.emit('starLocation', star);
     });
 
     // Listen for a disconnection and update our player table
@@ -30,6 +35,12 @@ module.exports = function (io) {
       players[socket.id].angle = position_data.angle;
       players[socket.id].score = position_data.score;
       io.emit('update-players', players);
+    });
+
+    socket.on('starCollected', function () {
+      star.x = Math.floor(Math.random() * 700) + 50;
+      star.y = Math.floor(Math.random() * 500) + 50;
+      io.emit('starLocation', star);
     });
 
     // Listen for shoot-bullet events and add it to our bullet array

@@ -143,18 +143,7 @@ function preload() {
 function create() {
   game.add.image(0, 0, "space");
   game.world.setBounds(0, 0, 1920, 1920);
-  
-  coins = game.add.group();
-  const sprite = coins.create(
-  (Math.random() * WORLD_SIZE.w) / 2 + WORLD_SIZE.w / 2, 
-  (Math.random() * WORLD_SIZE.h) / 2 + WORLD_SIZE.h / 2, 'coin');
-  sprite.anchor.set(0.5, 0.5);
-  // physics (so we can detect overlap with the hero)
-  game.physics.enable(sprite);
-  sprite.body.allowGravity = false;
-  // animations
-  sprite.animations.add('rotate', [0, 1, 2, 1], 6, true); // 6fps, looped
-  sprite.animations.play('rotate');
+
   coinSound = game.add.audio('sfx:coin'),
 
   scoreText1 = game.add.text(16, 16, "Good", {
@@ -306,6 +295,19 @@ function create() {
       }
     }
   });
+  
+  socket.on('starLocation', function (starLocation) {
+  if (coins) coins.destroy();
+  coins = game.add.group();
+  const sprite = coins.create(starLocation.x, starLocation.y, 'coin');
+  sprite.anchor.set(0.5, 0.5);
+  // physics (so we can detect overlap with the hero)
+  game.physics.enable(sprite);
+  sprite.body.allowGravity = false;
+  // animations
+  sprite.animations.add('rotate', [0, 1, 2, 1], 6, true); // 6fps, looped
+  sprite.animations.play('rotate');
+  });
 
   // Listen for bullet update events
   socket.on("bullets-update", server_bullet_array => {
@@ -381,7 +383,8 @@ function GameOver(donePlayer) {
 const _onHeroVsCoin = () => {
   coinSound.play();
   coins.destroy();
-  player.speed += 1;
+  player.speed = Math.random();
+  socket.emit('starCollected');
 };
 
 function GameLoop() {
