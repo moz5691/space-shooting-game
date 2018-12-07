@@ -128,7 +128,7 @@ function preload() {
   }
   // load bullet and background tile
   game.load.image("bullet", `${ASSET_URL}bullet1.png`);
-  game.load.image("space", `${ASSET_URL}nebula.jpeg`);
+  game.load.image("space", `${ASSET_URL}nebula.jpg`);
   // load sound
   game.load.audio("bangSound", `${ASSET_URL}laser.mp3`);
   game.load.audio("boden", `${ASSET_URL}battle.mp3`);
@@ -145,7 +145,7 @@ function create() {
   //   }
   // }
 
-  game.add.tileSprite(0, 0, 1920, 1920, "space");
+  game.add.image(0, 0, "space");
   game.world.setBounds(0, 0, 1920, 1920);
 
   scoreText1 = game.add.text(16, 16, "Good", {
