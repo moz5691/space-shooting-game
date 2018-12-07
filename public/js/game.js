@@ -13,7 +13,6 @@ const game = new Phaser.Game(
     preload,
     create,
     update: GameLoop,
-    render: render
   }
 );
 
@@ -32,6 +31,7 @@ let bangSound;
 let whoWonBanner;
 let scoreText1;
 let scoreText2;
+let tutorialText;
 let playerWon = 0; // 1: player won, 2: opponent won
 let isGameOver = false;
 let playerGameOver = false;
@@ -161,14 +161,28 @@ function create() {
   });
   scoreText2.fixedToCamera = true;
 
+  tutorialText = game.add.text(32, 550, 'Press W to move forward and cursors to aim. Tap mouse button to shoot', {
+    font: "20px Arial",
+    fill: "#fff",
+    align: "center"
+  });
+  tutorialText.fixedToCamera = true;
+  
+  setTimeout(function(){
+      tutorialText.setText('Be the last ship standing!');
+      setTimeout(function(){
+        tutorialText.setText('');
+      }, 5000);
+  }, 10000);
+
   choiseLabel = game.add.text(400, 450, "", {
-    font: "30px Arial",
+    font: "30px Gill Sans",
     fill: "#fff"
   });
   choiseLabel.anchor.setTo(0.5, 0.5);
   choiseLabel.fixedToCamera = true;
 
-  whoWonBanner = game.add.text(game.world.centerX, game.world.centerY, "", {
+  whoWonBanner = game.add.text(400, 300, "", {
     font: "60px Arial",
     fill: "#ADFF2F",
     align: "center"
@@ -280,9 +294,11 @@ function create() {
         scoreText2.setText(`Enemies Left: ${playerCount}`);
         // const barPercent = parseInt((players_data[id].score / LIFE) * 100);
         // oppHealthBar.setPercent(barPercent);
-        if (players_data[id].score <= 0) {
+        if (players_data[id].score <= 0 && players_data[id].score >= -4 ) {
           oppGameOver = true;
           playerWon = 1; // player own.
+        } else {
+          oppGameOver = false;
         }
         if (playerGameOver || oppGameOver) {
           GameOver(playerWon);
@@ -358,15 +374,14 @@ function create() {
   });
 }
 
-function render() {
-  game.debug.text('Press W to move forward and cursors to aim. Tap mouse button to shoot', 32, 550);
-}
-
 function GameOver(donePlayer) {
   if (donePlayer === 1) {
     // stop game and display banner with player won.
-    isGameOver = true;
-    // whoWonBanner.setText("You won!");
+    // isGameOver = true;
+    whoWonBanner.setText("Single Kill");
+    setTimeout(function(){
+      whoWonBanner.setText('');
+    }, 3000);
     // choiseLabel.setText("Click to Start a New Game");
     // music.stop();
     // game.paused = true;
