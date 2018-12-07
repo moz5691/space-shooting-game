@@ -12,7 +12,7 @@ const game = new Phaser.Game(
   {
     preload,
     create,
-    update: GameLoop,
+    update: GameLoop
   }
 );
 
@@ -169,9 +169,12 @@ function create() {
   tutorialText.fixedToCamera = true;
   
   setTimeout(function(){
-      tutorialText.setText('Be the last ship standing!');
+      tutorialText.setText('Collect Coins for Speed Boost!');
       setTimeout(function(){
-        tutorialText.setText('');
+        tutorialText.setText('Be the last ship standing!');
+        setTimeout(function(){
+          tutorialText.setText('');
+        }, 3000);
       }, 5000);
   }, 10000);
 
