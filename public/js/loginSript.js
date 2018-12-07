@@ -2,7 +2,7 @@
 
 const nextStep = function (event) {
   event.preventDefault();
-  location.replace('/game');
+  location.replace('/intro');
 };
 
 $('#submit-btn').on('click', nextStep);

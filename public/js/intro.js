@@ -21,3 +21,11 @@ for (let i = 0; i < numStars; i++) {
   star.style.left = `${xy[1]}px`;
   document.body.append(star);
 }
+const skipScene = (e) => {
+  e.preventDefault();
+  location.replace('/game');
+};
+
+$('#board').on('click', skipScene);
+$('.intro').on('click', skipScene);
+

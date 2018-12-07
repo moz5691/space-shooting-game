@@ -121,7 +121,7 @@ function preload() {
   }
   // load bullet and background tile
   game.load.image('bullet', `${ASSET_URL}bullet1.png`);
-  game.load.image('space', `${ASSET_URL}space_tile.png`);
+  game.load.image('space', `${ASSET_URL}debug-grid-1920x1920.png`);
   // load sound
   game.load.audio('bangSound', `${ASSET_URL}laser.mp3`);
   game.load.audio('boden', `${ASSET_URL}battle.mp3`);
@@ -129,14 +129,17 @@ function preload() {
 
 function create() {
   // Create water tiles
-  for (let i = 0; i <= WORLD_SIZE.w / 72 + 1; i++) {
-    for (let j = 0; j <= WORLD_SIZE.h / 72 + 1; j++) {
-      const tile_sprite = game.add.sprite(i * 72, j * 72, 'space');
-      tile_sprite.anchor.setTo(0.5, 0.5);
-      tile_sprite.alpha = 0.5;
-      water_tiles.push(tile_sprite);
-    }
-  }
+  // for (let i = 0; i <= WORLD_SIZE.w / 72 + 1; i++) {
+  //   for (let j = 0; j <= WORLD_SIZE.h / 72 + 1; j++) {
+  //     const tile_sprite = game.add.sprite(i * 72, j * 72, 'space');
+  //     tile_sprite.anchor.setTo(0.5, 0.5);
+  //     tile_sprite.alpha = 0.5;
+  //     water_tiles.push(tile_sprite);
+  //   }
+  // }
+
+  game.add.tileSprite(0, 0, 1920, 1920, 'space');
+  game.world.setBounds(0, 0, 1920, 1920);
 
   scoreText1 = game.add.text(16, 16, 'Good', {
     font: '30px Arial',
@@ -208,7 +211,6 @@ function create() {
   music = game.add.audio('boden');
   music.play();
 
-  game.world.setBounds(0, 0, 1920, 1920);
   game.stage.disableVisibilityChange = true;
   // game.sound.setDecodedCallback([bangSound], start, this);
   // Create player
