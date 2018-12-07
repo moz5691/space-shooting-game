@@ -380,7 +380,7 @@ function GameOver(donePlayer) {
   }
 };
 
-const _onHeroVsCoin = () => {
+const onCoinCollect = () => {
   coinSound.play();
   coins.destroy();
   player.speed = Math.random();
@@ -405,8 +405,8 @@ function GameLoop() {
     }
   }
 
-  game.physics.arcade.overlap(player.sprite, coins, _onHeroVsCoin);
-  game.physics.arcade.overlap(other_players, coins, _onHeroVsCoin);
+  game.physics.arcade.overlap(player.sprite, coins, onCoinCollect);
+  game.physics.arcade.overlap(other_players, coins, onCoinCollect);
 
   // Interpolate all players to where they should be
   for (const id in other_players) {
