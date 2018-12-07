@@ -35,7 +35,6 @@ let playerGameOver = false;
 let oppGameOver = false;
 const LIFE = 100; // set Max Life here.. bigger is stronger.
 let ship = sessionStorage.getItem("shipType");
-console.log(ship);
 const shipType = ship; // ship type can be chosen here... 4 means "ship4_1" here.
 
 const player = {
@@ -241,7 +240,7 @@ function create() {
   function restartGame() {
     // Only act if paused
     if (game.paused) {
-      location.replace("/intro");
+      location.replace("/");
     }
   }
 
