@@ -128,7 +128,7 @@ function preload() {
   }
   // load bullet and background tile
   game.load.image("bullet", `${ASSET_URL}bullet1.png`);
-  game.load.image("space", `${ASSET_URL}debug-grid-1920x1920.png`);
+  game.load.image("space", `${ASSET_URL}nebula.jpeg`);
   // load sound
   game.load.audio("bangSound", `${ASSET_URL}laser.mp3`);
   game.load.audio("boden", `${ASSET_URL}battle.mp3`);
@@ -350,7 +350,7 @@ function GameOver(donePlayer) {
     // stop game and display banner with player won.
     isGameOver = true;
     whoWonBanner.setText("You won!");
-    choiseLabel.setText("Click to Select a New Room");
+    choiseLabel.setText("Click to Start a New Game");
     music.stop();
 
     game.paused = true;
@@ -358,7 +358,7 @@ function GameOver(donePlayer) {
     // stop game and display banner with opponent won.
     isGameOver = true;
     whoWonBanner.setText("You lost!");
-    choiseLabel.setText("Click to Select a New Room");
+    choiseLabel.setText("Click to Start a New Game");
     music.stop();
     game.paused = true;
   }
