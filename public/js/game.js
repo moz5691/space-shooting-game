@@ -25,6 +25,8 @@ const bullet_array = [];
 let socket; // Declare it in this scope, initialize in the `create` function
 const other_players = {};
 
+let coins;
+let coinSound;
 let music;
 let bangSound;
 let whoWonBanner;
@@ -130,14 +132,30 @@ function preload() {
   // load bullet and background tile
   game.load.image("bullet", `${ASSET_URL}bullet1.png`);
   game.load.image("space", `${ASSET_URL}nebula.jpg`);
+  game.load.image('icon:coin', `${ASSET_URL}coin_icon.png`);
+  game.load.spritesheet('coin', `${ASSET_URL}coin_animated.png`, 22, 22);
   // load sound
   game.load.audio("bangSound", `${ASSET_URL}laser.mp3`);
+  game.load.audio('sfx:coin', `${ASSET_URL}coin.wav`);
   game.load.audio("boden", `${ASSET_URL}battle.mp3`);
 }
 
 function create() {
   game.add.image(0, 0, "space");
   game.world.setBounds(0, 0, 1920, 1920);
+  
+  coins = game.add.group();
+  const sprite = coins.create(
+  (Math.random() * WORLD_SIZE.w) / 2 + WORLD_SIZE.w / 2, 
+  (Math.random() * WORLD_SIZE.h) / 2 + WORLD_SIZE.h / 2, 'coin');
+  sprite.anchor.set(0.5, 0.5);
+  // physics (so we can detect overlap with the hero)
+  game.physics.enable(sprite);
+  sprite.body.allowGravity = false;
+  // animations
+  sprite.animations.add('rotate', [0, 1, 2, 1], 6, true); // 6fps, looped
+  sprite.animations.play('rotate');
+  coinSound = game.add.audio('sfx:coin'),
 
   scoreText1 = game.add.text(16, 16, "Good", {
     font: "30px Arial",
@@ -347,8 +365,8 @@ function GameOver(donePlayer) {
     whoWonBanner.setText("You won!");
     choiseLabel.setText("Click to Start a New Game");
     music.stop();
-
     game.paused = true;
+    camera.flash('#000000');
   } else if (donePlayer === 2) {
     // stop game and display banner with opponent won.
     isGameOver = true;
@@ -356,8 +374,15 @@ function GameOver(donePlayer) {
     choiseLabel.setText("Click to Start a New Game");
     music.stop();
     game.paused = true;
+    camera.flash('#000000');
   }
-}
+};
+
+const _onHeroVsCoin = () => {
+  coinSound.play();
+  coins.destroy();
+  player.speed += 1;
+};
 
 function GameLoop() {
   player.update();
@@ -376,6 +401,9 @@ function GameLoop() {
       other_players[id].alpha = 1;
     }
   }
+
+  game.physics.arcade.overlap(player.sprite, coins, _onHeroVsCoin);
+  game.physics.arcade.overlap(other_players, coins, _onHeroVsCoin);
 
   // Interpolate all players to where they should be
   for (const id in other_players) {
