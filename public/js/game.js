@@ -12,7 +12,8 @@ const game = new Phaser.Game(
   {
     preload,
     create,
-    update: GameLoop
+    update: GameLoop,
+    render: render
   }
 );
 
@@ -333,6 +334,10 @@ function create() {
       GameOver(playerWon);
     }
   });
+}
+
+function render() {
+  game.debug.text('Press W to move forward and cursors to aim. Tap mouse button to shoot', 32, 550);
 }
 
 function GameOver(donePlayer) {
