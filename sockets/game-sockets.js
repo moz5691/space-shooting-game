@@ -5,8 +5,8 @@ module.exports = function (io) {
   const bullet_array = []; // Keeps track of all the bullets to update them on the server
   // Tell Socket.io to start accepting connections
   const star = {
-    x: Math.floor(Math.random() * 700) + 50,
-    y: Math.floor(Math.random() * 500) + 50
+    x: Math.floor(Math.random() * 1900) + 50,
+    y: Math.floor(Math.random() * 1900) + 50
   }
 
   io.set('transports', ['websocket']);
@@ -38,8 +38,8 @@ module.exports = function (io) {
     });
 
     socket.on('starCollected', function () {
-      star.x = Math.floor(Math.random() * 700) + 50;
-      star.y = Math.floor(Math.random() * 500) + 50;
+      star.x = Math.floor(Math.random() * 1900) + 50;
+      star.y = Math.floor(Math.random() * 1900) + 50;
       io.emit('starLocation', star);
     });
 
