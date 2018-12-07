@@ -135,16 +135,6 @@ function preload() {
 }
 
 function create() {
-  // Create water tiles
-  // for (let i = 0; i <= WORLD_SIZE.w / 72 + 1; i++) {
-  //   for (let j = 0; j <= WORLD_SIZE.h / 72 + 1; j++) {
-  //     const tile_sprite = game.add.sprite(i * 72, j * 72, 'space');
-  //     tile_sprite.anchor.setTo(0.5, 0.5);
-  //     tile_sprite.alpha = 0.5;
-  //     water_tiles.push(tile_sprite);
-  //   }
-  // }
-
   game.add.image(0, 0, "space");
   game.world.setBounds(0, 0, 1920, 1920);
 
