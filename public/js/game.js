@@ -24,11 +24,14 @@ const bullet_array = [];
 let socket; // Declare it in this scope, initialize in the `create` function
 const other_players = {};
 
+let coins;
+let coinSound;
 let music;
 let bangSound;
 let whoWonBanner;
 let scoreText1;
 let scoreText2;
+let tutorialText;
 let playerWon = 0; // 1: player won, 2: opponent won
 let isGameOver = false;
 let playerGameOver = false;
@@ -128,48 +131,65 @@ function preload() {
   }
   // load bullet and background tile
   game.load.image("bullet", `${ASSET_URL}bullet1.png`);
-  game.load.image("space", `${ASSET_URL}debug-grid-1920x1920.png`);
+  game.load.image("space", `${ASSET_URL}nebula.jpg`);
+  game.load.image("icon:coin", `${ASSET_URL}coin_icon.png`);
+  game.load.spritesheet("coin", `${ASSET_URL}coin_animated.png`, 22, 22);
   // load sound
   game.load.audio("bangSound", `${ASSET_URL}laser.mp3`);
+  game.load.audio("sfx:coin", `${ASSET_URL}coin.wav`);
   game.load.audio("boden", `${ASSET_URL}battle.mp3`);
 }
 
 function create() {
-  // Create water tiles
-  // for (let i = 0; i <= WORLD_SIZE.w / 72 + 1; i++) {
-  //   for (let j = 0; j <= WORLD_SIZE.h / 72 + 1; j++) {
-  //     const tile_sprite = game.add.sprite(i * 72, j * 72, 'space');
-  //     tile_sprite.anchor.setTo(0.5, 0.5);
-  //     tile_sprite.alpha = 0.5;
-  //     water_tiles.push(tile_sprite);
-  //   }
-  // }
-
-  game.add.tileSprite(0, 0, 1920, 1920, "space");
+  game.add.image(0, 0, "space");
   game.world.setBounds(0, 0, 1920, 1920);
 
-  scoreText1 = game.add.text(16, 16, "Good", {
+  (coinSound = game.add.audio("sfx:coin")),
+    (userName = sessionStorage.getItem("user"));
+  scoreText1 = game.add.text(16, 16, `${userName}`, {
     font: "30px Arial",
     fill: "#7FFF00",
     align: "center"
   });
   scoreText1.fixedToCamera = true;
 
-  scoreText2 = game.add.text(564, 16, "Evil", {
+  scoreText2 = game.add.text(524, 16, "Waiting for Players", {
     font: "30px Arial",
     fill: "#DC143C",
     align: "center"
   });
   scoreText2.fixedToCamera = true;
 
+  tutorialText = game.add.text(
+    32,
+    550,
+    "Press W to move forward and cursors to aim. Tap mouse button to shoot",
+    {
+      font: "20px Arial",
+      fill: "#fff",
+      align: "center"
+    }
+  );
+  tutorialText.fixedToCamera = true;
+
+  setTimeout(function() {
+    tutorialText.setText("Collect Coins for Speed Boost!");
+    setTimeout(function() {
+      tutorialText.setText("Be the last ship standing!");
+      setTimeout(function() {
+        tutorialText.setText("");
+      }, 3000);
+    }, 5000);
+  }, 10000);
+
   choiseLabel = game.add.text(400, 450, "", {
-    font: "30px Arial",
+    font: "30px Gill Sans",
     fill: "#fff"
   });
   choiseLabel.anchor.setTo(0.5, 0.5);
   choiseLabel.fixedToCamera = true;
 
-  whoWonBanner = game.add.text(game.world.centerX, game.world.centerY, "", {
+  whoWonBanner = game.add.text(400, 300, "", {
     font: "60px Arial",
     fill: "#ADFF2F",
     align: "center"
@@ -181,37 +201,38 @@ function create() {
     y: 70,
     width: 200,
     bg: {
-      color: "#651828"
+      color: "#ffffff"
     },
     bar: {
-      color: "#FEFF03"
+      color: "#ff3b30"
     },
     animationDuration: 200,
     flipped: false
   };
 
-  const barConfig2 = {
-    x: 670,
-    y: 70,
-    width: 200,
-    bg: {
-      color: "#651828"
-    },
-    bar: {
-      color: "#FEFF03"
-    },
-    animationDuration: 200,
-    flipped: false
-  };
+  // const barConfig2 = {
+  //   x: 670,
+  //   y: 70,
+  //   width: 200,
+  //   bg: {
+  //     color: "#651828"
+  //   },
+  //   bar: {
+  //     color: "#FEFF03"
+  //   },
+  //   animationDuration: 200,
+  //   flipped: false
+  // };
+
   const myHealthBar = new HealthBar(this.game, barConfig1);
   myHealthBar.barSprite.fixedToCamera = true;
   myHealthBar.bgSprite.fixedToCamera = true;
   myHealthBar.borderSprite.fixedToCamera = true;
 
-  const oppHealthBar = new HealthBar(this.game, barConfig2);
-  oppHealthBar.barSprite.fixedToCamera = true;
-  oppHealthBar.bgSprite.fixedToCamera = true;
-  oppHealthBar.borderSprite.fixedToCamera = true;
+  // const oppHealthBar = new HealthBar(this.game, barConfig2);
+  // oppHealthBar.barSprite.fixedToCamera = true;
+  // oppHealthBar.bgSprite.fixedToCamera = true;
+  // oppHealthBar.borderSprite.fixedToCamera = true;
 
   whoWonBanner.anchor.setTo(0.5, 1.8);
   // create sound for shooting
@@ -226,8 +247,8 @@ function create() {
   // Create player
   const player_ship_type = String(shipType); // player ship can be chosen here.
   player.sprite = game.add.sprite(
-    (Math.random() * WORLD_SIZE.w) / 2 + WORLD_SIZE.w / 2,
-    (Math.random() * WORLD_SIZE.h) / 2 + WORLD_SIZE.h / 2,
+    Math.floor(Math.random() * 1900) + 50,
+    Math.floor(Math.random() * 1900) + 50,
     `ship_${player_ship_type}`
   );
   player.sprite.anchor.setTo(0.5, 0.5);
@@ -240,7 +261,7 @@ function create() {
   function restartGame() {
     // Only act if paused
     if (game.paused) {
-      location.replace("/");
+      location.replace("/start");
     }
   }
 
@@ -277,12 +298,15 @@ function create() {
         other_players[id].target_x = players_data[id].x;
         other_players[id].target_y = players_data[id].y;
         other_players[id].target_rotation = players_data[id].angle;
-        scoreText2.setText(`Opp: ${players_data[id].score}`);
-        const barPercent = parseInt((players_data[id].score / LIFE) * 100);
-        oppHealthBar.setPercent(barPercent);
-        if (players_data[id].score <= 0) {
+        const playerCount = Object.keys(players_data).length - 1;
+        scoreText2.setText(`Enemies Left: ${playerCount}`);
+        // const barPercent = parseInt((players_data[id].score / LIFE) * 100);
+        // oppHealthBar.setPercent(barPercent);
+        if (players_data[id].score <= 0 && players_data[id].score >= -4) {
           oppGameOver = true;
           playerWon = 1; // player own.
+        } else {
+          oppGameOver = false;
         }
         if (playerGameOver || oppGameOver) {
           GameOver(playerWon);
@@ -296,6 +320,19 @@ function create() {
         delete other_players[id];
       }
     }
+  });
+
+  socket.on("starLocation", function(starLocation) {
+    if (coins) coins.destroy();
+    coins = game.add.group();
+    const sprite = coins.create(starLocation.x, starLocation.y, "coin");
+    sprite.anchor.set(0.5, 0.5);
+    // physics (so we can detect overlap with the hero)
+    game.physics.enable(sprite);
+    sprite.body.allowGravity = false;
+    // animations
+    sprite.animations.add("rotate", [0, 1, 2, 1], 6, true); // 6fps, looped
+    sprite.animations.play("rotate");
   });
 
   // Listen for bullet update events
@@ -348,20 +385,31 @@ function create() {
 function GameOver(donePlayer) {
   if (donePlayer === 1) {
     // stop game and display banner with player won.
-    isGameOver = true;
-    whoWonBanner.setText("You won!");
-    choiseLabel.setText("Click to Select a New Room");
-    music.stop();
-    game.paused = true;
+    // isGameOver = true;
+    whoWonBanner.setText("Single Kill");
+    setTimeout(function() {
+      whoWonBanner.setText("");
+    }, 3000);
+    // choiseLabel.setText("Click to Start a New Game");
+    // music.stop();
+    // game.paused = true;
   } else if (donePlayer === 2) {
     // stop game and display banner with opponent won.
     isGameOver = true;
-    whoWonBanner.setText("You lost!");
-    choiseLabel.setText("Click to Select a New Room");
+    player.sprite.destroy();
+    whoWonBanner.setText("You Died!");
+    choiseLabel.setText("Click to Start a New Game");
     music.stop();
     game.paused = true;
   }
 }
+
+const onCoinCollect = () => {
+  coinSound.play();
+  coins.destroy();
+  player.speed += 0.1;
+  socket.emit("starCollected");
+};
 
 function GameLoop() {
   player.update();
@@ -380,6 +428,9 @@ function GameLoop() {
       other_players[id].alpha = 1;
     }
   }
+
+  game.physics.arcade.overlap(player.sprite, coins, onCoinCollect);
+  game.physics.arcade.overlap(other_players, coins, onCoinCollect);
 
   // Interpolate all players to where they should be
   for (const id in other_players) {

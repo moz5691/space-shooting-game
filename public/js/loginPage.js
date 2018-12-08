@@ -73,3 +73,9 @@ $(document).on("click", "#submit-btn", function() {
     characterPage();
   }
 });
+
+function disable() {
+  document.onkeydown = function(e) {
+    return false;
+  };
+}
