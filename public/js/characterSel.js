@@ -1,25 +1,25 @@
 /* eslint-disable */
 
 function characterPage() {
-  $('#canvas').empty();
-  const ajaxGetData = sessionStorage.getItem('user');
-  $('#canvas').append(
-    $('<div>').append(
-      $('<p>')
-        .addClass('blinking')
-        .attr('id', 'welcome')
-        .text(`Welcome ${ajaxGetData}`)
-        .css('font-size', '50px')
-        .css('font-family', "'Press Start 2P', cursive")
-        .css('text-align', 'center'),
-      $('<p>')
-        .addClass('blinking')
-        .attr('id', 'choose')
-        .text('Please choose your charater')
-        .css('font-size', '20px')
-        .css('text-align', 'center')
-        .css('font-family', "'Press Start 2P', cursive")
-        .css('margin-top', '30px'),
+  $("#canvas").empty();
+  const ajaxGetData = sessionStorage.getItem("user");
+  $("#canvas").append(
+    $("<div>").append(
+      $("<p>")
+        .addClass("blinking")
+        .attr("id", "welcome")
+        .text("Welcome " + ajaxGetData)
+        .css("font-size", "50px")
+        .css("font-family", "'Press Start 2P', cursive")
+        .css("text-align", "center"),
+      $("<p>")
+        .addClass("blinking")
+        .attr("id", "choose")
+        .text("Please choose your charater")
+        .css("font-size", "20px")
+        .css("text-align", "center")
+        .css("font-family", "'Press Start 2P', cursive")
+        .css("margin-top", "30px"),
 
       $('<div>')
         .addClass('charGroup')

@@ -35,10 +35,20 @@ function mainPage() {
     ),
   );
 }
-$(document).keypress((e) => {
-  if (e.keyCode === 13) {
+
+function disable() {
+  $("#canvas").bind("keypress", function(e) {
+    if (e.keyCode == 13) {
+      return false;
+    }
+  });
+}
+
+$(document).keypress(function(e) {
+  if (e.keyCode == 13) {
     e.preventDefault();
-    characterPage();
+    loginPage();
   }
 });
+
 mainPage();

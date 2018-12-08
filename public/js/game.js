@@ -1,5 +1,8 @@
 /* eslint-disable */
-
+$(document).ready(function() {
+  //if user didn't insert username should redirect to main page
+  if (sessionStorage.getItem("user") === null) location.replace("/");
+});
 const ASSET_URL = "/assets/";
 // We first initialize the phaser game object
 const WINDOW_WIDTH = 800;
@@ -134,11 +137,11 @@ function preload() {
   // load bullet and background tile
   game.load.image("bullet", `${ASSET_URL}bullet1.png`);
   game.load.image("space", `${ASSET_URL}nebula.jpg`);
-  game.load.image('icon:coin', `${ASSET_URL}coin_icon.png`);
-  game.load.spritesheet('coin', `${ASSET_URL}coin_animated.png`, 22, 22);
+  game.load.image("icon:coin", `${ASSET_URL}coin_icon.png`);
+  game.load.spritesheet("coin", `${ASSET_URL}coin_animated.png`, 22, 22);
   // load sound
   game.load.audio("bangSound", `${ASSET_URL}laser.mp3`);
-  game.load.audio('sfx:coin', `${ASSET_URL}coin.wav`);
+  game.load.audio("sfx:coin", `${ASSET_URL}coin.wav`);
   game.load.audio("boden", `${ASSET_URL}battle.mp3`);
 }
 
@@ -162,21 +165,26 @@ function create() {
   });
   scoreText2.fixedToCamera = true;
 
-  tutorialText = game.add.text(32, 550, 'Press W to move forward and cursors to aim. Tap mouse button to shoot', {
-    font: "20px Arial",
-    fill: "#fff",
-    align: "center"
-  });
+  tutorialText = game.add.text(
+    32,
+    550,
+    "Press W to move forward and cursors to aim. Tap mouse button to shoot",
+    {
+      font: "20px Arial",
+      fill: "#fff",
+      align: "center"
+    }
+  );
   tutorialText.fixedToCamera = true;
-  
-  setTimeout(function(){
-      tutorialText.setText('Collect Coins for Speed Boost!');
-      setTimeout(function(){
-        tutorialText.setText('Be the last ship standing!');
-        setTimeout(function(){
-          tutorialText.setText('');
-        }, 3000);
-      }, 5000);
+
+  setTimeout(function() {
+    tutorialText.setText("Collect Coins for Speed Boost!");
+    setTimeout(function() {
+      tutorialText.setText("Be the last ship standing!");
+      setTimeout(function() {
+        tutorialText.setText("");
+      }, 3000);
+    }, 5000);
   }, 10000);
 
   choiseLabel = game.add.text(400, 450, "", {
@@ -246,7 +254,8 @@ function create() {
   player.sprite = game.add.sprite(
     Math.floor(Math.random() * 1900) + 50,
     Math.floor(Math.random() * 1900) + 50,
-    `ship_${player_ship_type}`);
+    `ship_${player_ship_type}`
+  );
   player.sprite.anchor.setTo(0.5, 0.5);
   game.physics.startSystem(Phaser.Physics.ARCADE);
   game.camera.follow(player.sprite, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
@@ -257,7 +266,7 @@ function create() {
   function restartGame() {
     // Only act if paused
     if (game.paused) {
-      location.replace("/start");
+      location.replace("/");
     }
   }
 
@@ -298,7 +307,7 @@ function create() {
         scoreText2.setText(`Enemies Left: ${playerCount}`);
         // const barPercent = parseInt((players_data[id].score / LIFE) * 100);
         // oppHealthBar.setPercent(barPercent);
-        if (players_data[id].score <= 0 && players_data[id].score >= -4 ) {
+        if (players_data[id].score <= 0 && players_data[id].score >= -4) {
           oppGameOver = true;
           playerWon = 1; // player own.
         } else {
@@ -317,18 +326,18 @@ function create() {
       }
     }
   });
-  
-  socket.on('starLocation', function (starLocation) {
-  if (coins) coins.destroy();
-  coins = game.add.group();
-  const sprite = coins.create(starLocation.x, starLocation.y, 'coin');
-  sprite.anchor.set(0.5, 0.5);
-  // physics (so we can detect overlap with the hero)
-  game.physics.enable(sprite);
-  sprite.body.allowGravity = false;
-  // animations
-  sprite.animations.add('rotate', [0, 1, 2, 1], 6, true); // 6fps, looped
-  sprite.animations.play('rotate');
+
+  socket.on("starLocation", function(starLocation) {
+    if (coins) coins.destroy();
+    coins = game.add.group();
+    const sprite = coins.create(starLocation.x, starLocation.y, "coin");
+    sprite.anchor.set(0.5, 0.5);
+    // physics (so we can detect overlap with the hero)
+    game.physics.enable(sprite);
+    sprite.body.allowGravity = false;
+    // animations
+    sprite.animations.add("rotate", [0, 1, 2, 1], 6, true); // 6fps, looped
+    sprite.animations.play("rotate");
   });
 
   // Listen for bullet update events
@@ -383,8 +392,8 @@ function GameOver(donePlayer) {
     // stop game and display banner with player won.
     // isGameOver = true;
     whoWonBanner.setText("Single Kill");
-    setTimeout(function(){
-      whoWonBanner.setText('');
+    setTimeout(function() {
+      whoWonBanner.setText("");
     }, 3000);
     // choiseLabel.setText("Click to Start a New Game");
     // music.stop();
@@ -398,7 +407,7 @@ function GameOver(donePlayer) {
     music.stop();
     game.paused = true;
   }
-};
+}
 
 const onCoinCollect = () => {
   coinSound.play();
