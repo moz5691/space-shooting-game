@@ -23,7 +23,7 @@ function loginPage() {
               .css("top", "60px")
               .append(
                 $("<h4>")
-                  .addClass("left-align")
+                  .addClass("left-align blinking")
                   .text("Space Shooting")
                   .css("font-size", "80px")
                   .css("font-family", "'Press Start 2P', cursive")
