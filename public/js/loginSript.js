@@ -14,11 +14,6 @@ const saveUser = function(response){
 
 const leaderboardPage = function(){
   event.preventDefault();
-<<<<<<< HEAD
-  const userInput = $('#icon_prefix').val();
-  sessionStorage.setItem('user', `${userInput}`);
-  location.replace('/start');
-=======
   location.replace("/leaderboard");
 }
 
@@ -45,7 +40,6 @@ const loginStep = function (event) {
     });
     
   }
->>>>>>> 550b78d4ac841d49d55314a997cd7777e207a0b8
 };
 
 $('#submit-btn').on('click', loginStep);
