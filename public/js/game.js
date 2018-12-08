@@ -256,7 +256,7 @@ function create() {
   function restartGame() {
     // Only act if paused
     if (game.paused) {
-      location.replace("/");
+      location.replace("/start");
     }
   }
 
@@ -392,7 +392,7 @@ function GameOver(donePlayer) {
     // stop game and display banner with opponent won.
     isGameOver = true;
     player.sprite.destroy();
-    whoWonBanner.setText("You lost!");
+    whoWonBanner.setText("You Died!");
     choiseLabel.setText("Click to Start a New Game");
     music.stop();
     game.paused = true;

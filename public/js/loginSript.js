@@ -2,7 +2,7 @@
 
 const nextStep = function (event) {
   event.preventDefault();
-  location.replace('/intro');
+  location.replace('/start');
 };
 
 $('#submit-btn').on('click', nextStep);
