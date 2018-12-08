@@ -20,24 +20,12 @@
   </script>
   
   <script>
-	  
-//-- Positive getRandomPosition Tests on intro.js--
-// 
-
-// const getRandomPosition = require('./public/js/intro').getRandomPosition;
-
-// -- Negative getRandomPosition Tests --
-// if window.innerWidth = 0 &  window.innerHeight = 798 expect randomX to equal 0 & randomY 0 to 798
-
-const something = getRandomPosition();
-console.log(something);
 	  describe('getRandomPosition', function(){
     
-    it('expect randomX 0 to 1024 & randomY 0 to 798',function(){
+      it('expect randomX 0 to 1024 & randomY 0 to 798',function(){
         expect(getRandomPosition()).to.be.an('array');
+      });
     });
-    
-});
   </script>
   <script>mocha.run();</script>
 </body>
