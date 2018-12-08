@@ -1,5 +1,8 @@
 /* eslint-disable */
-
+$(document).ready(function() {
+  //if user didn't insert username should redirect to main page
+  if (sessionStorage.getItem("user") === null) location.replace("/");
+});
 const ASSET_URL = "/assets/";
 // We first initialize the phaser game object
 const WINDOW_WIDTH = 800;

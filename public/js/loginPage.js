@@ -1,4 +1,5 @@
 function loginPage() {
+  disable();
   $("#canvas").empty();
   $("#canvas").append(
     $("div")
@@ -22,7 +23,7 @@ function loginPage() {
               .css("top", "60px")
               .append(
                 $("<h4>")
-                  .addClass("left-align")
+                  .addClass("left-align blinking")
                   .text("Space Shooting")
                   .css("font-size", "80px")
                   .css("font-family", "'Press Start 2P', cursive")
@@ -57,13 +58,41 @@ function loginPage() {
                       .attr("name", "action")
                       .text("LOGIN")
                       .css("position", "relative")
-                      .css("left", "70px")
+                      .css("left", "50px"),
+                    $("<button>")
+                      .addClass("btn btn-large wave-effect waves-light")
+                      .attr("id", "leaderboard-btn")
+                      .text("Leader Board")
+                      .css("position", "relative")
+                      .css("left", "90px")
                   )
               )
           )
       )
   );
 }
+
+const loginStep = function(event) {
+  event.preventDefault();
+  const username = $("#icon_prefix").val();
+  if (username.trim() === "") alert("please insert player name");
+  else {
+    $.ajax({
+      url: `/api/user/${username}`,
+      method: "get"
+    }).then(function(response) {
+      if (response === null) {
+        $.ajax({
+          url: "/api/user",
+          data: { username: username },
+          method: "post"
+        }).then(function(response) {
+          saveUser(response);
+        });
+      } else saveUser(response);
+    });
+  }
+};
 
 $(document).on("click", "#submit-btn", function() {
   if ($(".validate").val() === "") {
@@ -73,9 +102,3 @@ $(document).on("click", "#submit-btn", function() {
     characterPage();
   }
 });
-
-function disable() {
-  document.onkeydown = function(e) {
-    return false;
-  };
-}

@@ -34,11 +34,19 @@ function mainPage() {
   );
 }
 
+function disable() {
+  $("#canvas").bind("keypress", function(e) {
+    if (e.keyCode == 13) {
+      return false;
+    }
+  });
+}
+
 $(document).keypress(function(e) {
-  if (e.keyCode === 13) {
+  if (e.keyCode == 13) {
     e.preventDefault();
     loginPage();
-    disable();
   }
 });
+
 mainPage();
