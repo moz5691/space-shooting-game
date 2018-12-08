@@ -1,5 +1,7 @@
 /* eslint-disable */
-
+$(document).ready(function(){//if user didn't insert username should redirect to main page
+  if(sessionStorage.getItem('user') === null) location.replace('/');
+});
 const ASSET_URL = "/assets/";
 // We first initialize the phaser game object
 const WINDOW_WIDTH = 800;
@@ -145,7 +147,8 @@ function create() {
   game.world.setBounds(0, 0, 1920, 1920);
 
   coinSound = game.add.audio('sfx:coin'),
-  sessionStorage.setItem('user', 'Justin');
+  // sessionStorage.setItem('user', 'Justin');
+  
   userName = sessionStorage.getItem('user');
   scoreText1 = game.add.text(16, 16, `${userName}`, {
     font: "30px Arial",
