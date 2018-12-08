@@ -29,25 +29,19 @@ class RestfulAPI {
     });
   }
 
-
-
   findone(identifier) {
-    console.log(`/api/${this.resource}/:${identifier}`);
-    
     this.app.get(`/api/${this.resource}/:${identifier}`, (req, res) => {
       this.model.findOne({
-          [identifier]: req.params[identifier]
+        [identifier]: req.params[identifier],
       })
-      .then(function(data) {
-        res.json(data);
-      })
-      .catch(function(err){
-        res.json(err);
-      })
-    })
+        .then((data) => {
+          res.json(data);
+        })
+        .catch((err) => {
+          res.json(err);
+        });
+    });
   }
-
-
 }
 
 module.exports = RestfulAPI;
