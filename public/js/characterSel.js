@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 function characterPage() {
   $('#canvas').empty();
   const ajaxGetData = sessionStorage.getItem('user');
