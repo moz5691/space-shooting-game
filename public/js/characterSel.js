@@ -1,6 +1,6 @@
 function characterPage() {
   $("#canvas").empty();
-  const ajaxGetData = "Chris";
+  const ajaxGetData = sessionStorage.getItem('user');
   $("#canvas").append(
     $("<div>").append(
       $("<p>")
@@ -78,6 +78,8 @@ $(document).on("click", ".shipButtonOne", function(e) {
   $(".dis").prop("disabled", true);
   $("#selectButton").prop("disabled", false);
   sessionStorage.setItem("shipType", 1);
+  sessionStorage.setItem("shipLife", 100);
+  sessionStorage.setItem("shipSpeed", 0.5);
 });
 $(document).on("click", ".shipButtonTwo", function(e) {
   e.preventDefault();
@@ -85,6 +87,8 @@ $(document).on("click", ".shipButtonTwo", function(e) {
   $(".dis").prop("disabled", true);
   $("#selectButton").prop("disabled", false);
   sessionStorage.setItem("shipType", 2);
+  sessionStorage.setItem("shipLife", 70);
+  sessionStorage.setItem("shipSpeed", 0.7);
 });
 $(document).on("click", ".shipButtonThree", function(e) {
   e.preventDefault();
@@ -93,6 +97,8 @@ $(document).on("click", ".shipButtonThree", function(e) {
   $(".dis").prop("disabled", true);
   $("#selectButton").prop("disabled", false);
   sessionStorage.setItem("shipType", 3);
+  sessionStorage.setItem("shipLife", 150);
+  sessionStorage.setItem("shipSpeed", 0.4);
 });
 $(document).on("click", ".shipButtonFour", function(e) {
   e.preventDefault();
@@ -101,6 +107,8 @@ $(document).on("click", ".shipButtonFour", function(e) {
   $(".dis").prop("disabled", true);
   $("#selectButton").prop("disabled", false);
   sessionStorage.setItem("shipType", 4);
+  sessionStorage.setItem("shipLife", 200);
+  sessionStorage.setItem("shipSpeed", 0.3);
 });
 $(document).on("click", ".shipButtonFive", function(e) {
   e.preventDefault();
@@ -109,6 +117,8 @@ $(document).on("click", ".shipButtonFive", function(e) {
   $(".dis").prop("disabled", true);
   $("#selectButton").prop("disabled", false);
   sessionStorage.setItem("shipType", 5);
+  sessionStorage.setItem("shipLife", 50);
+  sessionStorage.setItem("shipSpeed", 0.8);
 });
 $(document).on("click", ".shipButtonSix", function(e) {
   e.preventDefault();
@@ -117,6 +127,8 @@ $(document).on("click", ".shipButtonSix", function(e) {
   $(".dis").prop("disabled", true);
   $("#selectButton").prop("disabled", false);
   sessionStorage.setItem("shipType", 6);
+  sessionStorage.setItem("shipLife", 90);
+  sessionStorage.setItem("shipSpeed", 0.6);
 });
 
 $(document).on("click", "#reselectButton", function() {

@@ -36,15 +36,17 @@ let playerWon = 0; // 1: player won, 2: opponent won
 let isGameOver = false;
 let playerGameOver = false;
 let oppGameOver = false;
-const LIFE = 100; // set Max Life here.. bigger is stronger.
+let maxLife = sessionStorage.getItem("shipLife");
+const LIFE = maxLife; // set Max Life here.. bigger is stronger.
 let ship = sessionStorage.getItem("shipType");
 const shipType = ship; // ship type can be chosen here... 4 means "ship4_1" here.
+let startSpeed = sessionStorage.getItem("shipSpeed");
 
 const player = {
   sprite: null, // Will hold the sprite when it's created
   speed_x: 0, // This is the speed it's currently moving at
   speed_y: 0,
-  speed: 0.5, // This is the parameter for how fast it should move
+  speed: startSpeed, // This is the parameter for how fast it should move
   friction: 0.95,
   shot: false,
   score: LIFE,
@@ -145,7 +147,6 @@ function create() {
   game.world.setBounds(0, 0, 1920, 1920);
 
   coinSound = game.add.audio('sfx:coin'),
-  sessionStorage.setItem('user', 'Justin');
   userName = sessionStorage.getItem('user');
   scoreText1 = game.add.text(16, 16, `${userName}`, {
     font: "30px Arial",
@@ -402,7 +403,10 @@ function GameOver(donePlayer) {
 const onCoinCollect = () => {
   coinSound.play();
   coins.destroy();
-  player.speed += 0.1;
+  player.speed = 1.0;
+  setTimeout(function(){
+    player.speed = startSpeed;
+  }, 2000);
   socket.emit('starCollected');
 };
 

@@ -1,5 +1,6 @@
  body {
-    font-family: 'UnifrakturMaguntia', cursive;
+	font-family: 'gill sans';
+	background: black;
   }
 
 .login {
@@ -65,15 +66,21 @@ i.iconis {
 
 
 .border-shape{
-    border-radius: 80px;
-    border-top-left-radius: 5px;   
-    
+    border-radius: 80px;    
 }
 
 #login-card{
     margin-bottom: 150px;  
     height: 500px; 
     border-radius: 80px;
-    border-bottom-right-radius: 5px; 
 }
 
+h4 {
+	padding-top: 20px;
+	color: white;
+}
+
+.placeText {
+	margin-top: 0;
+	color: whitesmoke;
+}
