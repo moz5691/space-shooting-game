@@ -352,7 +352,6 @@ function GameOver(donePlayer) {
     whoWonBanner.setText("You won!");
     choiseLabel.setText("Click to Select a New Room");
     music.stop();
-
     game.paused = true;
   } else if (donePlayer === 2) {
     // stop game and display banner with opponent won.

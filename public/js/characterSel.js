@@ -1,6 +1,6 @@
 function characterPage() {
   $("#canvas").empty();
-  const ajaxGetData = "Chris";
+  const ajaxGetData = sessionStorage.getItem("user");
   $("#canvas").append(
     $("<div>").append(
       $("<p>")
