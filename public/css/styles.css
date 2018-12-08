@@ -7,5 +7,6 @@ body {
 #canvas {
   /* Center the canvas */
   margin: auto;
-  width: 100%;
+  width: 800px;
+  height: 600px;
 }
