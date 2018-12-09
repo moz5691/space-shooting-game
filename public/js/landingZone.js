@@ -55,7 +55,6 @@ function preload() {
   this.load.image('clouds', 'assets/Magic-Cliffs-Environment/PNG/clouds.png');
   this.load.audio('landingTheme', 'assets/sad.mp3');
   this.load.image('space', `assets/nebula.jpg`);
-
 }
 
 function create() {
