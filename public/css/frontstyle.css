@@ -3,6 +3,7 @@ body {
 }
 
 #canvas {
+  margin: auto;
   width: 800px;
   height: 600px;
 }
