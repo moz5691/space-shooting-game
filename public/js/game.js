@@ -1,3 +1,4 @@
+/* eslint-disable */
 
 $(document).ready(() => {
   // if user didn't insert username should redirect to main page
