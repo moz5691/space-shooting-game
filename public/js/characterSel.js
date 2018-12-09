@@ -110,7 +110,7 @@ $(document).on('click', '.shipButtonFour', function (e) {
   $('#selectButton').prop('disabled', false);
   sessionStorage.setItem('shipType', 4);
   sessionStorage.setItem('shipLife', 200);
-  sessionStorage.setItem('shipSpeed', 0.3);
+  sessionStorage.setItem('shipSpeed', 0.4);
 });
 $(document).on('click', '.shipButtonFive', function (e) {
   e.preventDefault();
@@ -120,7 +120,7 @@ $(document).on('click', '.shipButtonFive', function (e) {
   $('#selectButton').prop('disabled', false);
   sessionStorage.setItem('shipType', 5);
   sessionStorage.setItem('shipLife', 50);
-  sessionStorage.setItem('shipSpeed', 0.8);
+  sessionStorage.setItem('shipSpeed', 0.7);
 });
 $(document).on('click', '.shipButtonSix', function (e) {
   e.preventDefault();

@@ -6,8 +6,10 @@ $(document).ready(() => {
 });
 const ASSET_URL = '/assets/';
 // We first initialize the phaser game object
-const WINDOW_WIDTH = 800;
-const WINDOW_HEIGHT = 600;
+const width = document.body.offsetWidth;
+const height = document.body.offsetHeight;
+const WINDOW_WIDTH = width;
+const WINDOW_HEIGHT = height;
 const game = new Phaser.Game(
   WINDOW_WIDTH,
   WINDOW_HEIGHT,
@@ -160,7 +162,7 @@ function create() {
   });
   scoreText1.fixedToCamera = true;
 
-  scoreText2 = game.add.text(524, 16, 'Waiting for Players', {
+  scoreText2 = game.add.text(width - 270, 16, 'Waiting for Players', {
     font: '30px Arial',
     fill: '#DC143C',
     align: 'center',
@@ -169,7 +171,7 @@ function create() {
 
   tutorialText = game.add.text(
     32,
-    550,
+    height - 100,
     'Press W to move forward and cursors to aim. Tap mouse button to shoot',
     {
       font: '20px Arial',
@@ -217,29 +219,29 @@ function create() {
     flipped: false,
   };
 
-  // const barConfig2 = {
-  //   x: 670,
-  //   y: 70,
-  //   width: 200,
-  //   bg: {
-  //     color: "#651828"
-  //   },
-  //   bar: {
-  //     color: "#FEFF03"
-  //   },
-  //   animationDuration: 200,
-  //   flipped: false
-  // };
+  const barConfig2 = {
+    x: width - 120,
+    y: 70,
+    width: 200,
+    bg: {
+      color: "#651828"
+    },
+    bar: {
+      color: "#FEFF03"
+    },
+    animationDuration: 200,
+    flipped: false
+  };
 
   const myHealthBar = new HealthBar(this.game, barConfig1);
   myHealthBar.barSprite.fixedToCamera = true;
   myHealthBar.bgSprite.fixedToCamera = true;
   myHealthBar.borderSprite.fixedToCamera = true;
 
-  // const oppHealthBar = new HealthBar(this.game, barConfig2);
-  // oppHealthBar.barSprite.fixedToCamera = true;
-  // oppHealthBar.bgSprite.fixedToCamera = true;
-  // oppHealthBar.borderSprite.fixedToCamera = true;
+  const oppHealthBar = new HealthBar(this.game, barConfig2);
+  oppHealthBar.barSprite.fixedToCamera = true;
+  oppHealthBar.bgSprite.fixedToCamera = true;
+  oppHealthBar.borderSprite.fixedToCamera = true;
 
   whoWonBanner.anchor.setTo(0.5, 1.8);
   // create sound for shooting
@@ -305,10 +307,10 @@ function create() {
         other_players[id].target_x = players_data[id].x;
         other_players[id].target_y = players_data[id].y;
         other_players[id].target_rotation = players_data[id].angle;
-        const playerCount = Object.keys(players_data).length - 1;
-        scoreText2.setText(`Enemies Left: ${playerCount}`);
-        // const barPercent = parseInt((players_data[id].score / LIFE) * 100);
-        // oppHealthBar.setPercent(barPercent);
+        // const playerCount = Object.keys(players_data).length - 1;
+        // scoreText2.setText(`Enemies Left: ${playerCount}`);
+        const barPercent = parseInt((players_data[id].score / LIFE) * 100);
+        oppHealthBar.setPercent(barPercent);
         if (players_data[id].score === 0) {
           oppGameOver = true;
           playerWon = 1; // player own.

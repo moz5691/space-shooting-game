@@ -38,7 +38,7 @@ const renderText = () => {
   htmlstr += 'now deploys the merciless legions to seize military control of the galaxy.';
   htmlstr += '<br>';
   htmlstr += `Only General ${playerOne}'s band of RESISTANCE fighters stand against the rising tyranny,`;
-  htmlstr += 'certain that Jedi Master CJ Hannah will return and restore a spark of code to the fight.';
+  htmlstr += ' certain that Jedi Master CJ Hannah will return and restore a spark of code to the fight.';
   htmlstr += '<br>';
   htmlstr += 'But the Resistance has been exposed.';
   htmlstr += '<br>';

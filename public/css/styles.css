@@ -6,7 +6,7 @@ body {
 }
 #canvas {
   /* Center the canvas */
-  margin: auto;
-  width: 800px;
-  height: 600px;
+  /* margin: auto; */
+  width: 100vh;
+  height: 100vh;
 }
