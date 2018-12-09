@@ -407,13 +407,13 @@ function GameOver(donePlayer) {
     // stop game and display banner with opponent won.
     isGameOver = true;
     player.sprite.destroy();
+    music.stop();
     whoWonBanner.setText('You Died!');
     choiseLabel.setText('Click to Start a New Game');
     setTimeout(() => {
       game.camera.fade(1);
     }, 5000);
     // game.paused = true;
-    music.stop();
     game.camera.onFadeComplete.add(() => {
         location.replace('/landing');
     })
