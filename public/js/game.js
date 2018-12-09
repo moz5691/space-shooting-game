@@ -406,15 +406,17 @@ function GameOver(donePlayer) {
   } else if (donePlayer === 2) {
     // stop game and display banner with opponent won.
     isGameOver = true;
-    // game.camera.flash('#000000');
     player.sprite.destroy();
     whoWonBanner.setText('You Died!');
     choiseLabel.setText('Click to Start a New Game');
-    game.paused = true;
-    music.stop();
     setTimeout(() => {
-        location.replace('/landing');
+      game.camera.fade(1);
     }, 5000);
+    // game.paused = true;
+    music.stop();
+    game.camera.onFadeComplete.add(() => {
+        location.replace('/landing');
+    })
   }
 }
 
