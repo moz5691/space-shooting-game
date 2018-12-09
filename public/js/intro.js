@@ -27,13 +27,14 @@ const skipScene = (e) => {
 };
 
 const playerOne = sessionStorage.getItem('user');
+const upperPlayer = playerOne.toUpperCase();
 
 const renderText = () => {
   let htmlstr = '';
-  htmlstr += `The FIRST ORDER reigns. Having decimated the peaceful Republic, Supreme Leader Evil ${playerOne} `;
+  htmlstr += `The FIRST ORDER reigns. Having decimated the peaceful Republic, Supreme Leader Evil ${upperPlayer} `;
   htmlstr += 'now deploys the merciless legions to seize military control of the galaxy.';
   htmlstr += '<br>';
-  htmlstr += `Only General ${playerOne}'s band of RESISTANCE fighters stand against the rising tyranny,`;
+  htmlstr += `Only General ${upperPlayer}'s band of RESISTANCE fighters stand against the rising tyranny,`;
   htmlstr += ' certain that Jedi Master CJ Hannah will return and restore a spark of code to the fight.';
   htmlstr += '<br>';
   htmlstr += 'But the Resistance has been exposed.';
@@ -43,7 +44,7 @@ const renderText = () => {
   htmlstr += 'During the battle, Rebel spies managed to steal secret plans to the Empires ultimate weapon,';
   htmlstr += ' the DEATH STAR, an armored space station with enough power to destroy an entire planet.';
   htmlstr += '<br>';
-  htmlstr += `Pursued by the Empires sinister agents, ${playerOne} races home aboard a starship, custodian of the `;
+  htmlstr += `Pursued by the Empires sinister agents, ${upperPlayer} races home aboard a starship, custodian of the `;
   htmlstr += 'stolen plans that can save her people and restore freedom to the galaxy.....';
   $('#playerIntro').html(htmlstr);
 };

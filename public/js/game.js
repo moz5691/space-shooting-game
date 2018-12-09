@@ -191,14 +191,14 @@ function create() {
     }, 5000);
   }, 10000);
 
-  choiseLabel = game.add.text(game.world.centerX, game.world.centerY - 200, '', {
+  choiseLabel = game.add.text(width/2, height - 200, '', {
     font: '30px Gill Sans',
     fill: '#fff',
   });
   choiseLabel.anchor.setTo(0.5, 0.5);
   choiseLabel.fixedToCamera = true;
 
-  whoWonBanner = game.add.text(game.world.centerX, game.world.centerY - 500, '', {
+  whoWonBanner = game.add.text(width/2, height - 600, '', {
     font: '60px Arial',
     fill: '#ADFF2F',
     align: 'center',
@@ -400,16 +400,13 @@ function GameOver(donePlayer) {
     setTimeout(() => {
       whoWonBanner.setText('');
     }, 3000);
-    // choiseLabel.setText("Click to Start a New Game");
-    // music.stop();
-    // game.paused = true;
   } else if (donePlayer === 2) {
     // stop game and display banner with opponent won.
     isGameOver = true;
     player.sprite.destroy();
     music.stop();
     whoWonBanner.setText('You Died!');
-    choiseLabel.setText('Click to Start a New Game');
+    choiseLabel.setText('Respawning back in Base');
     setTimeout(() => {
       game.camera.fade(1);
     }, 5000);
