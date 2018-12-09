@@ -62,7 +62,7 @@ function create() {
 
   platforms = this.physics.add.staticGroup();
   platforms.create(-40, height - 60, 'ground').setScale(5).refreshBody();
-  platforms.create(width - 590, height - 20, 'ground').setScale(1.3).refreshBody();
+  platforms.create(width - (width*0.08), height - 20, 'ground').setScale(1.3).refreshBody();
   this.add.image(800, height - 150, 'background').setScale(1);
   platforms.create(width - 840, height - 490, 'clouds').setScale(1.3);
   const player_ship_type = String(shipNumber); // player ship can be chosen here.
