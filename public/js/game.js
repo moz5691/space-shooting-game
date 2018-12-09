@@ -152,7 +152,7 @@ function preload() {
 function create() {
   game.add.image(0, 0, 'space');
   game.world.setBounds(0, 0, 1920, 1920);
-
+  game.camera.flash('#000000');
   coinSound = game.add.audio('sfx:coin');
   userName = sessionStorage.getItem('user');
   scoreText1 = game.add.text(16, 16, `${userName}`, {
