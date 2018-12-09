@@ -54,12 +54,15 @@ function preload() {
   this.load.image('sky', 'assets/Magic-Cliffs-Environment/PNG/sky.png');
   this.load.image('clouds', 'assets/Magic-Cliffs-Environment/PNG/clouds.png');
   this.load.audio('landingTheme', 'assets/sad.mp3');
+  this.load.image('space', `assets/nebula.jpg`);
+
 }
 
 function create() {
   const self = this;
   this.socket = io();
 
+  this.add.image(width - 500, height, 'space');
   platforms = this.physics.add.staticGroup();
   platforms.create(-40, height - 60, 'ground').setScale(5).refreshBody();
   platforms.create(width - (width*0.08), height - 20, 'ground').setScale(1.3).refreshBody();
