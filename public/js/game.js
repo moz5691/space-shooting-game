@@ -267,15 +267,15 @@ function create() {
   player.sprite.body.collideWorldBounds = true;
   player.sprite.body.bounce.setTo(1, 1);
 
-  function restartGame() {
-    // Only act if paused
-    if (game.paused) {
-      location.replace('/landing');
-    }
-  }
+  // function restartGame() {
+  //   // Only act if paused
+  //   if (game.paused) {
+  //     location.replace('/landing');
+  //   }
+  // }
 
-  // Inside game click unpause game
-  game.input.onDown.add(restartGame, self);
+  // // Inside game click unpause game
+  // game.input.onDown.add(restartGame, self);
 
   socket = socket = io({
     transports: ['websocket'],
@@ -406,11 +406,15 @@ function GameOver(donePlayer) {
   } else if (donePlayer === 2) {
     // stop game and display banner with opponent won.
     isGameOver = true;
+    // game.camera.flash('#000000');
     player.sprite.destroy();
     whoWonBanner.setText('You Died!');
     choiseLabel.setText('Click to Start a New Game');
-    music.stop();
     game.paused = true;
+    music.stop();
+    setTimeout(() => {
+        location.replace('/landing');
+    }, 5000);
   }
 }
 
