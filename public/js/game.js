@@ -140,6 +140,7 @@ function preload() {
   game.load.image('bullet', `${ASSET_URL}bullet1.png`);
   game.load.image('space', `${ASSET_URL}nebula.jpg`);
   game.load.image('icon:coin', `${ASSET_URL}coin_icon.png`);
+  game.load.image('ui', `${ASSET_URL}justui.png`);
   game.load.spritesheet('coin', `${ASSET_URL}coin_animated.png`, 22, 22);
   // load sound
   game.load.audio('bangSound', `${ASSET_URL}laser.mp3`);
@@ -149,6 +150,9 @@ function preload() {
 
 function create() {
   game.add.image(0, 0, 'space');
+  const hud = game.add.image(160, 115, 'ui');
+  hud.fixedToCamera = true;
+
   game.world.setBounds(0, 0, 1920, 1920);
 
   coinSound = game.add.audio('sfx:coin');
