@@ -210,38 +210,38 @@ function create() {
     y: 70,
     width: 200,
     bg: {
-      color: '#ffffff',
+      color: '#ff3b30',
     },
     bar: {
-      color: '#ff3b30',
+      color: '#5ac8fa',
     },
     animationDuration: 200,
     flipped: false,
   };
 
-  const barConfig2 = {
-    x: width - 120,
-    y: 70,
-    width: 200,
-    bg: {
-      color: "#651828"
-    },
-    bar: {
-      color: "#FEFF03"
-    },
-    animationDuration: 200,
-    flipped: false
-  };
+  // const barConfig2 = {
+  //   x: width - 120,
+  //   y: 70,
+  //   width: 200,
+  //   bg: {
+  //     color: "#651828"
+  //   },
+  //   bar: {
+  //     color: "#FEFF03"
+  //   },
+  //   animationDuration: 200,
+  //   flipped: false
+  // };
 
   const myHealthBar = new HealthBar(this.game, barConfig1);
   myHealthBar.barSprite.fixedToCamera = true;
   myHealthBar.bgSprite.fixedToCamera = true;
   myHealthBar.borderSprite.fixedToCamera = true;
 
-  const oppHealthBar = new HealthBar(this.game, barConfig2);
-  oppHealthBar.barSprite.fixedToCamera = true;
-  oppHealthBar.bgSprite.fixedToCamera = true;
-  oppHealthBar.borderSprite.fixedToCamera = true;
+  // const oppHealthBar = new HealthBar(this.game, barConfig2);
+  // oppHealthBar.barSprite.fixedToCamera = true;
+  // oppHealthBar.bgSprite.fixedToCamera = true;
+  // oppHealthBar.borderSprite.fixedToCamera = true;
 
   whoWonBanner.anchor.setTo(0.5, 1.8);
   // create sound for shooting
@@ -307,11 +307,11 @@ function create() {
         other_players[id].target_x = players_data[id].x;
         other_players[id].target_y = players_data[id].y;
         other_players[id].target_rotation = players_data[id].angle;
-        // const playerCount = Object.keys(players_data).length - 1;
-        // scoreText2.setText(`Enemies Left: ${playerCount}`);
-        scoreText2.setText(`Enemy Shields: ${players_data[id].score}`);
-        const barPercent = parseInt((players_data[id].score / LIFE) * 100);
-        oppHealthBar.setPercent(barPercent);
+        const playerCount = Object.keys(players_data).length - 1;
+        scoreText2.setText(`Enemies Left: ${playerCount}`);
+        // scoreText2.setText(`Enemy Shields: ${players_data[id].score}`);
+        // const barPercent = parseInt((players_data[id].score / LIFE) * 100);
+        // oppHealthBar.setPercent(barPercent);
         if (players_data[id].score === 0) {
           oppGameOver = true;
           playerWon = 1; // player own.
@@ -379,7 +379,7 @@ function create() {
       // Find the right player
       other_players[id].alpha = 0;
     }
-    scoreText1.setText(`Me: ${player.score}`);
+    scoreText1.setText(`Shields: ${player.score}%`);
     const barPercent = parseInt((player.score / LIFE) * 100);
     myHealthBar.setPercent(barPercent);
     if (player.score <= 0) {
