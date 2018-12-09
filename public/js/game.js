@@ -191,14 +191,14 @@ function create() {
     }, 5000);
   }, 10000);
 
-  choiseLabel = game.add.text(400, 450, '', {
+  choiseLabel = game.add.text(game.world.centerX, game.world.centerY - 200, '', {
     font: '30px Gill Sans',
     fill: '#fff',
   });
   choiseLabel.anchor.setTo(0.5, 0.5);
   choiseLabel.fixedToCamera = true;
 
-  whoWonBanner = game.add.text(400, 300, '', {
+  whoWonBanner = game.add.text(game.world.centerX, game.world.centerY - 500, '', {
     font: '60px Arial',
     fill: '#ADFF2F',
     align: 'center',
@@ -270,7 +270,7 @@ function create() {
   function restartGame() {
     // Only act if paused
     if (game.paused) {
-      location.replace('/');
+      location.replace('/landing');
     }
   }
 
@@ -309,6 +309,7 @@ function create() {
         other_players[id].target_rotation = players_data[id].angle;
         // const playerCount = Object.keys(players_data).length - 1;
         // scoreText2.setText(`Enemies Left: ${playerCount}`);
+        scoreText2.setText(`Enemy Shields: ${players_data[id].score}`);
         const barPercent = parseInt((players_data[id].score / LIFE) * 100);
         oppHealthBar.setPercent(barPercent);
         if (players_data[id].score === 0) {

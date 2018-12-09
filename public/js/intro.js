@@ -1,9 +1,5 @@
 /* eslint-disable */
 
-$(document).ready(() => {
-  renderText();
-});
-
 // Sets the number of stars we wish to display
 const numStars = 100;
 
@@ -27,7 +23,7 @@ for (let i = 0; i < numStars; i++) {
 }
 const skipScene = (e) => {
   e.preventDefault();
-  location.replace('/game');
+  location.replace('/landing');
 };
 
 const playerOne = sessionStorage.getItem('user');
@@ -45,12 +41,14 @@ const renderText = () => {
   htmlstr += 'Rebel spaceships, striking from a hidden base, have won their first victory against the evil Galactic Empire.';
   htmlstr += '<br>';
   htmlstr += 'During the battle, Rebel spies managed to steal secret plans to the Empires ultimate weapon,';
-  htmlstr += 'the DEATH STAR, an armored space station with enough power to destroy an entire planet.';
+  htmlstr += ' the DEATH STAR, an armored space station with enough power to destroy an entire planet.';
   htmlstr += '<br>';
   htmlstr += `Pursued by the Empires sinister agents, ${playerOne} races home aboard a starship, custodian of the `;
   htmlstr += 'stolen plans that can save her people and restore freedom to the galaxy.....';
   $('#playerIntro').html(htmlstr);
 };
+
+renderText();
 
 $('#board').on('click', skipScene);
 $('.intro').on('click', skipScene);
