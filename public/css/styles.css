@@ -2,7 +2,7 @@ body {
   /* Remove margins */
   margin: 0px;
   position: relative;
-  background-color: #9fc7e1;
+  background-color: black;
 }
 #canvas {
   /* Center the canvas */
