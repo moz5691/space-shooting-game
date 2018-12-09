@@ -4,6 +4,7 @@ body {
 
 #canvas {
   margin: auto;
+  margin-top: 150px;
   width: 800px;
   height: 600px;
 }
