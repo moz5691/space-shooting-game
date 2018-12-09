@@ -4,13 +4,21 @@
 <svg viewBox="0 0 350 170" xmlns="http://www.w3.org/2000/svg">
   <style>
     .heavy-red { font: italic 70px serif; fill: red }
+<<<<<<< HEAD
+        .heavy-blu { font: italic 70px serif; fill: blue }
+=======
     .heavy-blu { font: italic 70px serif; fill: blue }
+>>>>>>> 212e208aa4112b132d560c975eb6b36d6a5201f5
     .Rrrrr { font: italic 80px serif; fill: yellow; }
       <!-- .heavy { font-family: 'Faster One', cursive; fill: yellow }
     .Rrrrr {font-family: 'Faster One', cursive; fill: yellow; } -->
   </style>
 
   <text x="40" y="75" class="heavy-red">RED</text>
+<<<<<<< HEAD
+<text x="200" y="75" class="heavy-blu">BLU</text>
+=======
   <text x="200" y="75" class="heavy-blu">BLU</text>
+>>>>>>> 212e208aa4112b132d560c975eb6b36d6a5201f5
   <text x="70" y="130" class="Rrrrr">WARZ</text>
 </svg>

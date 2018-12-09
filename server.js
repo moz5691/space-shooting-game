@@ -17,6 +17,7 @@ app.use(express.static('public'));
 // Routes
 
 // Socket io Routing
+require('./sockets/landing-sockets')(io);
 require('./sockets/game-sockets')(io);
 // API Routes (require from routes file and pass in Express app)
 require('./routes/api-routes')(app);

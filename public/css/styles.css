@@ -1,9 +1,15 @@
+html {
+  height: 100vh;
+}
+
 body {
   /* Remove margins */
   margin: 0px;
-  position: relative;
   background-color: black;
+  height: 100vh;
+  display: flex;
 }
+
 #canvas {
   /* Center the canvas */
   /* margin: auto; */

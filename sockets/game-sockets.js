@@ -9,12 +9,9 @@ module.exports = function (io) {
     y: Math.floor(Math.random() * 1900) + 50,
   };
 
-  io.set('transports', ['websocket']);
   io.on('connection', (socket) => {
-  // Listen for a new player trying to connect
-
+    // Listen for a new player trying to connect
     socket.on('new-player', (state) => {
-      console.log('New player joined with state:', state);
       players[socket.id] = state;
       // Broadcast a signal to everyone containing the updated players list
       io.emit('update-players', players);
@@ -48,9 +45,6 @@ module.exports = function (io) {
       if (players[socket.id] === undefined) return;
       const new_bullet = data;
       data.owner_id = socket.id; // Attach id of the player to the bullet
-      if (Math.abs(data.speed_x) > 20 || Math.abs(data.speed_y) > 20) {
-        console.log('Player', socket.id, 'is cheating!');
-      }
       bullet_array.push(new_bullet);
     });
   });
@@ -65,7 +59,7 @@ module.exports = function (io) {
       // Check if this bullet is close enough to hit any player
       for (const id in players) {
         if (bullet.owner_id !== id) {
-        // And your own bullet shouldn't kill you
+          // And your own bullet shouldn't kill you
           const dx = players[id].x - bullet.x;
           const dy = players[id].y - bullet.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
@@ -78,10 +72,10 @@ module.exports = function (io) {
 
       // Remove if it goes too far off screen
       if (
-        bullet.x < -10
-      || bullet.x > 1920
-      || bullet.y < -10
-      || bullet.y > 1920
+        bullet.x < -10 ||
+        bullet.x > 1920 ||
+        bullet.y < -10 ||
+        bullet.y > 1920
       ) {
         bullet_array.splice(i, 1);
         i--;
