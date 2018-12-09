@@ -69,7 +69,7 @@ function create() {
   ship = this.physics.add.image(
     width - 618, height - 450,
     `ship_${player_ship_type}`,
-  );
+  ).setScale(3);
   this.physics.add.collider(ship, platforms);
 
   camera = this.cameras.add(0, 0, width, height);
