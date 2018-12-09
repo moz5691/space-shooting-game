@@ -152,7 +152,7 @@ function preload() {
 function create() {
   game.add.image(0, 0, 'space');
   game.world.setBounds(0, 0, 1920, 1920);
-
+  game.camera.flash('#000000');
   coinSound = game.add.audio('sfx:coin');
   userName = sessionStorage.getItem('user');
   scoreText1 = game.add.text(16, 16, `${userName}`, {
@@ -191,14 +191,14 @@ function create() {
     }, 5000);
   }, 10000);
 
-  choiseLabel = game.add.text(game.world.centerX, game.world.centerY - 200, '', {
+  choiseLabel = game.add.text(width/2, height - 200, '', {
     font: '30px Gill Sans',
     fill: '#fff',
   });
   choiseLabel.anchor.setTo(0.5, 0.5);
   choiseLabel.fixedToCamera = true;
 
-  whoWonBanner = game.add.text(game.world.centerX, game.world.centerY - 500, '', {
+  whoWonBanner = game.add.text(width/2, height - 600, '', {
     font: '60px Arial',
     fill: '#ADFF2F',
     align: 'center',
@@ -210,38 +210,38 @@ function create() {
     y: 70,
     width: 200,
     bg: {
-      color: '#ffffff',
+      color: '#ff3b30',
     },
     bar: {
-      color: '#ff3b30',
+      color: '#5ac8fa',
     },
     animationDuration: 200,
     flipped: false,
   };
 
-  const barConfig2 = {
-    x: width - 120,
-    y: 70,
-    width: 200,
-    bg: {
-      color: "#651828"
-    },
-    bar: {
-      color: "#FEFF03"
-    },
-    animationDuration: 200,
-    flipped: false
-  };
+  // const barConfig2 = {
+  //   x: width - 120,
+  //   y: 70,
+  //   width: 200,
+  //   bg: {
+  //     color: "#651828"
+  //   },
+  //   bar: {
+  //     color: "#FEFF03"
+  //   },
+  //   animationDuration: 200,
+  //   flipped: false
+  // };
 
   const myHealthBar = new HealthBar(this.game, barConfig1);
   myHealthBar.barSprite.fixedToCamera = true;
   myHealthBar.bgSprite.fixedToCamera = true;
   myHealthBar.borderSprite.fixedToCamera = true;
 
-  const oppHealthBar = new HealthBar(this.game, barConfig2);
-  oppHealthBar.barSprite.fixedToCamera = true;
-  oppHealthBar.bgSprite.fixedToCamera = true;
-  oppHealthBar.borderSprite.fixedToCamera = true;
+  // const oppHealthBar = new HealthBar(this.game, barConfig2);
+  // oppHealthBar.barSprite.fixedToCamera = true;
+  // oppHealthBar.bgSprite.fixedToCamera = true;
+  // oppHealthBar.borderSprite.fixedToCamera = true;
 
   whoWonBanner.anchor.setTo(0.5, 1.8);
   // create sound for shooting
@@ -267,15 +267,15 @@ function create() {
   player.sprite.body.collideWorldBounds = true;
   player.sprite.body.bounce.setTo(1, 1);
 
-  function restartGame() {
-    // Only act if paused
-    if (game.paused) {
-      location.replace('/landing');
-    }
-  }
+  // function restartGame() {
+  //   // Only act if paused
+  //   if (game.paused) {
+  //     location.replace('/landing');
+  //   }
+  // }
 
-  // Inside game click unpause game
-  game.input.onDown.add(restartGame, self);
+  // // Inside game click unpause game
+  // game.input.onDown.add(restartGame, self);
 
   socket = socket = io({
     transports: ['websocket'],
@@ -307,11 +307,11 @@ function create() {
         other_players[id].target_x = players_data[id].x;
         other_players[id].target_y = players_data[id].y;
         other_players[id].target_rotation = players_data[id].angle;
-        // const playerCount = Object.keys(players_data).length - 1;
-        // scoreText2.setText(`Enemies Left: ${playerCount}`);
-        scoreText2.setText(`Enemy Shields: ${players_data[id].score}`);
-        const barPercent = parseInt((players_data[id].score / LIFE) * 100);
-        oppHealthBar.setPercent(barPercent);
+        const playerCount = Object.keys(players_data).length - 1;
+        scoreText2.setText(`Enemies Left: ${playerCount}`);
+        // scoreText2.setText(`Enemy Shields: ${players_data[id].score}`);
+        // const barPercent = parseInt((players_data[id].score / LIFE) * 100);
+        // oppHealthBar.setPercent(barPercent);
         if (players_data[id].score === 0) {
           oppGameOver = true;
           playerWon = 1; // player own.
@@ -379,7 +379,7 @@ function create() {
       // Find the right player
       other_players[id].alpha = 0;
     }
-    scoreText1.setText(`Me: ${player.score}`);
+    scoreText1.setText(`Shields: ${player.score}%`);
     const barPercent = parseInt((player.score / LIFE) * 100);
     myHealthBar.setPercent(barPercent);
     if (player.score <= 0) {
@@ -400,17 +400,20 @@ function GameOver(donePlayer) {
     setTimeout(() => {
       whoWonBanner.setText('');
     }, 3000);
-    // choiseLabel.setText("Click to Start a New Game");
-    // music.stop();
-    // game.paused = true;
   } else if (donePlayer === 2) {
     // stop game and display banner with opponent won.
     isGameOver = true;
     player.sprite.destroy();
-    whoWonBanner.setText('You Died!');
-    choiseLabel.setText('Click to Start a New Game');
     music.stop();
-    game.paused = true;
+    whoWonBanner.setText('You Died!');
+    choiseLabel.setText('Respawning back in Base');
+    setTimeout(() => {
+      game.camera.fade(1);
+    }, 5000);
+    // game.paused = true;
+    game.camera.onFadeComplete.add(() => {
+        location.replace('/landing');
+    })
   }
 }
 

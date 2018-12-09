@@ -31,6 +31,7 @@ let cursors;
 let ship;
 let tutorialText;
 let music;
+let camera;
 
 const game = new Phaser.Game(config);
 
@@ -49,26 +50,30 @@ function preload() {
   }
   // background
   this.load.image('ground', 'assets/player-sprite/platform.png');
-  this.load.image('background', 'assets/Magic-Cliffs-Environment/PREVIEWS/magic-cliffs.png');
+  this.load.image('background', 'assets/Magic-Cliffs-Environment/PREVIEWS/transmagic.png');
   this.load.image('sky', 'assets/Magic-Cliffs-Environment/PNG/sky.png');
-  this.load.image('clouds', 'assets/Magic-Cliffs-Environment/PNG/clouds.png');
   this.load.audio('landingTheme', 'assets/sad.mp3');
+  this.load.image('space', `assets/nebula.jpg`);
 }
 
 function create() {
   const self = this;
   this.socket = io();
+
+  this.add.image(width - 500, height, 'space');
   platforms = this.physics.add.staticGroup();
   platforms.create(-40, height - 60, 'ground').setScale(5).refreshBody();
-  platforms.create(width - 590, height - 20, 'ground').setScale(1.3).refreshBody();
+  platforms.create(width - (width*0.08), height - 20, 'ground').setScale(1.3).refreshBody();
   this.add.image(800, height - 150, 'background').setScale(1);
-  platforms.create(width - 840, height - 390, 'clouds').setScale(1.3);
   const player_ship_type = String(shipNumber); // player ship can be chosen here.
   ship = this.physics.add.image(
-    width - 618, height - 150,
+    width - 618, height - 450,
     `ship_${player_ship_type}`,
-  );
+  ).setScale(3);
   this.physics.add.collider(ship, platforms);
+
+  camera = this.cameras.add(0, 0, width, height);
+  camera.fadeIn(3000, 0, 0, 0);
 
   music = this.sound.add('landingTheme');
   music.play();
@@ -93,7 +98,7 @@ function create() {
         tutorialText.setText('');
       }, 3000);
     }, 5000);
-  }, 10000);
+  }, 6000);
 
   this.anims.create({
     key: 'left',
@@ -171,7 +176,10 @@ function addOtherPlayers(self, playerInfo) {
 }
 
 function takeOff() {
-  location.replace('/game');
+  camera.fadeOut(2000, 0, 0, 0);
+  setTimeout(() => {
+    location.replace('/game');
+  }, 2500);
 }
 
 function update() {
