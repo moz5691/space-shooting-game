@@ -26,7 +26,7 @@ require('./routes/html-routes')(app);
 // Mongoose Connection
 mongoose.connect(
   'mongodb://admin:password1@ds117111.mlab.com:17111/heroku_qkzxjhrm',
-  { useNewUrlParser: true },
+  { useNewUrlParser: true }
 );
 mongoose.set('useCreateIndex', true);
 
