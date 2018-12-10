@@ -14,8 +14,7 @@ const game = new Phaser.Game(
   WINDOW_WIDTH,
   WINDOW_HEIGHT,
   Phaser.AUTO,
-  'canvas',
-  {
+  'canvas', {
     preload,
     create,
     update: GameLoop,
@@ -23,7 +22,10 @@ const game = new Phaser.Game(
   },
 );
 
-const WORLD_SIZE = { w: 1920, h: 1920 };
+const WORLD_SIZE = {
+  w: 1920,
+  h: 1920
+};
 
 const water_tiles = [];
 const bullet_array = [];
@@ -40,7 +42,6 @@ let music;
 let bangSound;
 let whoWonBanner;
 let killCount = 0;
-let killScore = 0;
 let scoreText1;
 let scoreText2;
 let tutorialText;
@@ -74,8 +75,8 @@ const player = {
 
     // Move forward
     if (
-      game.input.keyboard.isDown(Phaser.Keyboard.W)
-      || game.input.keyboard.isDown(Phaser.Keyboard.UP)
+      game.input.keyboard.isDown(Phaser.Keyboard.W) ||
+      game.input.keyboard.isDown(Phaser.Keyboard.UP)
     ) {
       this.speed_x += Math.cos(this.sprite.rotation + Math.PI / 2) * this.speed;
       this.speed_y += Math.sin(this.sprite.rotation + Math.PI / 2) * this.speed;
@@ -183,8 +184,7 @@ function create() {
   tutorialText = game.add.text(
     32,
     height - 100,
-    'Press W to move forward and cursors to aim. Tap mouse button to shoot',
-    {
+    'Press W to move forward and cursors to aim. Tap mouse button to shoot', {
       font: '20px Arial',
       fill: '#fff',
       align: 'center',
@@ -202,14 +202,14 @@ function create() {
     }, 5000);
   }, 10000);
 
-  choiseLabel = game.add.text(width/2, height - 200, '', {
+  choiseLabel = game.add.text(width / 2, height - 200, '', {
     font: '30px Gill Sans',
     fill: '#fff',
   });
   choiseLabel.anchor.setTo(0.5, 0.5);
   choiseLabel.fixedToCamera = true;
 
-  whoWonBanner = game.add.text(width/2, height - (height*0.4), '', {
+  whoWonBanner = game.add.text(width / 2, height - (height * 0.4), '', {
     font: '60px Arial',
     fill: '#ADFF2F',
     align: 'center',
@@ -292,7 +292,7 @@ function create() {
   socket = io({
     transports: ['websocket'],
   });
-  
+
   // This triggers the 'connection' event on the server
   socket.emit('new-player', {
     x: player.sprite.x,
@@ -328,7 +328,14 @@ function create() {
         if (players_data[id].score === 0) {
           oppGameOver = true;
           playerWon = 1; // player own.
-          killCount ++;
+          killCount++;
+          axios.put(`/api/user/${userName}`)
+            .then((data) => {
+              console.log(data);
+            })
+            .catch((err) => {
+              res.json(err);
+            })
         } else {
           oppGameOver = false;
         }
@@ -414,14 +421,6 @@ function GameOver(donePlayer) {
     setTimeout(() => {
       whoWonBanner.setText('');
     }, 3000);
-
-    killScore += killCount;
-
-    const newScore = {
-      score: killScore,
-    }
-
-    $.put(`/api/user/${userName}`, newScore);
   } else if (donePlayer === 2) {
     // stop game and display banner with opponent won.
     isGameOver = true;
@@ -433,7 +432,7 @@ function GameOver(donePlayer) {
       game.camera.fade(1);
     }, 2000);
     game.camera.onFadeComplete.add(() => {
-        location.replace('/game');
+      location.replace('/game');
     })
   }
 }
@@ -496,7 +495,7 @@ function formatTime(s) {
   // Convert seconds (s) to a nicely formatted and padded time string
   var minutes = "0" + Math.floor(s / 60);
   var seconds = "0" + (s - minutes * 60);
-  return minutes.substr(-2) + ":" + seconds.substr(-2);   
+  return minutes.substr(-2) + ":" + seconds.substr(-2);
 }
 
 function render() {
