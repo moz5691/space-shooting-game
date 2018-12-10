@@ -1,3 +1,7 @@
+/**
+ * @author Maryam 
+ * @description user add, search and all user and update table on db
+ */
 const db = require('../models/');
 const RestfulAPI = require('./RestClass');
 
@@ -6,4 +10,5 @@ module.exports = function (app) {
   user.find();
   user.findone('username');
   user.create();
+
 };

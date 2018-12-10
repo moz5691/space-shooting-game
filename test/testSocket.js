@@ -1,3 +1,7 @@
+/**
+ * @author Maryam
+ * @description for run test refer to readme file
+ */
 const should = require('should');
 const io = require('socket.io-client');
 
