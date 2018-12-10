@@ -86,7 +86,7 @@ const loginStep = function (event) {
       if (response === null) {
         $.ajax({
           url: '/api/user',
-          data: { username },
+          data: { username: username, score: 0 },
           method: 'post',
         }).then((response) => {
           saveUser(response);
