@@ -19,6 +19,7 @@ const game = new Phaser.Game(
     preload,
     create,
     update: GameLoop,
+    render: render
   },
 );
 
@@ -32,6 +33,8 @@ const other_players = {};
 
 let userName;
 let coins;
+let timer;
+let timerEvent;
 let coinSound;
 let music;
 let bangSound;
@@ -154,6 +157,12 @@ function create() {
   game.world.setBounds(0, 0, 1920, 1920);
   game.camera.flash('#000000');
   coinSound = game.add.audio('sfx:coin');
+
+  // Add Countdown Timer
+  timer = game.time.create();
+  timerEvent = timer.add(Phaser.Timer.MINUTE * 3 + Phaser.Timer.SECOND * 00, this.endTimer, this);
+  timer.start();
+
   userName = sessionStorage.getItem('user');
   scoreText1 = game.add.text(16, 16, `${userName}`, {
     font: '30px Arial',
@@ -463,4 +472,22 @@ function GameLoop() {
       p.rotation += dir * 0.16;
     }
   }
+}
+
+function endTimer() {
+  // Stop the timer when the delayed event triggers
+  timer.stop();
+}
+
+function formatTime(s) {
+  // Convert seconds (s) to a nicely formatted and padded time string
+  var minutes = "0" + Math.floor(s / 60);
+  var seconds = "0" + (s - minutes * 60);
+  return minutes.substr(-2) + ":" + seconds.substr(-2);   
+}
+
+function render() {
+  if (timer.running) {
+    game.debug.text(formatTime(Math.round((timerEvent.delay - timer.ms) / 1000)), width / 2, 36, "#ff0");
+  };
 }
