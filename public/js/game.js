@@ -332,13 +332,7 @@ function create() {
           oppGameOver = true;
           playerWon = 1; // player own.
           killCount++;
-          axios.put(`/api/user/${userName}`)
-            .then((data) => {
-              console.log(data);
-            })
-            .catch((err) => {
-              res.json(err);
-            });
+          axios.put(`/api/user/${userName}`);
         } else {
           oppGameOver = false;
         }
