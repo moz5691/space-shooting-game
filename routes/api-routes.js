@@ -1,5 +1,7 @@
+/* eslint-disable */
+
 /**
- * @author Maryam 
+ * @author Maryam
  * @description user add, search and all user and update table on db
  */
 const db = require('../models/');
@@ -10,5 +12,5 @@ module.exports = function (app) {
   user.find();
   user.findone('username');
   user.create();
-
+  user.findOneAndUpdate('userName');
 };

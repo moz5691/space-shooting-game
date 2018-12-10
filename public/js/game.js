@@ -1,4 +1,5 @@
 /* eslint-disable */
+
 /**
  * @author Maryam
  * @description if user didn't insert username should redirect to main page
@@ -16,16 +17,18 @@ const game = new Phaser.Game(
   WINDOW_WIDTH,
   WINDOW_HEIGHT,
   Phaser.AUTO,
-  'canvas',
-  {
+  'canvas', {
     preload,
     create,
     update: GameLoop,
-    render: render
+    render,
   },
 );
 
-const WORLD_SIZE = { w: 1920, h: 1920 };
+const WORLD_SIZE = {
+  w: 1920,
+  h: 1920,
+};
 
 const water_tiles = [];
 const bullet_array = [];
@@ -41,6 +44,7 @@ let coinSound;
 let music;
 let bangSound;
 let whoWonBanner;
+let killCount = 0;
 let scoreText1;
 let scoreText2;
 let tutorialText;
@@ -162,7 +166,7 @@ function create() {
 
   // Add Countdown Timer
   timer = game.time.create();
-  timerEvent = timer.add(Phaser.Timer.MINUTE * 3 + Phaser.Timer.SECOND * 00, this.endTimer, this);
+  timerEvent = timer.add(Phaser.Timer.MINUTE * 3 + Phaser.Timer.SECOND * 0, this.endTimer, this);
   timer.start();
 
   userName = sessionStorage.getItem('user');
@@ -183,8 +187,7 @@ function create() {
   tutorialText = game.add.text(
     32,
     height - 100,
-    'Press W to move forward and cursors to aim. Tap mouse button to shoot',
-    {
+    'Press W to move forward and cursors to aim. Tap mouse button to shoot', {
       font: '20px Arial',
       fill: '#fff',
       align: 'center',
@@ -202,14 +205,14 @@ function create() {
     }, 5000);
   }, 10000);
 
-  choiseLabel = game.add.text(width/2, height - 200, '', {
+  choiseLabel = game.add.text(width / 2, height - 200, '', {
     font: '30px Gill Sans',
     fill: '#fff',
   });
   choiseLabel.anchor.setTo(0.5, 0.5);
   choiseLabel.fixedToCamera = true;
 
-  whoWonBanner = game.add.text(width/2, height - 600, '', {
+  whoWonBanner = game.add.text(width / 2, height - (height * 0.4), '', {
     font: '60px Arial',
     fill: '#ADFF2F',
     align: 'center',
@@ -276,7 +279,7 @@ function create() {
   game.physics.startSystem(Phaser.Physics.ARCADE);
   game.camera.follow(player.sprite, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
   game.physics.enable(player.sprite);
-  player.sprite.body.collideWorldBounds = true;
+  player.sprite.body.collideWorldBounds = false;
   player.sprite.body.bounce.setTo(1, 1);
 
   // function restartGame() {
@@ -292,7 +295,7 @@ function create() {
   socket = io({
     transports: ['websocket'],
   });
-  
+
   // This triggers the 'connection' event on the server
   socket.emit('new-player', {
     x: player.sprite.x,
@@ -328,6 +331,8 @@ function create() {
         if (players_data[id].score === 0) {
           oppGameOver = true;
           playerWon = 1; // player own.
+          killCount++;
+          axios.put(`/api/user/${userName}`);
         } else {
           oppGameOver = false;
         }
@@ -395,12 +400,11 @@ function create() {
     scoreText1.setText(`Shields: ${player.score}%`);
     const barPercent = parseInt((player.score / LIFE) * 100);
     myHealthBar.setPercent(barPercent);
-    if (player.score <= 0) {
+    if (player.score === 0) {
       playerGameOver = true;
       playerWon = 2;
     }
     if (playerGameOver || oppGameOver) {
-      player.sprite.destroy();
       GameOver(playerWon);
     }
   });
@@ -410,7 +414,7 @@ function GameOver(donePlayer) {
   if (donePlayer === 1) {
     // stop game and display banner with player won.
     // isGameOver = true;
-    whoWonBanner.setText('Single Kill');
+    whoWonBanner.setText(`${killCount} Kill!`);
     setTimeout(() => {
       whoWonBanner.setText('');
     }, 3000);
@@ -419,13 +423,14 @@ function GameOver(donePlayer) {
     isGameOver = true;
     music.stop();
     whoWonBanner.setText('You Died!');
-    choiseLabel.setText('Respawning back in Base');
+    choiseLabel.setText('Respawning Soon');
+    player.sprite.destroy();
     setTimeout(() => {
       game.camera.fade(1);
     }, 2000);
     game.camera.onFadeComplete.add(() => {
-        location.replace('/landing');
-    })
+      location.replace('/game');
+    });
   }
 }
 
@@ -458,6 +463,7 @@ function GameLoop() {
     }
   }
 
+  game.world.wrap(player.sprite);
   game.physics.arcade.overlap(player.sprite, coins, onCoinCollect);
   game.physics.arcade.overlap(other_players, coins, onCoinCollect);
 
@@ -484,13 +490,13 @@ function endTimer() {
 
 function formatTime(s) {
   // Convert seconds (s) to a nicely formatted and padded time string
-  var minutes = "0" + Math.floor(s / 60);
-  var seconds = "0" + (s - minutes * 60);
-  return minutes.substr(-2) + ":" + seconds.substr(-2);   
+  const minutes = `0${Math.floor(s / 60)}`;
+  const seconds = `0${s - minutes * 60}`;
+  return `${minutes.substr(-2)}:${seconds.substr(-2)}`;
 }
 
 function render() {
   if (timer.running) {
-    game.debug.text(formatTime(Math.round((timerEvent.delay - timer.ms) / 1000)), width / 2, 36, "#ff0");
-  };
+    game.debug.text(formatTime(Math.round((timerEvent.delay - timer.ms) / 1000)), width / 2, 36, '#ff0');
+  }
 }

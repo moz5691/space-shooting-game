@@ -37,15 +37,15 @@ function mainPage() {
 }
 
 function disable() {
-  $("#canvas").bind("keypress", function(e) {
-    if (e.keyCode == 13) {
+  $('#canvas').bind('keypress', (e) => {
+    if (e.keyCode === 13) {
       return false;
     }
   });
 }
 
-$(document).keypress(function(e) {
-  if (e.keyCode == 13) {
+$(document).keypress((e) => {
+  if (e.keyCode === 13) {
     e.preventDefault();
     loginPage();
   }
