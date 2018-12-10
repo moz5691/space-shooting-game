@@ -287,9 +287,10 @@ function create() {
   // // Inside game click unpause game
   // game.input.onDown.add(restartGame, self);
 
-  socket = socket = io({
+  socket = io({
     transports: ['websocket'],
   });
+  
   // This triggers the 'connection' event on the server
   socket.emit('new-player', {
     x: player.sprite.x,

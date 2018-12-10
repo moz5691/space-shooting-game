@@ -1,5 +1,6 @@
 module.exports = function (io) {
   const players = {};
+  io.set('transports', ['websocket']);
   io.on('connection', (socket) => {
     // create a new player and add it to our players object
     players[socket.id] = {
