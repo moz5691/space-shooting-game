@@ -1,7 +1,9 @@
 /* eslint-disable */
-
+/**
+ * @author Maryam
+ * @description if user didn't insert username should redirect to main page
+ */
 $(document).ready(() => {
-  // if user didn't insert username should redirect to main page
   if (sessionStorage.getItem('user') === null) location.replace('/');
 });
 const ASSET_URL = '/assets/';

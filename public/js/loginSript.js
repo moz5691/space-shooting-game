@@ -1,5 +1,8 @@
 /* eslint-disable */
-
+/**
+ * @author maryam 
+ * @description modified by Yoon in loginpage.js
+ */
 $(document).ready(function(){
   $("#gameLogin").hide();
 })

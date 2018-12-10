@@ -1,5 +1,8 @@
 /* eslint-disable */
-
+/**
+ * @author maryam
+ * @description user model for mongoose to store score for leader board
+ */
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
