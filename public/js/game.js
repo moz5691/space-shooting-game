@@ -398,7 +398,6 @@ function create() {
       playerWon = 2;
     }
     if (playerGameOver || oppGameOver) {
-      player.sprite.destroy();
       GameOver(playerWon);
     }
   });
@@ -418,6 +417,7 @@ function GameOver(donePlayer) {
     music.stop();
     whoWonBanner.setText('You Died!');
     choiseLabel.setText('Respawning Soon');
+    player.sprite.destroy();
     setTimeout(() => {
       game.camera.fade(1);
     }, 2000);
