@@ -44,3 +44,46 @@ Screenshot
 ![alt text](misc/screen-snapshot-multi.png 'screenshot')
 
 Test log:
+
+**How to setup Test**
+
+We used Mocha with chai, should, sinon and socket.io-client library, to test project.
+
+To initialize go to the project root folder in terminal and type:
+
+`npm install`
+
+Then:
+**For socket.io testing**
+
+in package.json in "scripts" for test command should have:
+
+`"test": "mocha --timeout 10000"`
+
+Open two terminal in one of them go to the project root folder in terminal and type:
+
+`.node server`
+
+In other terminal go to the test folder in root and type:
+
+`npm test`
+
+Screenshot
+![alt text](misc/socket-io-test.png 'screenshot')
+
+**For frontEnd testing**
+
+Go to project root/public/test folder:
+
+Then open .html pages with browser 
+
+For example:
+
+open test-unit-intro.html 
+
+with `Alt + B` or right click and select `open in default browser` on the page at visual stadio code can test frontEnd 
+
+![alt text](misc/frontEnd-test.png 'screenshot')
+
+
+
