@@ -32,6 +32,7 @@ let ship;
 let tutorialText;
 let music;
 let camera;
+let socket;
 
 const game = new Phaser.Game(config);
 
@@ -131,6 +132,11 @@ function create() {
   });
 
   this.otherPlayers = this.physics.add.group();
+
+  this.socket = io({
+    transports: ['websocket'],
+  });
+
   this.socket.on('currentPlayers', (playersList) => {
     Object.keys(playersList).forEach((id) => {
       if (playersList[id].playerId === self.socket.id) {

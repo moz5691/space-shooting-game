@@ -8,7 +8,7 @@ module.exports = function (io) {
     x: Math.floor(Math.random() * 1900) + 50,
     y: Math.floor(Math.random() * 1900) + 50,
   };
-
+  io.set('transports', ['websocket']);
   io.on('connection', (socket) => {
     // Listen for a new player trying to connect
     socket.on('new-player', (state) => {
