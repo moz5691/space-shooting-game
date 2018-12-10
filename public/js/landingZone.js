@@ -60,16 +60,16 @@ function create() {
   const self = this;
   this.socket = io();
 
-  this.add.image(width - 500, height, 'space');
+  this.add.image(width - width/2, height, 'space');
   platforms = this.physics.add.staticGroup();
-  platforms.create(-40, height - 60, 'ground').setScale(5).refreshBody();
-  platforms.create(width - (width*0.08), height - 20, 'ground').setScale(1.3).refreshBody();
+  platforms.create(0, height - 60, 'ground').setScale(5).refreshBody();
+  platforms.create(width - (width/3.3), height - 20, 'ground').setScale(1.3).refreshBody();
   this.add.image(800, height - 150, 'background').setScale(1);
   const player_ship_type = String(shipNumber); // player ship can be chosen here.
   ship = this.physics.add.image(
     width - 618, height - 450,
     `ship_${player_ship_type}`,
-  ).setScale(3);
+  ).setScale(2.5);
   this.physics.add.collider(ship, platforms);
 
   camera = this.cameras.add(0, 0, width, height);
