@@ -160,7 +160,7 @@ function create() {
 
   // Add Countdown Timer
   timer = game.time.create();
-  timerEvent = timer.add(Phaser.Timer.MINUTE * 3 + Phaser.Timer.SECOND * 00, this.endTimer, this);
+  timerEvent = timer.add(Phaser.Timer.MINUTE * 3 + Phaser.Timer.SECOND * 0, this.endTimer, this);
   timer.start();
 
   userName = sessionStorage.getItem('user');
@@ -207,7 +207,7 @@ function create() {
   choiseLabel.anchor.setTo(0.5, 0.5);
   choiseLabel.fixedToCamera = true;
 
-  whoWonBanner = game.add.text(width/2, height - 600, '', {
+  whoWonBanner = game.add.text(width/2, height - (height*0.4), '', {
     font: '60px Arial',
     fill: '#ADFF2F',
     align: 'center',
@@ -274,7 +274,7 @@ function create() {
   game.physics.startSystem(Phaser.Physics.ARCADE);
   game.camera.follow(player.sprite, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
   game.physics.enable(player.sprite);
-  player.sprite.body.collideWorldBounds = true;
+  player.sprite.body.collideWorldBounds = false;
   player.sprite.body.bounce.setTo(1, 1);
 
   // function restartGame() {
@@ -417,12 +417,12 @@ function GameOver(donePlayer) {
     isGameOver = true;
     music.stop();
     whoWonBanner.setText('You Died!');
-    choiseLabel.setText('Respawning back in Base');
+    choiseLabel.setText('Respawning Soon');
     setTimeout(() => {
       game.camera.fade(1);
     }, 2000);
     game.camera.onFadeComplete.add(() => {
-        location.replace('/landing');
+        location.replace('/game');
     })
   }
 }
@@ -456,6 +456,7 @@ function GameLoop() {
     }
   }
 
+  game.world.wrap(player.sprite);
   game.physics.arcade.overlap(player.sprite, coins, onCoinCollect);
   game.physics.arcade.overlap(other_players, coins, onCoinCollect);
 

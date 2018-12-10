@@ -183,10 +183,10 @@ function addOtherPlayers(self, playerInfo) {
 }
 
 function takeOff() {
-  camera.fadeOut(2000, 0, 0, 0);
+  camera.fadeOut(3000, 0, 0, 0);
   setTimeout(() => {
     location.replace('/game');
-  }, 2500);
+  }, 4000);
 }
 
 function update() {
