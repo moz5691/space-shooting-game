@@ -6,4 +6,5 @@ module.exports = function (app) {
   user.find();
   user.findone('username');
   user.create();
+  user.findOneAndUpdate('userName');
 };

@@ -40,6 +40,7 @@ let music;
 let bangSound;
 let whoWonBanner;
 let killCount = 0;
+let killScore = 0;
 let scoreText1;
 let scoreText2;
 let tutorialText;
@@ -413,6 +414,14 @@ function GameOver(donePlayer) {
     setTimeout(() => {
       whoWonBanner.setText('');
     }, 3000);
+
+    killScore += killCount;
+
+    const newScore = {
+      score: killScore,
+    }
+
+    $.put(`/api/user/${userName}`, newScore);
   } else if (donePlayer === 2) {
     // stop game and display banner with opponent won.
     isGameOver = true;
