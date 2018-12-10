@@ -76,6 +76,7 @@ function create() {
   camera.fadeIn(3000, 0, 0, 0);
 
   music = this.sound.add('landingTheme');
+  music.volume = 0.5;
   music.play();
 
   tutorialText = this.add.text(
