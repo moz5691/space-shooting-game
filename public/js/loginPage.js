@@ -91,7 +91,7 @@ const loginStep = function (event) {
       if (response === null) {
         $.ajax({
           url: '/api/user',
-          data: { username: username, score: 0 },
+          data: { username, score: 0 },
           method: 'post',
         }).then((response) => {
           saveUser(response);
@@ -101,11 +101,11 @@ const loginStep = function (event) {
   }
 };
 
-const saveUser = function(response){
-  $("#gameLogin").hide();
-      sessionStorage.setItem('user', response.username);
-      characterPage();
-}
+const saveUser = function (response) {
+  $('#gameLogin').hide();
+  sessionStorage.setItem('user', response.username);
+  characterPage();
+};
 
 $(document).on('click', '#submit-btn', () => {
   if ($('.validate').val() === '') {

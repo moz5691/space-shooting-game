@@ -54,17 +54,17 @@ function preload() {
   this.load.image('background', 'assets/Magic-Cliffs-Environment/PREVIEWS/transmagic.png');
   this.load.image('sky', 'assets/Magic-Cliffs-Environment/PNG/sky.png');
   this.load.audio('landingTheme', 'assets/sad.mp3');
-  this.load.image('space', `assets/nebula.jpg`);
+  this.load.image('space', 'assets/nebula.jpg');
 }
 
 function create() {
   const self = this;
   this.socket = io();
 
-  this.add.image(width - width/2, height, 'space');
+  this.add.image(width - width / 2, height, 'space');
   platforms = this.physics.add.staticGroup();
   platforms.create(0, height - 60, 'ground').setScale(5).refreshBody();
-  platforms.create(width - (width/3.3), height - 20, 'ground').setScale(1.3).refreshBody();
+  platforms.create(width - (width / 3.3), height - 20, 'ground').setScale(1.3).refreshBody();
   this.add.image(800, height - 150, 'background').setScale(1);
   const player_ship_type = String(shipNumber); // player ship can be chosen here.
   ship = this.physics.add.image(

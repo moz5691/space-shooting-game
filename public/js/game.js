@@ -1,4 +1,5 @@
 /* eslint-disable */
+
 /**
  * @author Maryam
  * @description if user didn't insert username should redirect to main page
@@ -20,13 +21,13 @@ const game = new Phaser.Game(
     preload,
     create,
     update: GameLoop,
-    render: render
+    render,
   },
 );
 
 const WORLD_SIZE = {
   w: 1920,
-  h: 1920
+  h: 1920,
 };
 
 const water_tiles = [];
@@ -77,8 +78,8 @@ const player = {
 
     // Move forward
     if (
-      game.input.keyboard.isDown(Phaser.Keyboard.W) ||
-      game.input.keyboard.isDown(Phaser.Keyboard.UP)
+      game.input.keyboard.isDown(Phaser.Keyboard.W)
+      || game.input.keyboard.isDown(Phaser.Keyboard.UP)
     ) {
       this.speed_x += Math.cos(this.sprite.rotation + Math.PI / 2) * this.speed;
       this.speed_y += Math.sin(this.sprite.rotation + Math.PI / 2) * this.speed;
@@ -337,7 +338,7 @@ function create() {
             })
             .catch((err) => {
               res.json(err);
-            })
+            });
         } else {
           oppGameOver = false;
         }
@@ -435,7 +436,7 @@ function GameOver(donePlayer) {
     }, 2000);
     game.camera.onFadeComplete.add(() => {
       location.replace('/game');
-    })
+    });
   }
 }
 
@@ -495,13 +496,13 @@ function endTimer() {
 
 function formatTime(s) {
   // Convert seconds (s) to a nicely formatted and padded time string
-  var minutes = "0" + Math.floor(s / 60);
-  var seconds = "0" + (s - minutes * 60);
-  return minutes.substr(-2) + ":" + seconds.substr(-2);
+  const minutes = `0${Math.floor(s / 60)}`;
+  const seconds = `0${s - minutes * 60}`;
+  return `${minutes.substr(-2)}:${seconds.substr(-2)}`;
 }
 
 function render() {
   if (timer.running) {
-    game.debug.text(formatTime(Math.round((timerEvent.delay - timer.ms) / 1000)), width / 2, 36, "#ff0");
-  };
+    game.debug.text(formatTime(Math.round((timerEvent.delay - timer.ms) / 1000)), width / 2, 36, '#ff0');
+  }
 }
