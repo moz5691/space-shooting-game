@@ -1,5 +1,9 @@
 /* eslint-disable */
 
+/**
+ * @author Yoon/ Maryam
+ * @description make login tag in canvas
+ */
 function loginPage() {
   disable();
   $('#canvas').empty();
@@ -15,9 +19,6 @@ function loginPage() {
             $('<h4>')
               .addClass('truncate bg-card-user border-button')
               .attr('id', 'login-card'),
-            // $("<img src = 'assets/Attack_017.png'>")
-            //   .addClass("circle responsive-img login-page-wrap")
-            //   .css("width", "200px"),
             $('<div>')
               .addClass('row login border-shape login-page-wrap')
               .css('position', 'relative')
@@ -74,6 +75,10 @@ function loginPage() {
   );
 }
 
+/**
+ * @author Maryam
+ * @return with click on submit button on login page save user information on database and sessionstorage
+ */
 const loginStep = function (event) {
   event.preventDefault();
   const username = $('#icon_prefix').val();
@@ -95,6 +100,12 @@ const loginStep = function (event) {
     });
   }
 };
+
+const saveUser = function(response){
+  $("#gameLogin").hide();
+      sessionStorage.setItem('user', response.username);
+      characterPage();
+}
 
 $(document).on('click', '#submit-btn', () => {
   if ($('.validate').val() === '') {

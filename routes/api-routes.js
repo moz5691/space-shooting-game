@@ -1,3 +1,9 @@
+/* eslint-disable */
+
+/**
+ * @author Maryam
+ * @description user add, search and all user and update table on db
+ */
 const db = require('../models/');
 const RestfulAPI = require('./RestClass');
 
