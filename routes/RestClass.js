@@ -47,7 +47,7 @@ class RestfulAPI {
     this.app.put(`/api/${this.resource}/:${identifier}`, (req, res) => {
       this.model.findOneAndUpdate({
         username: req.params[identifier],
-      }, { score: req.body.score })
+      }, { $set: { score: req.body.score } })
         .then((data) => {
           res.json(data);
         })
