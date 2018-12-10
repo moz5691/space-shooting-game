@@ -76,6 +76,7 @@ function create() {
   camera.fadeIn(3000, 0, 0, 0);
 
   music = this.sound.add('landingTheme');
+  music.volume = 0.5;
   music.play();
 
   tutorialText = this.add.text(
@@ -121,7 +122,36 @@ function create() {
 
   this.anims.create({
     key: 'right',
-    frames: this.anims.generateFrameNumbers('dude', {
+    frames: this.anims.generateFrameNumbers('otherPlayer', {
+      start: 5,
+      end: 8,
+    }),
+    frameRate: 10,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: 'left',
+    frames: this.anims.generateFrameNumbers('otherPlayer', {
+      start: 0,
+      end: 3,
+    }),
+    frameRate: 10,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: 'turn',
+    frames: [{
+      key: 'dude',
+      frame: 4,
+    }],
+    frameRate: 20,
+  });
+
+  this.anims.create({
+    key: 'right',
+    frames: this.anims.generateFrameNumbers('otherPlayer', {
       start: 5,
       end: 8,
     }),
@@ -188,12 +218,15 @@ function update() {
     if (this.cursors.left.isDown) {
       player.setVelocityX(-160);
       player.anims.play('left', true);
+      otherPlayer.anims.play('left', true);
     } else if (this.cursors.right.isDown) {
       player.setVelocityX(160);
       player.anims.play('right', true);
+      otherPlayer.anims.play('right', true);
     } else {
       player.setVelocityX(0);
       player.anims.play('turn');
+      otherPlayer.anims.play('turn');
     }
 
     this.input.keyboard.on('keydown_UP', () => {

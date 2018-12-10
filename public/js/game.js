@@ -182,7 +182,7 @@ function create() {
   tutorialText.fixedToCamera = true;
 
   setTimeout(() => {
-    tutorialText.setText('Collect Coins for Speed Boost!');
+    tutorialText.setText('Collect Coins for Speed Boost and Restore to Max Shield!');
     setTimeout(() => {
       tutorialText.setText('Be the last ship standing!');
       setTimeout(() => {
@@ -249,6 +249,7 @@ function create() {
 
   // Background Track
   music = game.add.audio('boden');
+  music.volume = 0.5;
   music.play();
 
   game.stage.disableVisibilityChange = true;
@@ -387,6 +388,7 @@ function create() {
       playerWon = 2;
     }
     if (playerGameOver || oppGameOver) {
+      player.sprite.destroy();
       GameOver(playerWon);
     }
   });
@@ -403,14 +405,12 @@ function GameOver(donePlayer) {
   } else if (donePlayer === 2) {
     // stop game and display banner with opponent won.
     isGameOver = true;
-    player.sprite.destroy();
     music.stop();
     whoWonBanner.setText('You Died!');
     choiseLabel.setText('Respawning back in Base');
     setTimeout(() => {
       game.camera.fade(1);
-    }, 5000);
-    // game.paused = true;
+    }, 2000);
     game.camera.onFadeComplete.add(() => {
         location.replace('/landing');
     })
@@ -421,6 +421,7 @@ const onCoinCollect = () => {
   coinSound.play();
   coins.destroy();
   player.speed = 1.0;
+  player.score = LIFE;
   setTimeout(() => {
     player.speed = startSpeed;
   }, 2000);
