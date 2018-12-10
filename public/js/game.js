@@ -39,6 +39,7 @@ let coinSound;
 let music;
 let bangSound;
 let whoWonBanner;
+let killCount = 0;
 let scoreText1;
 let scoreText2;
 let tutorialText;
@@ -326,6 +327,7 @@ function create() {
         if (players_data[id].score === 0) {
           oppGameOver = true;
           playerWon = 1; // player own.
+          killCount ++;
         } else {
           oppGameOver = false;
         }
@@ -393,7 +395,7 @@ function create() {
     scoreText1.setText(`Shields: ${player.score}%`);
     const barPercent = parseInt((player.score / LIFE) * 100);
     myHealthBar.setPercent(barPercent);
-    if (player.score <= 0) {
+    if (player.score === 0) {
       playerGameOver = true;
       playerWon = 2;
     }
@@ -407,7 +409,7 @@ function GameOver(donePlayer) {
   if (donePlayer === 1) {
     // stop game and display banner with player won.
     // isGameOver = true;
-    whoWonBanner.setText('Single Kill');
+    whoWonBanner.setText(`${killCount} Kill!`);
     setTimeout(() => {
       whoWonBanner.setText('');
     }, 3000);
