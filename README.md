@@ -47,7 +47,7 @@ Test log:
 
 **How to setup Test**
 
-We used Mocha with chai, should, sinon and socket.io-client library, to test project.
+We used Mocha with chai, chai-http, should, sinon and socket.io-client library, to test project.
 
 To initialize go to the project root folder in terminal and type:
 
@@ -84,6 +84,26 @@ open test-unit-intro.html
 with `Alt + B` or right click and select `open in default browser` on the page at visual stadio code can test frontEnd 
 
 ![alt text](misc/frontEnd-test.png 'screenshot')
+
+**For End to End testing**
+
+Open Mongo database 
+
+Go to project root/server.js file and put in the comment main address of data base on heroku and open local db
+`/**`
+ `* @description use for testing End to End`
+ `*/`
+`mongoose.connect('mongodb://localhost/testdb', { useNewUrlParser: true });`
+
+change test script on package.json to:
+
+` "test": "SET NODE_ENV=test&& mocha test"`
+
+OPen terminal with root address and type:
+
+`npm test`
+
+For visually check testing use Robo3T app
 
 
 

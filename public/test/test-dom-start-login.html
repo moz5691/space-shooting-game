@@ -1,0 +1,67 @@
+<!-- author Maryam -->
+<!-- description test start.js login part -->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Page Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/5.2.0/mocha.min.css" />
+  <style>
+    #canvas {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="canvas">
+      <div Class='row' id='login-page'>
+        <div class="col s8 center">
+          <h4 class="truncate bg-card-user border-button" id="login-card">
+            <div class="row login border-shape login-page-wrap" style="position: relative; left: 60px; top: 60px;">
+              <h4 class="left-align blinking" style="font-size: 80px; font-family: 'Press Start 2P', cursive; position: relative; bottom: 50px">Space Shooting</h4>
+              <form class="col s1">
+                <div Class='row' style="position: relative; left: 50px;">
+                  <div class="input-field col m12 s12">
+                    <i class="material-icons iconis prefix">account_box</i>
+                    <input id="icon_prefix" type="text" class="validate white-text" placeholder="Username"/>
+                  </div>
+                </div>
+                <div Class='row' >
+                  <button class="btn btn-large waves-effect waves-light" id="submit-btn" type="submit" name="action" style="position: relative; left: 50px;">LOGIN</button>
+                  <button class="btn btn-large waves-effect waves-light" id="leaderboard-btn" type="submit" name="action" style="position: relative; left: 90px;">Leader Board</button>
+                </div>
+              </form>
+            </div>
+          </h4>
+        </div>
+      </div>
+  </div>
+
+  <div id="mocha"></div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+    <script src="../js/characterSel.js"></script>
+    <script src="../js/loginPage.js"></script>
+    <script src="../js/mainpage.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/5.2.0/mocha.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/4.1.2/chai.min.js"></script>
+    <script src="https://sinonjs.org/releases/sinon-6.1.4.js"></script>
+    <script>
+      mocha.ui('bdd');
+      mocha.reporter('html');
+      const expect = chai.expect;
+    </script>
+  <script src="test-login.js"></script>
+  <script>
+    mocha.run();
+  </script>
+</body>
+
+</html>
