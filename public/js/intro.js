@@ -23,7 +23,7 @@ for (let i = 0; i < numStars; i++) {
 }
 const skipScene = e => {
   e.preventDefault();
-  location.replace("/game");
+  location.replace("/landing");
 };
 
 const playerOne = sessionStorage.getItem("user");

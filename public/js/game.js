@@ -340,7 +340,9 @@ function create() {
           oppGameOver = true;
           playerWon = 1; // player own.
           killCount++;
-          axios.put(`/api/user/${userName}`);
+          // axios.put(`/api/user/${userName}`);
+          const winner = sessionStorage.getItem("user");
+          $.ajax({ url: `/api/user/${winner}`, method: "put" });
         } else {
           oppGameOver = false;
         }
@@ -410,6 +412,7 @@ function create() {
     myHealthBar.setPercent(barPercent);
     if (player.score === 0) {
       playerGameOver = true;
+      player.sprite.destroy();
       playerWon = 2;
     }
     if (playerGameOver || oppGameOver) {
@@ -426,17 +429,14 @@ function GameOver(donePlayer) {
     setTimeout(() => {
       whoWonBanner.setText("");
     }, 3000);
-    const winner = sessionStorage.getItem("user");
-    $.ajax({ url: `/api/user/${winner}`, method: "put" }).then(function(
-      data
-    ) {});
+    // const winner = sessionStorage.getItem("user");
+    // $.ajax({ url: `/api/user/${winner}`, method: "put" });
   } else if (donePlayer === 2) {
     // stop game and display banner with opponent won.
     isGameOver = true;
     music.stop();
     whoWonBanner.setText("You Died!");
     choiseLabel.setText("Respawning Soon");
-    player.sprite.destroy();
     setTimeout(() => {
       game.camera.fade(1);
     }, 2000);
@@ -517,3 +517,12 @@ function render() {
     );
   }
 }
+
+// onHit: function(damage) {    if (!player.invincible) {
+//   //We only damage the player if not invincible
+//   player.health -= damage;
+//   //we toggle invincibility
+//   this.toggleInvincible();
+//   //and then we add a timer to restore the player to a vulnerable state
+//   game.time.events.add(2000, this.toggleInvincible, this);     }}
+//   toggleInvincible: function() {    player.invincible = !player.invincible};

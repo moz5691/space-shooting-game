@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 const express = require("express"); // Express contains some boilerplate to for routing and such
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -25,17 +27,17 @@ require("./routes/api-routes")(app);
 require("./routes/html-routes")(app);
 
 // Mongoose Connection
-// mongoose.connect(
-//   'mongodb://admin:password1@ds117111.mlab.com:17111/heroku_qkzxjhrm',
-//   { useNewUrlParser: true }
-// );
-// mongoose.set('useCreateIndex', true);
 mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://localhost/gameuserdata",
-  {
-    useNewUrlParser: true
-  }
+  "mongodb://admin:password1@ds117111.mlab.com:17111/heroku_qkzxjhrm",
+  { useNewUrlParser: true }
 );
+mongoose.set("useCreateIndex", true);
+// mongoose.connect(
+//   process.env.MONGODB_URI || "mongodb://localhost/gameuserdata",
+//   {
+//     useNewUrlParser: true
+//   }
+// );
 /**
  * @description use for testing End to End
  */
