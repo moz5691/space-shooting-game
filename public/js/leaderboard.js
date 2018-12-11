@@ -1,9 +1,11 @@
+/* eslint-disable */
+
 function leaderboard() {
   $("#canvas").empty();
   $("#canvas").append(
     $("<div>").append(
       $("<p>")
-        .text("Top 5 players")
+        .text("Top 10 players")
         .addClass("center-align boardTitle")
         .css("font-size", "60px")
         .css("font-family", "'Press Start 2P', cursive")
@@ -25,7 +27,7 @@ function topFiveCal() {
     dataArr.sort(function(a, b) {
       return b[1].score - a[1].score;
     });
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 10; i++) {
       $(".userNScore").append(
         $("<p>")
           .text(dataArr[i][1].username)
