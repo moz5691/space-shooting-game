@@ -1,0 +1,64 @@
+<!-- author Maryam -->
+<!-- description test start.js part selcting sprite -->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Page Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/5.2.0/mocha.min.css" />
+  <style>
+    #canvas {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+    <div id="canvas" class="card-panel black white-text row">
+        <div>
+            <p class="blinking" id="welcome" style="font-size: 50px; font-family: 'Press Start 2P', cursive; text-align: center;">Welcome dc</p>
+            <p class="blinking" id="choose" style="font-size: 20px; text-align: center; font-family: 'Press Start 2P', cursive; margin-top: 30px;">Please choose your charater</p>
+            <div class="charGroup">
+              <div class="row s2">
+                <img src="../assets/ship_1.png" class="waves-effect waves-light shipButtonOne dis col s2" id="first">
+                <img src="../assets/ship_2.png" class="waves-effect waves-light shipButtonTwo dis col s2">
+                <img src="../assets/ship_3.png" class="waves-effect waves-light shipButtonThree dis col s2">
+              </div>
+              <div class="row s2">
+                <img src="../assets/ship_4.png" class="waves-effect waves-light shipButtonFour dis col s2">
+                <img src="../assets/ship_5.png" class="waves-effect waves-light shipButtonFive dis col s2">
+                <img src="../assets/ship_6.png" class="waves-effect waves-light shipButtonSix dis col s2">
+              </div>
+        </div>
+        <button id="reselectButton" class="btn btn-large btn-flat white-text waves-effect waves-light" style="font-size: 9px; font-family:'Press Start 2P', cursive;">Re-Select?</button>
+        <button id="selectButton" class="btn btn-large btn-flat white-text waves-effect waves-light" disabled="true" style="font-family: 'Press Start 2P', cursive;">Select</button>
+    </div>
+</div>
+
+  <div id="mocha"></div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+    <script src="../js/characterSel.js"></script>
+    <script src="../js/loginPage.js"></script>
+    <script src="../js/mainpage.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/5.2.0/mocha.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/4.1.2/chai.min.js"></script>
+    <script src="https://sinonjs.org/releases/sinon-6.1.4.js"></script>
+    <script>
+      mocha.ui('bdd');
+      mocha.reporter('html');
+      const expect = chai.expect;
+    </script>
+  <script src="test-selection.js"></script>
+  <script>
+    mocha.run();
+  </script>
+</body>
+
+</html>

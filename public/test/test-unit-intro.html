@@ -27,8 +27,8 @@
   <script>
     describe('getRandomPosition', function () {
 
-      it('expect return an array', function () {
-        expect(getRandomPosition()).to.be.an('array');
+      it('expect return an array[x,y]', function () {
+        expect(getRandomPosition()).to.be.an('array').that.has.lengthOf(2);
       });
     });
   </script>

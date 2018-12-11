@@ -36,9 +36,17 @@ mongoose.connect(
     useNewUrlParser: true
   }
 );
+/**
+ * @description use for testing End to End
+ */
+// mongoose.connect('mongodb://localhost/testdb', { useNewUrlParser: true });
+// mongoose.set('useCreateIndex', true);
+
 // Listen on port 5000
 const PORT = process.env.PORT || 5000;
 // Start the server
 server.listen(PORT, () => {
   console.log(`App running on port ${PORT}`);
 });
+
+module.exports = app;

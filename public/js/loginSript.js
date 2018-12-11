@@ -5,47 +5,45 @@
  * @description modified by Yoon in loginpage.js
  */
 $(document).ready(() => {
-  $('#gameLogin').hide();
+  $("#gameLogin").hide();
 });
 function loginpage() {
-  $('#gameLogin').show();
+  $("#gameLogin").show();
 }
 
-
-const saveUser = function (response) {
-  $('#gameLogin').hide();
-  sessionStorage.setItem('user', response.username);
+const saveUser = function(response) {
+  $("#gameLogin").hide();
+  sessionStorage.setItem("user", response.username);
   characterPage();
 };
 
-const leaderboardPage = function () {
+const leaderboardPage = function() {
   event.preventDefault();
-  location.replace('/leaderboard');
+  location.replace("/leaderboard");
 };
 
-const loginStep = function (event) {
+const loginStep = function(event) {
   event.preventDefault();
-  const username = $('#icon_prefix').val();
-  if (username.trim() === '') alert('please insert player name');
+  const username = $("#icon_prefix").val();
+  if (username.trim() === "") alert("please insert player name");
   else {
     $.ajax({
       url: `/api/user/${username}`,
-      method: 'get',
-    }).then((response) => {
+      method: "get"
+    }).then(response => {
       if (response === null) {
         $.ajax({
-          url: '/api/user',
+          url: "/api/user",
           data: { username },
-          method: 'post',
-        })
-          .then((response) => {
-            saveUser(response);
-          });
+          method: "post"
+        }).then(response => {
+          saveUser(response);
+        });
       } else saveUser(response);
     });
   }
 };
 
-$('#submit-btn').on('click', loginStep);
+$("#submit-btn").on("click", loginStep);
 
-$('#leaderboardBtn').on('click', leaderboardPage);
+$("#leaderboardBtn").on("click", leaderboardPage);
