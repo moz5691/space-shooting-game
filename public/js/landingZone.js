@@ -203,6 +203,7 @@ function addPlayer(self, playerInfo) {
   self.dude.setBounce(0.2);
   self.dude.setTint(0xff4c4c);
   self.physics.add.collider(self.dude, platforms);
+  self.physics.add.collider(self.dude, ship, takeOff);
 }
 
 /**
@@ -226,10 +227,10 @@ function addOtherPlayers(self, playerInfo) {
  */
 
 function takeOff() {
-  camera.fadeOut(3000, 0, 0, 0);
+  camera.fadeOut(2000, 0, 0, 0);
   setTimeout(() => {
     location.replace("/game");
-  }, 4000);
+  }, 2000);
 }
 
 /**
@@ -258,7 +259,6 @@ function update() {
     });
 
     this.physics.world.wrap(player, 5);
-    this.physics.add.overlap(player, ship, takeOff);
 
     // emit player movement
     const x = player.x;

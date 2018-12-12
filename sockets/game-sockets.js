@@ -5,8 +5,8 @@ module.exports = function (io) {
   const bullet_array = []; // Keeps track of all the bullets to update them on the server
   // Tell Socket.io to start accepting connections
   const star = {
-    x: Math.floor(Math.random() * 1900) + 50,
-    y: Math.floor(Math.random() * 1900) + 50,
+    x: Math.floor(Math.random() * 1800) + 200,
+    y: Math.floor(Math.random() * 1800) + 200,
   };
   io.set('transports', ['websocket']);
   io.on('connection', (socket) => {
