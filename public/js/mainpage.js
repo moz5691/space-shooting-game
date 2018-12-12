@@ -8,7 +8,9 @@
 function mainPage() {
   $("#canvas").empty();
   $("#canvas").append(
-    $("<div>").append(
+    $("<div>")
+    .attr('id', 'maindiv')
+    .append(
       $("<h1>").append(
         $("<span>")
           .text("Blue ")

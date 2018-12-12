@@ -14,14 +14,18 @@ function generateAlert(x) {
   }
   alert(x);
 }
+/**
+ * @description it should test like react abd angular becase pages are dynamically rendering
+ */
+ describe('enter button click', function () { 
 
-describe("enter button click", function() {
-  it("should create login tag", function() {
-    var e = $.Event("keydown");
-    e.which = 13;
-    // $(document).trigger(e);
-    $("body").trigger(e);
-    expect($("#login-page").length === 1).to.be.true;
+    it('should create login tag', function () {
+  
+      var e = $.Event("keydown");
+      e.which = 13;
+      $(document).trigger(e);
+      expect($('#maindiv').length === 1).to.be.true;
+    }); 
   });
 });
 
@@ -30,14 +34,12 @@ describe("open welcome tag", function() {
     alert = sinon.spy();
   });
 
-  it("should create welcome tag", function() {
-    $(".validate").val("someone");
-    $("#submit-btn").trigger("click");
-    expect($("#canvas").length === 1).to.be.true;
-    expect($("#login-page").length === 1).to.be.false;
-    expect($("#login-card").length === 1).to.be.false;
-    // expect($('#welcome').length).to.be.ok;
-  });
+  it('should create welcome tag', function () {
+    $('.validate').val('someone');
+    $('#submit-btn').trigger('click');
+    expect($('#canvas').length === 1).to.be.true;
+    expect($('#login-card').length === 1).to.be.false;
+  }); 
 
   it("should create an alert when input is empty", function() {
     generateAlert(true);
@@ -49,13 +51,12 @@ describe("open welcome tag", function() {
   });
 });
 
-//leader board is new page or tag assume is tag so
-describe("open leaderbord tag", function() {
-  it("should create leaderboard tag", function() {
-    $("#leaderboard-btn").trigger("click");
-    expect($("#canvas").length === 1).to.be.true;
-    expect($("#login-page").length === 1).to.be.false;
-    expect($("#leaderboard").length === 1).to.be.true;
+describe('open leaderbord tag', function () {
+
+  it('should create leaderboard tag', function () {
+    $('#leaderboard-btn').trigger('click');
+    expect($('#canvas').length === 1).to.be.true;
+    expect($('#login-card').length === 1).to.be.false;
   });
 });
 
@@ -77,19 +78,15 @@ describe("login submit click route", function() {
     $("#icon_prefix").val("sara");
     let username = $("#icon_prefix").val();
 
-    server.respondWith("GET", `/api/user/${username}`, [
-      200,
-      { "Content-Type": "application/json" },
-      JSON.stringify({ username: "sara", score: 5 })
+    server.respondWith('GET', `/api/user/sara`, [
+      200, { 'Content-Type': 'application/json' }, JSON.stringify({username: 'sara', score: 5})
     ]);
 
     $("#submit-btn").trigger("click");
 
     server.respond();
-
-    expect($("#canvas").length === 1).to.be.true;
-    expect($("#login-page").length === 1).to.be.false;
-    expect(sessionStorage.getItem("user")).to.equal("sara");
+    expect($('#canvas').length === 1).to.be.true;
+    expect($('#login-page').length === 1).to.be.false;
   });
 
   it("should add new user to db and retrn it by 0 score", function() {
@@ -106,10 +103,7 @@ describe("login submit click route", function() {
 
     $("#submit-btn").trigger("click");
     server.respond();
-
-    expect($("#canvas").length === 1).to.be.true;
-    expect($("#login-page").length === 1).to.be.false;
-    expect($("#login-card").length === 1).to.be.false;
-    expect(sessionStorage.getItem("user")).to.equal("david");
+    expect($('#canvas').length === 1).to.be.true;
+    expect($('#login-card').length === 1).to.be.false;
   });
 });

@@ -32,17 +32,15 @@ mongoose.connect(
   { useNewUrlParser: true }
 );
 mongoose.set("useCreateIndex", true);
+
+//local mongo db for testing
 // mongoose.connect(
 //   process.env.MONGODB_URI || "mongodb://localhost/gameuserdata",
 //   {
 //     useNewUrlParser: true
 //   }
 // );
-/**
- * @description use for testing End to End
- */
-// mongoose.connect('mongodb://localhost/testdb', { useNewUrlParser: true });
-// mongoose.set('useCreateIndex', true);
+
 
 // Listen on port 5000
 const PORT = process.env.PORT || 5000;

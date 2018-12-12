@@ -13,4 +13,5 @@ module.exports = function (app) {
   user.findone('username');
   user.create();
   user.findOneAndUpdate('userName');
+  user.deleteOne();
 };

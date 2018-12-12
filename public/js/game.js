@@ -337,8 +337,6 @@ function create() {
           oppGameOver = true;
           playerWon = 1; // player own.
           killCount++;
-          const winner = sessionStorage.getItem("user");
-          $.ajax({ url: `/api/user/${winner}`, method: "put" });
         } else {
           oppGameOver = false;
         }
@@ -424,6 +422,8 @@ function GameOver(donePlayer) {
     setTimeout(() => {
       whoWonBanner.setText("");
     }, 3000);
+    const winner = sessionStorage.getItem("user");
+    $.ajax({ url: `/api/user/${winner}`, method: "put" });
   } else if (donePlayer === 2) {
     // stop game and display banner with opponent won.
     isGameOver = true;

@@ -65,7 +65,10 @@ class RestfulAPI {
         });
     });
   }
-
+  /**
+   * @description Make a PUT route for updating field on db
+   * @returns json of updated field by addin 1 on the score
+   */
   findOneAndUpdate(identifier) {
     this.app.put(`/api/${this.resource}/:${identifier}`, (req, res) => {
       this.model
@@ -91,9 +94,9 @@ class RestfulAPI {
 
   deleteOne() {
     this.app.delete(`/api/${this.resource}`, (req, res) => {
-      const chosen = req.body._id;
+      const chosen = req.body.username;
       this.model
-        .remove({ _id: chosen })
+        .remove({ username: chosen })
         .then(() => {
           res.json({ success: "success" });
         })
@@ -103,26 +106,6 @@ class RestfulAPI {
     });
   }
 
-  /**
-   * @description Make a PUT route for updating field on db
-   * @returns json of updated field
-   */
-
-  updateOne() {
-    this.app.put(`/api/${this.resource}`, function(req, res) {
-      this.model
-        .findOneAndUpdate(
-          { _id: req.body._id },
-          { $set: { score: req.body.score } }
-        )
-        .then(data => {
-          res.json(data);
-        })
-        .catch(err => {
-          res.json(err);
-        });
-    });
-  }
 }
 
 module.exports = RestfulAPI;
