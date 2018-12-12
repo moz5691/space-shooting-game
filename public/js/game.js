@@ -59,6 +59,11 @@ const ship = sessionStorage.getItem("shipType");
 const shipType = ship; // ship type can be chosen here... 4 means "ship4_1" here.
 const startSpeed = sessionStorage.getItem("shipSpeed");
 
+/**
+ * @param {string} player - creates the player
+ * @return {object} creates the player and displays the user ship
+ */
+
 const player = {
   sprite: null, // Will hold the sprite when it's created
   speed_x: 0, // This is the speed it's currently moving at
@@ -127,6 +132,11 @@ const player = {
   }
 };
 
+/**
+ * @param {string} CreateShip - creates the chosen ship
+ * @return {object} displays create user's ship
+ */
+
 function CreateShip(type, x, y, angle) {
   // type is an int that can be between 1 and 6 inclusive
   // returns the sprite just created
@@ -139,6 +149,11 @@ function CreateShip(type, x, y, angle) {
   sprite.anchor.setTo(0.5, 0.5);
   return sprite;
 }
+
+/**
+ * @param {string} preload - brings in all the assets needed for the game
+ * @return {object} prepare the assets that are used in the game
+ */
 
 function preload() {
   game.load.crossOrigin = "Anonymous";
@@ -158,6 +173,11 @@ function preload() {
   game.load.audio("sfx:coin", `${ASSET_URL}coin.wav`);
   game.load.audio("boden", `${ASSET_URL}battle.mp3`);
 }
+
+/**
+ * @param {string} Create - creates the objects for the game play
+ * @return {object} objects that are created
+ */
 
 function create() {
   game.add.image(0, 0, "space");
@@ -241,29 +261,10 @@ function create() {
     flipped: false
   };
 
-  // const barConfig2 = {
-  //   x: width - 120,
-  //   y: 70,
-  //   width: 200,
-  //   bg: {
-  //     color: "#651828"
-  //   },
-  //   bar: {
-  //     color: "#FEFF03"
-  //   },
-  //   animationDuration: 200,
-  //   flipped: false
-  // };
-
   const myHealthBar = new HealthBar(this.game, barConfig1);
   myHealthBar.barSprite.fixedToCamera = true;
   myHealthBar.bgSprite.fixedToCamera = true;
   myHealthBar.borderSprite.fixedToCamera = true;
-
-  // const oppHealthBar = new HealthBar(this.game, barConfig2);
-  // oppHealthBar.barSprite.fixedToCamera = true;
-  // oppHealthBar.bgSprite.fixedToCamera = true;
-  // oppHealthBar.borderSprite.fixedToCamera = true;
 
   whoWonBanner.anchor.setTo(0.5, 1.8);
   // create sound for shooting
@@ -275,9 +276,13 @@ function create() {
   music.play();
 
   game.stage.disableVisibilityChange = true;
-  // game.sound.setDecodedCallback([bangSound], start, this);
-  // Create player
-  const player_ship_type = String(shipType); // player ship can be chosen here.
+
+  /**
+   * @param {string} player_ship_type - sets player's ship
+   * @return {object} player ship can be chosen here
+   */
+
+  const player_ship_type = String(shipType);
   player.sprite = game.add.sprite(
     Math.floor(Math.random() * 1900) + 50,
     Math.floor(Math.random() * 1900) + 50,
@@ -290,21 +295,15 @@ function create() {
   player.sprite.body.collideWorldBounds = false;
   player.sprite.body.bounce.setTo(1, 1);
 
-  // function restartGame() {
-  //   // Only act if paused
-  //   if (game.paused) {
-  //     location.replace('/landing');
-  //   }
-  // }
-
-  // // Inside game click unpause game
-  // game.input.onDown.add(restartGame, self);
-
   socket = io({
     transports: ["websocket"]
   });
 
-  // This triggers the 'connection' event on the server
+  /**
+   * @param {string} socket.emit new-player
+   * @return {object}   // This triggers the 'connection' event on the server
+   */
+
   socket.emit("new-player", {
     x: player.sprite.x,
     y: player.sprite.y,
@@ -333,15 +332,11 @@ function create() {
         other_players[id].target_rotation = players_data[id].angle;
         const playerCount = Object.keys(players_data).length - 1;
         scoreText2.setText(`Enemies Left: ${playerCount}`);
-        // scoreText2.setText(`Enemy Shields: ${players_data[id].score}`);
-        // const barPercent = parseInt((players_data[id].score / LIFE) * 100);
-        // oppHealthBar.setPercent(barPercent);
+
         if (players_data[id].score === 0) {
           oppGameOver = true;
           playerWon = 1; // player own.
           killCount++;
-          // const winner = sessionStorage.getItem("user");
-          // $.ajax({ url: `/api/user/${winner}`, method: "put" });
         } else {
           oppGameOver = false;
         }
@@ -423,7 +418,6 @@ function create() {
 function GameOver(donePlayer) {
   if (donePlayer === 1) {
     // stop game and display banner with player won.
-    // isGameOver = true;
     whoWonBanner.setText(`Score +${killCount}!`);
     setTimeout(() => {
       whoWonBanner.setText("");
@@ -499,8 +493,11 @@ function endTimer() {
   timer.stop();
 }
 
+/**
+ *  @param {string} formatTime
+ *  @return {string} Convert seconds (s) to a nicely formatted and padded time string
+ */
 function formatTime(s) {
-  // Convert seconds (s) to a nicely formatted and padded time string
   const minutes = `0${Math.floor(s / 60)}`;
   const seconds = `0${s - minutes * 60}`;
   return `${minutes.substr(-2)}:${seconds.substr(-2)}`;

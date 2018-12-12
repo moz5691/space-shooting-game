@@ -1,5 +1,10 @@
 /* eslint-disable */
 
+/**
+ * @param {string} mainPage - renders out the main page
+ * @return {object} displays mainPage/startup page
+ */
+
 function mainPage() {
   $("#canvas").empty();
   $("#canvas").append(
@@ -45,6 +50,11 @@ function disable() {
     }
   });
 }
+
+/**
+ * @param {string} keypressEnter - response to enter button
+ * @return {object} displays the login page on enter button down
+ */
 
 $(document).keypress(e => {
   if (e.keyCode === 13) {

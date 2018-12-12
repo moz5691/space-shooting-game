@@ -3,6 +3,10 @@
 // Sets the number of stars we wish to display
 const numStars = 100;
 
+/**
+ * @param {string} getRandomPostion - sets random position for the stars
+ * @return {object} sets random render postion for the stars
+ */
 // Gets random x, y values based on the size of the container
 function getRandomPosition() {
   const y = window.innerWidth;
@@ -21,6 +25,12 @@ for (let i = 0; i < numStars; i++) {
   star.style.left = `${xy[1]}px`;
   document.body.append(star);
 }
+
+/**
+ * @param {string} skipScene - calls for scene change
+ * @return {object} locates the user to landing page
+ */
+
 const skipScene = e => {
   e.preventDefault();
   location.replace("/landing");
@@ -28,6 +38,11 @@ const skipScene = e => {
 
 const playerOne = sessionStorage.getItem("user");
 const upperPlayer = playerOne.toUpperCase();
+
+/**
+ * @param {string} renderText - renders out text for the intro
+ * @return {object} this is the star wars intro comment thingy
+ */
 
 const renderText = () => {
   let htmlstr = "";

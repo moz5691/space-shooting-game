@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 /**
  * @author Maryam
  * @description Login div test
@@ -22,12 +24,12 @@ function generateAlert(x) {
       var e = $.Event("keydown");
       e.which = 13;
       $(document).trigger(e);
-      // $('body').trigger(e);
       expect($('#maindiv').length === 1).to.be.true;
     }); 
   });
+});
 
-describe('open welcome tag', function () {
+describe("open welcome tag", function() {
   beforeEach(function() {
     alert = sinon.spy();
   });
@@ -39,15 +41,14 @@ describe('open welcome tag', function () {
     expect($('#login-card').length === 1).to.be.false;
   }); 
 
-  it('should create an alert when input is empty', function() {
+  it("should create an alert when input is empty", function() {
     generateAlert(true);
-    $('.validate').val('');
-    $('#submit-btn').trigger('click');
+    $(".validate").val("");
+    $("#submit-btn").trigger("click");
 
     expect(alert.calledOnce).to.be.true;
     expect(alert.args[0][0]).to.equal(true);
   });
-  
 });
 
 describe('open leaderbord tag', function () {
@@ -57,59 +58,52 @@ describe('open leaderbord tag', function () {
     expect($('#canvas').length === 1).to.be.true;
     expect($('#login-card').length === 1).to.be.false;
   });
-  
 });
-
-
 
 /**
  * @description Functional Tests with sinon for more information refer to readme
  */
-describe('login submit click route', function () {
-
+describe("login submit click route", function() {
   let server;
 
-  beforeEach(function () {
+  beforeEach(function() {
     server = sinon.fakeServer.create();
   });
 
-  afterEach(function () {
+  afterEach(function() {
     server.restore();
   });
 
-  it('should search username on db on click', function () {
-    $('#icon_prefix').val('sara');
-    let username =  $('#icon_prefix').val();
+  it("should search username on db on click", function() {
+    $("#icon_prefix").val("sara");
+    let username = $("#icon_prefix").val();
 
     server.respondWith('GET', `/api/user/sara`, [
       200, { 'Content-Type': 'application/json' }, JSON.stringify({username: 'sara', score: 5})
     ]);
 
-    $('#submit-btn').trigger('click');
+    $("#submit-btn").trigger("click");
 
     server.respond();
-
     expect($('#canvas').length === 1).to.be.true;
     expect($('#login-page').length === 1).to.be.false;
-    // expect(sessionStorage.getItem('user')).to.equal('sara'); 
   });
 
-
-  it('should add new user to db and retrn it by 0 score', function () {
-
-    server.respondWith('GET', '/api/user/david', [
-      200, { 'Content-Type': 'application/json' }, JSON.stringify({})
+  it("should add new user to db and retrn it by 0 score", function() {
+    server.respondWith("GET", "/api/user/david", [
+      200,
+      { "Content-Type": "application/json" },
+      JSON.stringify({})
     ]);
-    server.respondWith('POST', '/api/user', [
-      200, { 'Content-Type': 'application/json' }, JSON.stringify({username: 'david', score: 0})
+    server.respondWith("POST", "/api/user", [
+      200,
+      { "Content-Type": "application/json" },
+      JSON.stringify({ username: "david", score: 0 })
     ]);
 
-    $('#submit-btn').trigger('click');
+    $("#submit-btn").trigger("click");
     server.respond();
-
     expect($('#canvas').length === 1).to.be.true;
     expect($('#login-card').length === 1).to.be.false;
-    // expect(sessionStorage.getItem('user')).to.equal('david');
   });
-
 });
