@@ -3,7 +3,9 @@
 function leaderboard() {
   $("#canvas").empty();
   $("#canvas").append(
-    $("<div>").append(
+    $("<div>")
+    .attr('id', 'leaderboardtag')
+    .append(
       $("<p>")
         .text("Top 10 players")
         .addClass("center-align boardTitle")

@@ -22,10 +22,17 @@ describe('start game', function () {
         expect(CreateShip(3, 10, 10, 15)).to.be.an('object');//sprite
   });
 
-
+/**
+ * 
+ */
   it('should put new score to db on gameOver method', function () {
     
-    server.respondWith('PUT', '/api/user', [
+  whoWonBanner = game.add.text( 200,  200 * 0.4, "", {
+    font: "60px Arial",
+    fill: "#ADFF2F",
+    align: "center"
+    });
+    server.respondWith('PUT', '/api/user/sara', [
       200, { 'Content-Type': 'application/json' }, JSON.stringify({username: 'sara', score: 1})
     ]);
 
@@ -33,9 +40,9 @@ describe('start game', function () {
         200, { 'Content-Type': 'application/json' }, JSON.stringify({username: 'sara', score: 1})
       ])
 
-    GameOver(0);
+    GameOver(1);
     server.respond();
-    expect(sessionStorage.getItem('score')).to.equal(1);
+    expect({username: 'sara', score: 1});
   });
 
 });

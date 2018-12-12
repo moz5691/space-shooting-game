@@ -56,27 +56,6 @@ describe('socket', () => {
   });
 
 
-  // it('Should update player moving on the page',function(done){
-  //   client = io.connect(socketURL, options);
-
-
-  // client.on('connect',function(data){
-  //   client.emit('move-player',{
-  //     x: 100,
-  //     y: 200,
-  //     angle: 15,
-  //     score: 5,
-  //   });
-  // });
-  // client.on('update-players',function(players_data){
-  //     players_data.should.be.type('object');
-  //     should(null).not.be.ok();
-  //     client.disconnect();
-  //     done();
-  //   });
-  // });
-
-
   it('Should return object with x, y with number type to give location to star', (done) => {
     client = io.connect(socketURL, options);
 
@@ -109,18 +88,4 @@ describe('socket', () => {
     });
   });
 
-  // it('Should an Array of x, y locations or empty array for bullet locations',function(done){
-  //   client = io.connect(socketURL, options);
-
-
-  // client.on('connect',function(data){
-  //   client.emit('shoot-bullet', bulletInfo);
-  // });
-  // client.on('player-hit',function(server_bullet_array){
-  //   server_bullet_array.should.be.instanceof(Array);
-  //     should(null).not.be.ok();
-  //       client.disconnect();
-  //       done();
-  //   });
-  // });
 });
