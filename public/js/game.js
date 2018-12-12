@@ -425,7 +425,7 @@ function GameOver(donePlayer) {
   if (donePlayer === 1) {
     // stop game and display banner with player won.
     // isGameOver = true;
-    whoWonBanner.setText(`${killCount} Kill!`);
+    whoWonBanner.setText(`Score +${killCount}!`);
     setTimeout(() => {
       whoWonBanner.setText("");
     }, 3000);
