@@ -1,5 +1,9 @@
 /* eslint-disable */
 
+/**
+ * @param {string} leaderboard - renders out leaderboard page
+ * @return {object} Leaderboard Page layout
+ */
 function leaderboard() {
   $("#canvas").empty();
   $("#canvas").append(
@@ -19,10 +23,20 @@ function leaderboard() {
   $("#canvas").append(
     $("<p>")
       .text("Press Enter To Go Back")
-      .addClass("center-align")
+      .addClass("center-align blinking")
       .css("font-family", "'Press Start 2P', cursive")
+      .css("position", "relative")
+      .css("left", "20px")
+      .css("margin-top", "40px")
+      .css("margin-bottom", "40px")
   );
 }
+
+/**
+ * @param {string} topFiveCal - Gets the user data
+ * @param {string} sort - sorts the data by score points
+ * @return {object} renders out 10 top players
+ */
 
 function topFiveCal() {
   $.ajax({ url: "/api/user", method: "GET" }).then(function(data) {
