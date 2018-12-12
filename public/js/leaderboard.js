@@ -15,6 +15,13 @@ function leaderboard() {
     $("<div>").addClass("userNScore row")
   );
   topFiveCal();
+
+  $("#canvas").append(
+    $("<p>")
+      .text("Press Enter To Go Back")
+      .addClass("center-align")
+      .css("font-family", "'Press Start 2P', cursive")
+  );
 }
 
 function topFiveCal() {
