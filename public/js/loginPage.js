@@ -4,6 +4,12 @@
  * @author Yoon/ Maryam
  * @description make login tag in canvas
  */
+
+/**
+ * @param {string} loginpage - renders out the layout of the loginpage on html
+ * @return {object} - Displays the login in page
+ */
+
 function loginPage() {
   disable();
   $("#canvas").empty();
@@ -76,8 +82,9 @@ function loginPage() {
 }
 
 /**
- * @author Maryam
- * @return with click on submit button on login page save user information on database and sessionstorage
+ * @author Maryam Yoon Justin Chan
+ * @param {string} loginStep - gets the user data and check if the user already exist
+ * @return if the user exists, get that user, if not, use post method to create new user to the database
  */
 const loginStep = function(event) {
   // event.preventDefault();
@@ -103,12 +110,6 @@ const loginStep = function(event) {
   }
 };
 
-// const saveUser = function(response) {
-//   $("#gameLogin").hide();
-//   sessionStorage.setItem("user", response.username);
-//   characterPage();
-// };
-
 $(document).on("click", "#submit-btn", () => {
   loginStep();
 });
@@ -117,12 +118,3 @@ $(
     leaderboard();
   })
 );
-
-// $(document).on("click", "#submit-btn", () => {
-//   if ($(".validate").val() === "") {
-//     alert("Must need to input a ID");
-//   } else {
-//     sessionStorage.setItem("user", $(".validate").val());
-//     characterPage();
-//   }
-// });
