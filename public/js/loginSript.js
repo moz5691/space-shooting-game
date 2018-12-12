@@ -2,7 +2,7 @@
 
 /**
  * @author maryam
- * @description modified by Yoon in loginpage.js
+ * @description modified by Yoon in loginpage.js unused now.
  */
 $(document).ready(() => {
   $("#gameLogin").hide();
