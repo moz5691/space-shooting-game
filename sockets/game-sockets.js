@@ -65,7 +65,12 @@ module.exports = function (io) {
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < 70) {
             io.emit('player-hit', id); // Tell everyone this player got hit
-            players[id].score--;
+
+            if (players[id].score <= 0) {
+              delete players[id];
+            } else {
+              players[id].score--;
+            }
           }
         }
       }

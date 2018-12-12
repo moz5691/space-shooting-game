@@ -517,12 +517,3 @@ function render() {
     );
   }
 }
-
-// onHit: function(damage) {    if (!player.invincible) {
-//   //We only damage the player if not invincible
-//   player.health -= damage;
-//   //we toggle invincibility
-//   this.toggleInvincible();
-//   //and then we add a timer to restore the player to a vulnerable state
-//   game.time.events.add(2000, this.toggleInvincible, this);     }}
-//   toggleInvincible: function() {    player.invincible = !player.invincible};
