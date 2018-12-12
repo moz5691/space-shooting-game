@@ -36,6 +36,11 @@ let socket;
 
 const game = new Phaser.Game(config);
 
+/**
+ * @param {string} preload - brings in all the assets needed for the game
+ * @return {object} prepare the assets that are used in the game
+ */
+
 function preload() {
   this.load.spritesheet("otherPlayer", "assets/player-sprite/otherdude.png", {
     frameWidth: 32,
@@ -59,6 +64,11 @@ function preload() {
   this.load.audio("landingTheme", "assets/sad.mp3");
   this.load.image("space", "assets/nebula.jpg");
 }
+
+/**
+ * @param {string} Create - creates the objects for the game play
+ * @return {object} objects that are created
+ */
 
 function create() {
   const self = this;
@@ -109,6 +119,11 @@ function create() {
       }, 3000);
     }, 5000);
   }, 6000);
+
+  /**
+   * @param {string} anims
+   * @return {object} creates animations
+   */
 
   this.anims.create({
     key: "left",
@@ -177,6 +192,10 @@ function create() {
   this.cursors = this.input.keyboard.createCursorKeys();
 }
 
+/**
+ * @param {string} addPlayer - creates the player's character on login
+ * @return {object} sets values and attributes for the character
+ */
 function addPlayer(self, playerInfo) {
   self.dude = self.physics.add
     .sprite(playerInfo.x, playerInfo.y, "dude")
@@ -185,6 +204,11 @@ function addPlayer(self, playerInfo) {
   self.dude.setTint(0xff4c4c);
   self.physics.add.collider(self.dude, platforms);
 }
+
+/**
+ * @param {string} addOtherPlayers - creates the other player's character on login
+ * @return {object} sets values and attributes for the other player's character
+ */
 
 function addOtherPlayers(self, playerInfo) {
   const otherPlayer = self.add
@@ -196,12 +220,22 @@ function addOtherPlayers(self, playerInfo) {
   self.otherPlayers.add(otherPlayer);
 }
 
+/**
+ * @param {string} takeOff - starts the game for the user
+ * @return {object} when user charater collise with ship, sends the scene to game scene
+ */
+
 function takeOff() {
   camera.fadeOut(3000, 0, 0, 0);
   setTimeout(() => {
     location.replace("/game");
   }, 4000);
 }
+
+/**
+ * @param {string} update - runs the game 60 frames per second changes the attribute and takes in values
+ * @return {object} displays the changes make 60 times per second
+ */
 
 function update() {
   const player = this.dude;
