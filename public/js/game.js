@@ -43,6 +43,7 @@ let timer;
 let timerEvent;
 let coinSound;
 let music;
+let explosion;
 let bangSound;
 let whoWonBanner;
 let killCount = 0;
@@ -172,6 +173,7 @@ function preload() {
   game.load.audio("bangSound", `${ASSET_URL}laser.mp3`);
   game.load.audio("sfx:coin", `${ASSET_URL}coin.wav`);
   game.load.audio("boden", `${ASSET_URL}battle.mp3`);
+  game.load.audio("explosion", `${ASSET_URL}explosion.mp3`);
 }
 
 /**
@@ -274,6 +276,9 @@ function create() {
   music = game.add.audio("boden");
   music.volume = 0.5;
   music.play();
+
+  explosion = game.add.audio("explosion");
+  explosion.volume = 0.4;
 
   game.stage.disableVisibilityChange = true;
 
@@ -394,10 +399,12 @@ function create() {
   // Listen for any player hit events and make that player flash
   socket.on("player-hit", id => {
     if (id === socket.id) {
+      explosion.play();
       // If this is you
       player.sprite.alpha = 0;
       player.score--;
     } else {
+      explosion.play();
       // Find the right player
       other_players[id].alpha = 0;
     }
