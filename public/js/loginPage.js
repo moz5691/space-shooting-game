@@ -2,10 +2,6 @@
 
 /**
  * @author Yoon/ Maryam
- * @description make login tag in canvas
- */
-
-/**
  * @param {string} loginpage - renders out the layout of the loginpage on html
  * @return {object} - Displays the login in page
  */
