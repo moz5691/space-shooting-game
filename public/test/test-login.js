@@ -27,7 +27,6 @@ function generateAlert(x) {
       expect($('#maindiv').length === 1).to.be.true;
     }); 
   });
-});
 
 describe("open welcome tag", function() {
   beforeEach(function() {
